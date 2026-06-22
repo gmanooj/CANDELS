@@ -1,5 +1,6 @@
 # 📄 Location: d:/Ptojects/TeamBridge/backend/app.py
 #tb_live_55921b18bc0945ad1516d3832975da13a033bd1f5118426a
+import os
 from flask import Flask
 from flask_cors import CORS
 from config import Config
@@ -33,7 +34,6 @@ def create_app():
     # 🛠️ FIXED: Explicitly set default JWT headers array location configuration to prevent KeyError exceptions
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     
-    import os
     frontend_origin = os.environ.get("FRONTEND_URL", "http://localhost:5173")
     CORS(app, resources={r"/*": {"origins": frontend_origin}})
     
