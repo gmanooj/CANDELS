@@ -21,6 +21,15 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        "pool_recycle": 280,
+        "pool_pre_ping": True,
+        "connect_args": {
+            "ssl": {"ssl_cert_reqs": 0}
+        }
+    }
+    
     # 🛠️ FIXED: Explicitly set default JWT headers array location configuration to prevent KeyError exceptions
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     
