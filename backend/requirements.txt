@@ -8,3 +8,5 @@ PyMySQL>=1.1.0
 cryptography>=41.0.0
 gunicorn[eventlet]>=26.0.0
 python-dotenv>=1.0.0
+google-auth>=2.20.0
+google-auth-oauthlib>=1.0.0
