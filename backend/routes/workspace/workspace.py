@@ -2042,7 +2042,7 @@ def sync_document():
             "document_name": document_name,
             "content_buffer": content_buffer,
             "updated_by": email
-        }, room=f"chat_{team_code}")
+        }, to=f"chat_{team_code}")
         
         return jsonify({
             "status": "success",

@@ -120,7 +120,7 @@ def register_or_update_document_record(team_code, rel_path, content_b64, email):
             "file_path": doc[2] if (doc and doc[2]) else rel_path,
             "content_buffer": content_str,
             "updated_by": email
-        }, room=f"chat_{team_code}")
+        }, to=f"chat_{team_code}")
     except Exception as e:
         print("Failed to sync local document event to database:", e)
 
@@ -391,7 +391,7 @@ def cli_upload_file():
                 "file_path": file_path,
                 "content_buffer": content_str,
                 "updated_by": user_email
-            }, room=f"chat_{team_code}")
+            }, to=f"chat_{team_code}")
 
             return jsonify({"status": "success", "message": f"Document {file_path} synchronized successfully."}), 200
         except Exception as e:
@@ -967,7 +967,7 @@ def handle_cli_file_stream(data):
                             "file_path": file_path,
                             "content_buffer": content_str,
                             "updated_by": user_email
-                        }, room=f"chat_{team_code}")
+                        }, to=f"chat_{team_code}")
 
                         success_files.append(file_path)
                     except Exception as ex:

@@ -115,7 +115,7 @@ def process_signatory_submission():
             'user_name': user_name,
             'signature_image': signature_data,
             'signed_at': now.strftime('%Y-%m-%d %H:%M:%S')
-        }, room=team_code)
+        }, to=team_code)
         
         check_query = text("SELECT COUNT(*) as pending FROM declaration_signatures WHERE team_code = :team_code AND signature_image IS NULL")
         check = db.session.execute(check_query, {"team_code": team_code}).mappings().first()
@@ -132,7 +132,7 @@ def process_signatory_submission():
             socketio.emit('declaration_complete', {
                 'team_code': team_code,
                 'declared_date': now.strftime('%d-%m-%Y')
-            }, room=team_code)
+            }, to=team_code)
             
         db.session.commit()
         return jsonify({"status": "success", "message": "Signatory block checked into framework node cleanly."}), 200

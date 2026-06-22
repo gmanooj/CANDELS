@@ -2,6 +2,10 @@ from extensions import db
 
 class Workplace(db.Model):
     __tablename__ = 'workplaces'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
     type = db.Column(db.Enum('School', 'College', 'Enterprise', 'Organization', 'Company'), nullable=False)
@@ -12,6 +16,10 @@ class Workplace(db.Model):
 
 class Team(db.Model):
     __tablename__ = 'teams'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_code = db.Column(db.String(50), nullable=False, unique=True)
     project_name = db.Column(db.String(255), nullable=False)
@@ -38,6 +46,10 @@ class Team(db.Model):
 
 class TeamMembership(db.Model):
     __tablename__ = 'team_memberships'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_id = db.Column(db.BigInteger, db.ForeignKey('teams.id'), nullable=False)
     user_code = db.Column(db.String(20), db.ForeignKey('users.user_code'), nullable=False)
