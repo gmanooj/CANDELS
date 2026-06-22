@@ -1,0 +1,100 @@
+/* WorkspaceDashboard.css */
+
+.workspace-dashboard-container {
+    width: 100%;
+}
+
+.workspace-dashboard-container .sidebar-brand {
+    margin-bottom: 44px;
+}
+
+.workspace-dashboard-container .sidebar-logo {
+    background: #252525;
+}
+
+.workspace-dashboard-container .content-header {
+    margin-bottom: 36px;
+}
+
+.workspace-dashboard-container .node-highlight {
+    color: #0052FF;
+    font-weight: 600;
+}
+
+.workspace-dashboard-container .loading-clusters-text {
+    color: #86868b;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 0;
+}
+
+.workspace-dashboard-container .alert-box.has-margin-bottom {
+    margin-bottom: 24px;
+}
+
+.workspace-dashboard-container .dashboard-section-header {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 700;
+    color: #86868b;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+
+.workspace-dashboard-container .empty-projects-message {
+    padding: 40px 0;
+    text-align: center;
+    color: #86868b;
+    font-size: 14px;
+}
+
+.workspace-dashboard-container .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.workspace-dashboard-container .project-badge-title {
+    font-size: 11px;
+    color: #0052FF;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.workspace-dashboard-container .project-meta-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.workspace-dashboard-container .contact-description {
+    font-size: 13px;
+    color: #6e6e73;
+    line-height: 1.4;
+    margin-bottom: 16px;
+}
+
+.workspace-dashboard-container .contact-email-item.has-margin {
+    margin-top: 12px;
+}
+
+.workspace-dashboard-container .contact-info-card.is-light {
+    background: #f5f5f7;
+    border: none;
+}
+
+.workspace-dashboard-container .contact-info-card h4.secondary {
+    color: #86868b;
+}
+
+.workspace-dashboard-container .contact-info-desc-text {
+    font-size: 13px;
+    color: #86868b;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.workspace-dashboard-container .alert-box.error.has-margin-bottom-small {
+    margin-bottom: 20px;
+}

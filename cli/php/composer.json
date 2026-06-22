@@ -1,0 +1,18 @@
+{
+    "name": "candels/cli",
+    "description": "Candels Terminal CLI Utility for capstone Capstone workspace sync.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "bin": [
+        "tracker.php"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Candels\\Cli\\": "src/"
+        }
+    }
+}

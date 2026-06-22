@@ -1,0 +1,383 @@
+.workspace-monitor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    height: 100%;
+}
+
+.workspace-monitor-container .monitor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+}
+
+.workspace-monitor-container .monitor-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+    color: #000000;
+    letter-spacing: -1px;
+}
+
+.workspace-monitor-container .monitor-header p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #666666;
+}
+
+/* Telemetry Grid */
+.workspace-monitor-container .telemetry-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.workspace-monitor-container .rate-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+    padding: 24px;
+}
+
+.workspace-monitor-container .rate-card .card-title,
+.workspace-monitor-container .timeline-card .card-title {
+    font-size: 12px;
+    color: #86868b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.workspace-monitor-container .timeline-card .card-title {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.workspace-monitor-container .rate-card .rate-val {
+    font-size: 48px;
+    font-weight: 900;
+    color: #000000;
+    margin-top: 10px;
+}
+
+.workspace-monitor-container .rate-card .rate-val .rate-unit {
+    font-size: 16px;
+    font-weight: 500;
+    color: #86868b;
+}
+
+.workspace-monitor-container .rate-card .stream-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 15px;
+    font-size: 12px;
+    color: #0052FF;
+    font-weight: 800;
+}
+
+.workspace-monitor-container .rate-card .stream-indicator .dot {
+    width: 8px;
+    height: 8px;
+    background: #0052FF;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.workspace-monitor-container .timeline-card {
+    background: #ffffff;
+    padding: 24px;
+}
+
+.workspace-monitor-container .timeline-card svg {
+    width: 100%;
+    height: 120px;
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* CI/CD Pipeline Console */
+.workspace-monitor-container .pipeline-console-card {
+    padding: 24px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.workspace-monitor-container .pipeline-console-card .card-header-text {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.workspace-monitor-container .pipeline-grid {
+    display: grid;
+    grid-template-columns: 1fr 2.2fr;
+    gap: 20px;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row-header .status-title {
+    font-size: 11px;
+    color: #86868b;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row .status-light {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row .status-light.success {
+    background: #4cd964;
+    box-shadow: 0 0 10px #4cd964;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row .status-light.failed {
+    background: #ff3b30;
+    box-shadow: 0 0 10px #ff3b30;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row .status-light.building {
+    background: #ff9500;
+    box-shadow: 0 0 10px #ff9500;
+    animation: pulse 1s infinite alternate;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row .status-text {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row .status-text.success {
+    color: #2e7d32;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row .status-text.failed {
+    color: #c62828;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .status-row .status-text.building {
+    color: #e65100;
+}
+
+/* Progress bar */
+.workspace-monitor-container .pipeline-grid .actions-col .progress-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .progress-section .progress-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .progress-section .progress-track {
+    width: 100%;
+    height: 6px;
+    background: #e5e5e7;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .progress-section .progress-fill {
+    height: 100%;
+    background: #0052FF;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* Details Col */
+.workspace-monitor-container .pipeline-grid .actions-col .details-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 1px solid #f2f2f7;
+    padding-top: 10px;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .details-col .details-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .details-col .details-row .detail-label {
+    color: #86868b;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .details-col .details-row .detail-val {
+    font-weight: 700;
+    color: #1d1d1f;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .trigger-btn {
+    padding: 10px 16px;
+    font-size: 12px;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.workspace-monitor-container .pipeline-grid .actions-col .trigger-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+/* Terminal mock console */
+.workspace-monitor-container .pipeline-grid .terminal-console-box {
+    background: #1e1e1e;
+    border-radius: 10px;
+    padding: 16px;
+    height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-shadow: inset 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.workspace-monitor-container .pipeline-grid .terminal-console-box .log-row {
+    font-size: 12px;
+    font-family: '"SF Mono", Monaco, Consolas, monospace';
+    line-height: 1.5;
+}
+
+.workspace-monitor-container .pipeline-grid .terminal-console-box .log-row .log-time {
+    color: #858585;
+    margin-right: 6px;
+}
+
+.workspace-monitor-container .pipeline-grid .terminal-console-box .log-row .log-text-green {
+    color: #4cd964;
+}
+
+.workspace-monitor-container .pipeline-grid .terminal-console-box .log-row .log-text-red {
+    color: #ff3b30;
+}
+
+.workspace-monitor-container .pipeline-grid .terminal-console-box .log-row .log-text-blue {
+    color: #007aff;
+}
+
+.workspace-monitor-container .pipeline-grid .terminal-console-box .log-row .log-text-default {
+    color: #d4d4d4;
+}
+
+/* Keyframes animation */
+@keyframes pulse {
+    0% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Activity Logs Section */
+.workspace-monitor-container .logs-card {
+    padding: 24px;
+    flex: 1;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.workspace-monitor-container .logs-card .logs-header-text {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.workspace-monitor-container .logs-card .logs-viewport {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.workspace-monitor-container .logs-card .logs-empty {
+    font-size: 13px;
+    color: #86868b;
+    font-style: italic;
+    text-align: center;
+    padding: 30px;
+}
+
+.workspace-monitor-container .logs-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.workspace-monitor-container .logs-table thead tr {
+    border-bottom: 1px solid #000000;
+}
+
+.workspace-monitor-container .logs-table th {
+    padding: 12px 8px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.workspace-monitor-container .logs-table tbody tr {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.workspace-monitor-container .logs-table td {
+    padding: 12px 8px;
+    font-size: 13px;
+}
+
+.workspace-monitor-container .logs-table td.member-cell {
+    font-weight: 700;
+}
+
+.workspace-monitor-container .logs-table td.code-cell {
+    font-family: monospace;
+}
+
+.workspace-monitor-container .logs-table td.time-cell {
+    font-size: 12px;
+    color: #86868b;
+}

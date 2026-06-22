@@ -1,0 +1,4 @@
+[console_scripts]
+tb = teambridge.main:cli
+tb-login = teambridge.main:login_script
+teambridge = teambridge.main:cli

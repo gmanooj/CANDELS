@@ -1,0 +1,446 @@
+/* ========================================================
+    TEAMBRIDGE WORKSPACE HUB - SF PRESTIGE PROFILE ENGINE
+   ======================================================== */
+:root {
+    --apple-bg: #f5f5f7;
+    --card-bg: #ffffff;
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --dev-blue: #0066cc;
+    --dev-green: #10b981;
+    --border-line: #d2d2d7;
+    --system-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+}
+
+/* Base View Wrappers */
+.profile-loading-screen {
+    width:100%;
+    background-color: var(--apple-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--system-font);
+    color: var(--text-secondary);
+}
+
+.spinner-node {
+    width: 28px;
+    height: 28px;
+    border: 3px solid rgba(0, 102, 204, 0.1);
+    border-top-color: var(--dev-blue);
+    border-radius: 50%;
+    animation: rotateSpinner 0.7s linear infinite;
+}
+
+/* Big Interactive Portfolio Layout Shifting */
+.profile-workspace-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    padding: 0; /* Clear padding for top banner breakout space */
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    animation: motionFadeIn 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ========================================================
+   📸 PREMIUM BIG PORTFOLIO HEADER SCHEMATICS
+   ======================================================== */
+.profile-header-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    background: linear-gradient(135deg, #fbfbfd 0%, #ececed 100%);
+    border-bottom: 1px solid var(--border-line);
+    padding: 60px 48px 40px 48px;
+    position: relative;
+    width:100%;
+}
+
+.profile-identity-group {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    width: 100%;
+}
+
+/* Massive Portfolio-Style Circle Frame Overhaul */
+.profile-avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.profile-avatar-media {
+    width: 140px; /* Scaled up for premium prominence */
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    background: #ffffff;
+    padding: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Micro Interaction Effects on Avatar */
+.profile-avatar-wrapper:hover .profile-avatar-media {
+    transform: scale(1.04) translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Dynamic State Rings */
+.profile-avatar-media.complete-fidelity {
+    border: 4px solid var(--dev-green) !important;
+    box-shadow: 0 0 24px rgba(16, 185, 129, 0.25);
+}
+
+.profile-avatar-media.incomplete-fidelity {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+.profile-avatar-placeholder {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--dev-blue) 0%, #004499 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.2);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profile-avatar-wrapper:hover .profile-avatar-placeholder {
+    transform: scale(1.04) translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 102, 204, 0.3);
+}
+
+.fidelity-badge-checkmark {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    background-color: var(--dev-green);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    animation: scaleImpact 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Metadata Text Arrays */
+.profile-meta-details {
+    flex-grow: 1;
+}
+
+.profile-meta-details h1 {
+    font-size: 34px; /* Big Billboard Typeface */
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin: 0 0 6px 0;
+    color: var(--text-primary);
+}
+
+.profile-meta-details p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin: 0 0 12px 0;
+}
+
+.mono-code {
+    font-family: SFMono-Regular, Consolas, Menlo, monospace;
+    font-weight: 600;
+    color: var(--dev-blue);
+    background: rgba(0, 102, 204, 0.06);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.user-role-badge-premium {
+    font-size: 11px;
+    font-weight: 700;
+    background-color: var(--text-primary);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Action Toggler Buttons Alignment Rules */
+.profile-header-card .setup-action-btn {
+    width:20%;
+    position: absolute;
+    top: 60px;
+    right: 48px;
+    background: #ffffff00;
+    padding: 10px 20px;
+    border-radius: 22px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    color:#282828;
+}
+
+.profile-header-card .setup-action-btn:hover {
+    background: #f5f5f7;
+    transform: translateY(-1px);
+}
+
+.active-edit-state {
+    color: #e11d48 !important;
+    border-color: #fecdd3 !important;
+    background-color: #fff1f2 !important;
+}
+
+/* ========================================================
+   📊 ANALYTICS HUB INTEGRITY METER OVERHAUL
+   ======================================================== */
+.profile-analytics-meter-box {
+    background-color: rgba(0, 0, 0, 0.01);
+    padding: 24px 48px;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.metric-header-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.metric-percentage {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.metric-percentage.progress { background: rgba(0, 102, 204, 0.08); color: var(--dev-blue); }
+.metric-percentage.complete { background: rgba(16, 185, 129, 0.08); color: var(--dev-green); }
+
+.progress-bar-container {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 50px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.progress-bar-fill.progress { background: linear-gradient(90deg, var(--dev-blue), #0077ed); }
+.progress-bar-fill.complete { background: linear-gradient(90deg, var(--dev-green), #34d399); }
+
+/* ========================================================
+   🧱 PREMIUM GRID DEPLOYMENT SHEET
+   ======================================================== */
+.dashboard-interactive-form {
+    padding: 48px;
+}
+
+.profile-input-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+
+.dash-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dash-input-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #424245;
+    letter-spacing: -0.1px;
+}
+
+.dash-input-group input,
+.dash-input-group select,
+.dash-input-group textarea {
+    padding: 14px 18px;
+    border: 1px solid var(--border-line);
+    border-radius: 12px;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+}
+
+.dash-input-group input:focus,
+.dash-input-group select:focus,
+.dash-input-group textarea:focus {
+    border-color: var(--dev-blue);
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.12);
+    background-color: #ffffff;
+}
+
+.checkmark-validated {
+    color: var(--dev-green);
+    font-weight: 800;
+    margin-left: 4px;
+}
+
+/* Cloud Storage Upload Interactive Panel */
+.cloud-url-stored-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background: #f5f5f7;
+    border: 1px dashed var(--border-line);
+    border-radius: 12px;
+}
+
+.verified-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--dev-green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--dev-green);
+}
+
+.badge-text {
+    font-size: 13px;
+    color: #424245;
+    font-weight: 600;
+}
+
+.file-upload-input-wrapper {
+    background-color: #ffffff;
+    border: 1px solid var(--border-line);
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+.file-upload-input-wrapper input[type="file"] {
+    border: none;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text-secondary);
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Apple-style Read-Only Locked Text Matrix Fields */
+.dashboard-interactive-form input:disabled,
+.dashboard-interactive-form select:disabled,
+.dashboard-interactive-form textarea:disabled,
+.locked-input-style {
+    background-color: #fafafa !important;
+    color: #515154 !important;
+    border: 1px solid #e8e8ed !important;
+    cursor: not-allowed;
+    font-weight: 500;
+    opacity: 0.85;
+    box-shadow: none !important;
+    -webkit-text-fill-color: #515154;
+}
+
+.cloud-upload-status-bar {
+    font-size: 12px;
+    color: var(--dev-blue);
+    font-weight: 500;
+    margin-top: 6px;
+}
+
+/* Submit Action Matrix Controls Button */
+.form-submit-btn.blue {
+    width: 180%;
+    margin-top: 40px;
+    margin-left:20px;
+    padding: 16px;
+    background: linear-gradient(180deg, #1c1c1c 0%, #252525 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.form-submit-btn.blue:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.25);
+}
+
+.form-submit-btn.blue:active {
+    transform: translateY(1px);
+}
+
+/* ========================================================
+   🎛️ MOTION DESIGN SCHEMATICS
+   ======================================================== */
+@keyframes rotateSpinner {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes scaleImpact {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes motionFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animated-slide-up {
+    animation: motionFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Responsive Fluid Adjustments */
+@media (max-width: 992px) {
+    .profile-input-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .profile-header-card {
+        padding: 40px 24px;
+    }
+    .profile-header-card .setup-action-btn {
+        position: static;
+        margin-top: 20px;
+    }
+    .profile-identity-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    .dashboard-interactive-form {
+        padding: 24px;
+    }
+}

@@ -1,0 +1,267 @@
+/* ========================================================
+    TEAMBRIDGE WORKSPACE HUB - OVERHAULED CREATION MODULE
+   ======================================================== */
+
+@keyframes motionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseSoft {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); box-shadow: 0 4px 20px rgba(0, 102, 204, 0.08); }
+    100% { transform: scale(1); }
+}
+
+.create-team-page-wrapper {
+    animation: motionFadeIn 0.35s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.form-workspace-section {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 1000px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.015);
+    margin: 0 auto;
+}
+
+.form-container-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+}
+
+.form-container-header p {
+    color: #86868b;
+    font-size: 13.5px;
+    margin: 0 0 24px 0;
+    line-height: 1.5;
+}
+
+/* ========================================================
+   🛠️ INPUT FIELDS & INTERACTIVE CONTROLS
+   ======================================================== */
+.dash-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dash-input-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #424245;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.dash-input-group input,
+.dash-input-group select {
+    padding: 11px 14px;
+    border: 1px solid #d2d2d7;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #1d1d1f;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.dash-input-group input:focus,
+.dash-input-group select:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.08);
+    background-color: #ffffff;
+}
+
+.form-submit-btn {
+    width:100%;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #252526;
+}
+
+.form-submit-btn.blue {
+    background: #0066cc;
+}
+
+.form-submit-btn.blue:hover {
+    background: #0077ed;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+}
+
+.form-submit-btn.blue:active {
+    transform: translateY(0);
+}
+
+/* ========================================================
+   🎯 MATRIX SLOT AVATAR CONFINEMENT ENGINE
+   ======================================================== */
+.matrix-slot-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px dashed #d2d2d7;
+    border-radius: 12px;
+    padding: 16px;
+    min-height: 110px;
+    text-align: center;
+    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    box-sizing: border-box;
+}
+
+.matrix-slot-box.shaded {
+    background-color: #fbfbfd;
+}
+
+.matrix-slot-box:hover {
+    border-color: #0066cc;
+    background-color: rgba(0, 102, 204, 0.01);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.02);
+}
+
+.matrix-slot-box.creator {
+    border: 1px solid rgba(0, 102, 204, 0.15);
+    background-color: rgba(0, 102, 204, 0.02);
+    cursor: default;
+}
+
+.matrix-slot-box.creator:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.matrix-slot-box.occupied-node {
+    border: 1px solid rgba(22, 163, 74, 0.2);
+    background-color: rgba(22, 163, 74, 0.02);
+}
+
+.matrix-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.matrix-avatar-txt {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #0066cc;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 6px rgba(0, 102, 204, 0.15);
+}
+
+.plus-icon-node {
+    font-size: 16px;
+    color: #86868b;
+    margin-bottom: 2px;
+    transition: color 0.2s ease;
+}
+
+.matrix-slot-box:hover .plus-icon-node {
+    color: #0066cc;
+}
+
+.slot-lbl {
+    font-size: 12px;
+    font-weight: 500;
+    color: #515154;
+}
+
+/* ========================================================
+   📋 PREMIUM DATA TRACKING LEDGER TABLE SYSTEM
+   ======================================================== */
+.premium-data-table-wrapper {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.01);
+}
+
+.premium-data-table th {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6e6e73;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 14px 16px;
+    background: #f5f5f7;
+}
+
+.premium-data-table td {
+    padding: 14px 16px;
+    vertical-align: middle;
+}
+
+.premium-data-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.premium-data-table tbody tr:hover {
+    background-color: #fbfbfd;
+}
+
+/* Status Notifications Alerts */
+.alert-box {
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 24px;
+    animation: motionFadeIn 0.2s ease-out;
+}
+
+.alert-box.error {
+    background-color: #fff5f5;
+    color: #e03131;
+    border: 1px solid #ffc9c9;
+}
+
+.alert-box.success {
+    background-color: #f4fbf7;
+    color: #2b8a3e;
+    border: 1px solid #c3fae8;
+}
+
+/* Responsiveness Media Target Layout Handles */
+@media(max-width: 768px) {
+    .form-workspace-section {
+        padding: 24px;
+    }
+    
+    div[style*="gridTemplateColumns"] {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+}

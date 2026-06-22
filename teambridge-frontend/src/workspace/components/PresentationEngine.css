@@ -1,0 +1,317 @@
+.workspace-presentation-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.workspace-presentation-container.is-compact {
+    gap: 10px;
+}
+
+/* Play Controls Row */
+.workspace-presentation-container .player-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-top: 10px;
+}
+
+.workspace-presentation-container .player-controls .control-btn {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    color: #1d1d1f;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.workspace-presentation-container .player-controls .control-btn:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+.workspace-presentation-container .player-controls .status-text {
+    font-size: 12px;
+    font-weight: 800;
+    color: #86868b;
+}
+
+/* Compact view styles */
+.workspace-presentation-container .compact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 8px;
+}
+
+.workspace-presentation-container .compact-header .header-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #000000;
+}
+
+.workspace-presentation-container .compact-header .deck-switcher {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    font-size: 11px;
+    padding: 4px;
+    border-radius: 4px;
+    max-width: 140px;
+    outline: none;
+}
+
+.workspace-presentation-container .compact-preview-card {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 180px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    position: relative;
+}
+
+.workspace-presentation-container .jump-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.workspace-presentation-container .jump-row .jump-label {
+    font-size: 10px;
+    color: #86868b;
+    font-weight: 700;
+}
+
+.workspace-presentation-container .jump-row .jump-select {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    color: #000000;
+    font-size: 11px;
+    padding: 4px;
+    border-radius: 4px;
+    outline: none;
+}
+
+/* Standard Header */
+.workspace-presentation-container .top-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.workspace-presentation-container .top-toolbar h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+    color: #000000;
+    letter-spacing: -1px;
+}
+
+.workspace-presentation-container .top-toolbar p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #666666;
+}
+
+.workspace-presentation-container .top-toolbar .deck-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.workspace-presentation-container .top-toolbar .deck-actions select {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    color: #000000;
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+}
+
+.workspace-presentation-container .top-toolbar .deck-actions .save-btn {
+    height: 36px;
+    padding: 0 18px;
+    font-size: 13px;
+}
+
+.workspace-presentation-container .top-toolbar .deck-actions .save-status {
+    font-size: 12px;
+    color: #0052FF;
+    font-weight: 700;
+}
+
+/* CreatePresentation Deck Row */
+.workspace-presentation-container .new-deck-row {
+    display: flex;
+    gap: 12px;
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    padding: 12px 18px;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.workspace-presentation-container .new-deck-row .row-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: #1d1d1f;
+}
+
+.workspace-presentation-container .new-deck-row form {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+}
+
+.workspace-presentation-container .new-deck-row form input {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    color: #000000;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.workspace-presentation-container .new-deck-row form button {
+    padding: 6px 16px;
+    font-size: 12px;
+    border-radius: 15px;
+}
+
+/* Split view Workspace */
+.workspace-presentation-container .workspace-split-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 400px;
+}
+
+.workspace-presentation-container .editor-col,
+.workspace-presentation-container .preview-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.workspace-presentation-container .col-title-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: #86868b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.workspace-presentation-container .editor-col textarea {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    color: #000000;
+    padding: 16px;
+    font-size: 13px;
+    font-family: '"SF Mono", Monaco, Consolas, monospace';
+    resize: none;
+    outline: none;
+    border-radius: 8px;
+    line-height: 1.6;
+    min-height: 300px;
+    box-sizing: border-box;
+}
+
+.workspace-presentation-container .preview-canvas {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.03);
+    min-height: 300px;
+    position: relative;
+    border-left: 4px solid #000000;
+}
+
+.workspace-presentation-container .preview-canvas-content {
+    text-align: left;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+/* Scoped styles inside Preview Canvas */
+.workspace-presentation-container .preview-canvas-content h1 {
+    font-size: 30px;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 8px;
+}
+
+.workspace-presentation-container .preview-canvas-content h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.workspace-presentation-container .preview-canvas-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0052FF;
+    margin-bottom: 12px;
+}
+
+.workspace-presentation-container .preview-canvas-content strong {
+    color: #0052FF;
+    font-weight: 700;
+}
+
+.workspace-presentation-container .preview-canvas-content li {
+    font-size: 14px;
+    color: #333333;
+    line-height: 1.6;
+    margin-left: 20px;
+    margin-bottom: 8px;
+    list-style-type: square;
+}
+
+.workspace-presentation-container .preview-canvas-content blockquote {
+    border-left: 4px solid #0052FF;
+    padding-left: 15px;
+    margin: 15px 0;
+    font-style: italic;
+    color: #515154;
+}
+
+.workspace-presentation-container .preview-canvas-content p {
+    font-size: 14px;
+    color: #1d1d1f;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}

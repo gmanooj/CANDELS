@@ -1,0 +1,455 @@
+.workspace-implementations-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    height: 100%;
+}
+
+/* Header */
+.workspace-implementations-container .impl-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+}
+
+.workspace-implementations-container .impl-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+    color: #000000;
+    letter-spacing: -1px;
+}
+
+.workspace-implementations-container .impl-header p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #666666;
+}
+
+/* Responsive grid layout */
+.workspace-implementations-container .impl-panels-row {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr;
+    gap: 25px;
+}
+
+.workspace-implementations-container .left-col-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Upload Screenshot uploader */
+.workspace-implementations-container .uploader-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.workspace-implementations-container .uploader-card h3,
+.workspace-implementations-container .milestones-card h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: #000000;
+}
+
+.workspace-implementations-container .milestones-card h3 {
+    font-size: 16px;
+}
+
+.workspace-implementations-container .uploader-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.workspace-implementations-container .form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.workspace-implementations-container .form-col label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #666;
+}
+
+.workspace-implementations-container .form-col input[type="text"] {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    color: #000000;
+    padding: 10px 14px;
+    font-size: 14px;
+    outline: none;
+    border-radius: 8px;
+}
+
+.workspace-implementations-container .form-col select {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    color: #000000;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.workspace-implementations-container .impl-image-dropzone {
+    border: 2px dashed #d2d2d7;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background: #fafafa;
+    transition: all 0.2s;
+}
+
+.workspace-implementations-container .impl-image-dropzone label {
+    cursor: pointer;
+    display: block;
+}
+
+.workspace-implementations-container .impl-image-dropzone .drop-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.workspace-implementations-container .impl-image-dropzone .chosen-name {
+    font-weight: 700;
+    color: #000000;
+}
+
+.workspace-implementations-container .impl-image-dropzone .empty-text {
+    color: #86868b;
+}
+
+.workspace-implementations-container .publish-btn {
+    margin-top: 8px;
+}
+
+.workspace-implementations-container .publish-btn:disabled {
+    opacity: 0.7;
+}
+
+/* Checklist Milestones */
+.workspace-implementations-container .milestones-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.workspace-implementations-container .milestones-card .milestones-description {
+    margin: 0;
+    font-size: 12px;
+    color: #666666;
+    line-height: 1.4;
+}
+
+.workspace-implementations-container .milestones-card .milestones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.workspace-implementations-container .milestones-card .milestone-item-label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    color: #1d1d1f;
+}
+
+.workspace-implementations-container .milestones-card .milestone-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.workspace-implementations-container .milestones-card .milestone-text {
+    text-decoration: none;
+    opacity: 1;
+}
+
+.workspace-implementations-container .milestones-card .milestone-text.is-checked {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* Right Feed Col */
+.workspace-implementations-container .right-col-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.workspace-implementations-container .tabs-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.workspace-implementations-container .tabs-row .tab-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #d2d2d7;
+    background: #ffffff;
+    color: #1d1d1f;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.workspace-implementations-container .tabs-row .tab-btn.is-active {
+    border: 1px solid #000000;
+    background: #000000;
+    color: #ffffff;
+}
+
+/* Screenshot feed gallery */
+.workspace-implementations-container .gallery-feed-card {
+    flex: 1;
+    min-height: 400px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.workspace-implementations-container .gallery-feed-card .gallery-header-text {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.workspace-implementations-container .gallery-feed-card .gallery-loading {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #8e8e93;
+    font-size: 14px;
+}
+
+.workspace-implementations-container .gallery-feed-card .gallery-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #8e8e93;
+    border: 1px dashed #d2d2d7;
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 40px;
+}
+
+.workspace-implementations-container .gallery-feed-card .gallery-empty .empty-icon {
+    font-size: 32px;
+}
+
+.workspace-implementations-container .gallery-feed-card .gallery-empty .empty-text {
+    font-size: 13px;
+    font-style: italic;
+}
+
+.workspace-implementations-container .gallery-feed-card .gallery-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    overflow-y: auto;
+    max-height: 480px;
+}
+
+.workspace-implementations-container .gallery-card-item {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.workspace-implementations-container .gallery-card-item .card-image-box {
+    height: 140px;
+    background: #f5f5f7;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.workspace-implementations-container .gallery-card-item .card-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.workspace-implementations-container .gallery-card-item .card-image-box .card-tag {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: #000000;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.workspace-implementations-container .gallery-card-item .card-body {
+    padding: 12px;
+}
+
+.workspace-implementations-container .gallery-card-item .card-body h4 {
+    margin: 0 0 6px 0;
+    font-size: 14px;
+    font-weight: 800;
+    color: #000000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.workspace-implementations-container .gallery-card-item .card-body .card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #666666;
+    margin-bottom: 8px;
+}
+
+/* Graded Details */
+.workspace-implementations-container .gallery-card-item .card-body .grade-badge-box {
+    background: #eafaf1;
+    border: 1px solid #d4f5e0;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 11px;
+    color: #1a7f37;
+    margin-top: 6px;
+}
+
+.workspace-implementations-container .gallery-card-item .card-body .grade-badge-box .feedback-notes {
+    font-size: 10px;
+    color: #555;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.workspace-implementations-container .gallery-card-item .card-body .grade-badge-box .grade-meta {
+    font-size: 9px;
+    color: #86868b;
+    margin-top: 4px;
+}
+
+.workspace-implementations-container .gallery-card-item .card-body .pending-grade-box {
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    padding: 6px;
+    border-radius: 8px;
+    font-size: 11px;
+    color: #666;
+    font-style: italic;
+    margin-top: 6px;
+}
+
+/* Faculty Grading Panel */
+.workspace-implementations-container .grading-panel {
+    border-top: 1px dashed #e5e5e5;
+    padding-top: 10px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.workspace-implementations-container .grading-panel .grading-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workspace-implementations-container .grading-panel .grading-row label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #666;
+}
+
+.workspace-implementations-container .grading-panel .grading-row .grading-slider {
+    width: 120px;
+    cursor: pointer;
+}
+
+.workspace-implementations-container .grading-panel .grading-input-notes {
+    width: 100%;
+    padding: 6px;
+    font-size: 11px;
+    border: 1px solid #d2d2d7;
+    border-radius: 6px;
+    outline: none;
+    background: #ffffff;
+    color: #000000;
+    box-sizing: border-box;
+}
+
+.workspace-implementations-container .grading-panel .grade-submit-btn {
+    font-size: 10px;
+    padding: 4px 10px;
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* Lightbox zoom overlay */
+.workspace-implementations-container .lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    cursor: zoom-out;
+}
+
+.workspace-implementations-container .lightbox-overlay .lightbox-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 32px;
+    cursor: pointer;
+    outline: none;
+    font-weight: 700;
+}
+
+.workspace-implementations-container .lightbox-overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}

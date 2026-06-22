@@ -1,0 +1,334 @@
+.workspace-reports-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    height: 100%;
+}
+
+.workspace-reports-container .reports-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+}
+
+.workspace-reports-container .reports-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+    color: #000000;
+    letter-spacing: -1px;
+}
+
+.workspace-reports-container .reports-header p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #666666;
+}
+
+/* Stats Cards Grid */
+.workspace-reports-container .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.workspace-reports-container .stat-card {
+    background: #ffffff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+}
+
+.workspace-reports-container .stat-card .card-title {
+    font-size: 11px;
+    color: #86868b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.workspace-reports-container .stat-card .card-val {
+    font-size: 28px;
+    font-weight: 900;
+    margin-top: 5px;
+}
+
+/* Leaderboard Panel */
+.workspace-reports-container .leaderboard-card {
+    background: #ffffff;
+    padding: 24px;
+}
+
+.workspace-reports-container .leaderboard-card .leaderboard-title {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+/* Telemetry Info Banner */
+.workspace-reports-container .info-banner {
+    background: rgba(0, 82, 255, 0.05);
+    border: 1px solid rgba(0, 82, 255, 0.15);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.workspace-reports-container .info-banner .info-icon {
+    font-size: 18px;
+}
+
+.workspace-reports-container .info-banner p {
+    margin: 0;
+    font-size: 12px;
+    color: #1d1d1f;
+    line-height: 1.5;
+}
+
+/* Members List */
+.workspace-reports-container .members-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.workspace-reports-container .member-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.workspace-reports-container .member-row:not(:last-child) {
+    border-bottom: 1px solid #f2f2f7;
+    padding-bottom: 20px;
+}
+
+.workspace-reports-container .member-row .row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workspace-reports-container .member-row .row-header .member-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Avatars */
+.workspace-reports-container .member-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.workspace-reports-container .member-avatar.is-guide {
+    background: #ffffff;
+    color: #0052FF;
+    border: 2px solid #0052FF;
+    box-shadow: none;
+}
+
+.workspace-reports-container .member-avatar.is-leader {
+    background: #0052FF;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.workspace-reports-container .member-avatar.is-member {
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Member Name and Badges */
+.workspace-reports-container .member-row .row-header .member-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1d1d1f;
+}
+
+.workspace-reports-container .role-badge {
+    font-size: 10px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 700;
+    background: #f5f5f7;
+    color: #1d1d1f;
+}
+
+.workspace-reports-container .role-badge.is-guide {
+    background: rgba(0, 82, 255, 0.08);
+    color: #0052FF;
+}
+
+.workspace-reports-container .role-badge.is-leader {
+    background: #e8f0ff;
+    color: #0052FF;
+}
+
+.workspace-reports-container .warning-badge {
+    font-size: 10px;
+    color: #ff3b30;
+    margin-left: 10px;
+    text-transform: uppercase;
+    background: #ffeef0;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 700;
+    border: 1px solid #ffc7cc;
+}
+
+.workspace-reports-container .member-row .row-header .member-stats {
+    text-align: right;
+}
+
+.workspace-reports-container .member-row .row-header .member-stats .commit-desc {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1d1d1f;
+}
+
+.workspace-reports-container .member-row .row-header .member-stats .score-desc {
+    font-size: 11px;
+    font-weight: 800;
+    margin-top: 2px;
+}
+
+.workspace-reports-container .member-row .row-header .member-stats .score-desc.is-guide {
+    color: #86868b;
+}
+
+.workspace-reports-container .member-row .row-header .member-stats .score-desc.is-student {
+    color: #0052FF;
+}
+
+/* Anomaly Alert */
+.workspace-reports-container .member-row .anomaly-banner {
+    background: #fff2e6;
+    border: 1px solid #ffe0b3;
+    padding: 10px 14px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.01);
+}
+
+.workspace-reports-container .member-row .anomaly-banner .anomaly-icon {
+    font-size: 16px;
+}
+
+.workspace-reports-container .member-row .anomaly-banner .anomaly-desc {
+    font-size: 11px;
+    color: #b35c00;
+    line-height: 1.4;
+    text-align: left;
+}
+
+/* Telemetry Details Grid */
+.workspace-reports-container .member-row .telemetry-details-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    background: #fafafa;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 6px;
+    border: 1px solid #e5e5e7;
+}
+
+.workspace-reports-container .member-row .telemetry-details-row .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.workspace-reports-container .member-row .telemetry-details-row .detail-item .item-label {
+    font-size: 9px;
+    color: #86868b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.workspace-reports-container .member-row .telemetry-details-row .detail-item .item-val {
+    font-size: 12px;
+    font-weight: 800;
+    color: #1d1d1f;
+}
+
+.workspace-reports-container .member-row .telemetry-details-row .detail-item .item-val.highlight-blue {
+    color: #0052FF;
+}
+
+.workspace-reports-container .member-row .progress-track {
+    height: 8px;
+    width: 100%;
+    background: #e5e5e7;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.workspace-reports-container .member-row .progress-fill {
+    height: 100%;
+    background: #0052FF;
+    border-radius: 4px;
+    transition: width 0.8s ease;
+}
+
+/* SVG Spline Chart Activity */
+.workspace-reports-container .chart-card {
+    background: #ffffff;
+    padding: 24px;
+}
+
+.workspace-reports-container .chart-card .chart-title {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.workspace-reports-container .chart-card svg {
+    width: 100%;
+    height: 240px;
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.workspace-reports-container .chart-card svg circle {
+    transition: all 0.3s ease;
+}

@@ -1,0 +1,7 @@
+setup.py
+teambridge_cli.egg-info/PKG-INFO
+teambridge_cli.egg-info/SOURCES.txt
+teambridge_cli.egg-info/dependency_links.txt
+teambridge_cli.egg-info/entry_points.txt
+teambridge_cli.egg-info/requires.txt
+teambridge_cli.egg-info/top_level.txt
