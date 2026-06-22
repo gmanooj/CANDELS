@@ -1,5 +1,8 @@
 # 📄 Location: d:/Ptojects/TeamBridge/backend/app.py
 #tb_live_55921b18bc0945ad1516d3832975da13a033bd1f5118426a
+import eventlet
+eventlet.monkey_patch()
+
 import os
 from flask import Flask
 from flask_cors import CORS
