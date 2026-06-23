@@ -26,10 +26,14 @@ def create_app():
     
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-        "pool_recycle": 280,
+        "pool_recycle": 60,  # Extremely aggressive recycle to beat Aiven's silent drops
         "pool_pre_ping": True,
+        "pool_size": 5,
+        "max_overflow": 10,
+        "pool_timeout": 30,
         "connect_args": {
-            "ssl": {"ssl_cert_reqs": 0}
+            "ssl": {"ssl_cert_reqs": 0},
+            "connect_timeout": 10
         }
     }
     
@@ -123,6 +127,10 @@ def create_app():
         # db.create_all()  # Disabled to prevent startup deadlocks over remote SSL
         # check_and_migrate_db() 
         print("Bypassed database check successfully!", flush=True)
+        
+    @app.teardown_appcontext
+    def shutdown_session(exception=None):
+        db.session.remove()
         
     return app
 
