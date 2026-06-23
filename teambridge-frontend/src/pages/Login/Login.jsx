@@ -35,6 +35,7 @@ function Login() {
         google.accounts.id.initialize({
           client_id: "1013028712991-mtu8me83bblfi3nqd423e8jvsl6u15cm.apps.googleusercontent.com",
           callback: handleGoogleCredentialResponse,
+          ux_mode: "redirect"
         });
 
         google.accounts.id.renderButton(
