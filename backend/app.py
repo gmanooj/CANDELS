@@ -37,8 +37,11 @@ def create_app():
     # 🛠️ FIXED: Explicitly set default JWT headers array location configuration to prevent KeyError exceptions
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     
-    frontend_origin = os.environ.get("FRONTEND_URL", "http://localhost:5173")
-    CORS(app, resources={r"/*": {"origins": frontend_origin}})
+    frontend_origins = [
+        os.environ.get("FRONTEND_URL", "http://localhost:5173"),
+        "https://candels1921.vercel.app"
+    ]
+    CORS(app, resources={r"/*": {"origins": frontend_origins}})
     
     # Initialize unified extensions cleanly inside the application factory context loop
     db.init_app(app)
