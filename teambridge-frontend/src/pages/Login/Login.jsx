@@ -34,8 +34,7 @@ function Login() {
       if (typeof google !== "undefined") {
         google.accounts.id.initialize({
           client_id: "1013028712991-mtu8me83bblfi3nqd423e8jvsl6u15cm.apps.googleusercontent.com",
-          callback: handleGoogleCredentialResponse,
-          ux_mode: "redirect"
+          callback: handleGoogleCredentialResponse
         });
 
         google.accounts.id.renderButton(
