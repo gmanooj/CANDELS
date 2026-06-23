@@ -119,10 +119,10 @@ def create_app():
         return jsonify({"status": "healthy", "service": "TeamBridge Engine"}), 200
 
     with app.app_context():
-        print("Connecting to database and verifying tables...", flush=True)
-        db.create_all()  # Generates missing relational framework tables seamlessly
-        check_and_migrate_db() # Run settings migrations automatically
-        print("Connected to database successfully!", flush=True)
+        print("Bypassing heavy database schema inspection on boot...", flush=True)
+        # db.create_all()  # Disabled to prevent startup deadlocks over remote SSL
+        # check_and_migrate_db() 
+        print("Bypassed database check successfully!", flush=True)
         
     return app
 
