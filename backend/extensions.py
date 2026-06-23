@@ -3,5 +3,5 @@ from flask_socketio import SocketIO
 from flask_jwt_extended import JWTManager
 
 db = SQLAlchemy()
-socketio = SocketIO(cors_allowed_origins="*")
+socketio = SocketIO(cors_allowed_origins="*", async_mode='threading')
 jwt = JWTManager()  # 🛠️ FIXED: Centralized tracking instance for your security tokens
