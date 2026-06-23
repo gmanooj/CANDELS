@@ -1,0 +1,102 @@
+/* Full-Screen Blur Overlay Background */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(227, 236, 255, 0.573); 
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: portalFadeIn 0.3s ease forwards;
+}
+
+/* Centralized Animated Container Card */
+.loader-content-box {
+    text-align: center;
+    background: #ffffff00;
+    padding: 40px 50px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Sequential Icon Cycling Frame (Royal Enfield Inspiration) */
+.enfield-icon-display {
+    font-size: 52px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 50%;
+    color: #2563eb;
+    animation: pulseGlow 1.5s infinite ease-in-out, popScale 0.4s ease-in-out infinite alternate;
+}
+
+.loader-status-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: 0.3px;
+    margin-top: 8px;
+}
+
+/* SUCCESS MODAL VARIANT */
+.success-pop-card {
+    transform: scale(0.8);
+    animation: popInSuccess 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.success-checkmark-circle {
+    font-size: 64px;
+    color: #10b981;
+    background: #dcfce7;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-title {
+    color: #000000; 
+    margin: 10px 0 0 0; 
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.success-subtitle {
+    color: #64748b; 
+    font-size: 14px; 
+    margin: 4px 0 0 0;
+}
+
+/* KEYFRAMES */
+@keyframes portalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+@keyframes popScale {
+    0% { transform: scale(0.95); }
+    100% { transform: scale(1.05); }
+}
+
+@keyframes popInSuccess {
+    to { transform: scale(1); }
+}

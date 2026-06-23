@@ -1,0 +1,451 @@
+.workspace-documents-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    height: 100%;
+}
+
+/* MS Word Ribbon Header */
+.workspace-documents-container .word-ribbon-header {
+    background: #1d1d1f;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-bottom: 2px solid #0052FF;
+}
+
+.workspace-documents-container .word-ribbon-header .info-col {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.workspace-documents-container .word-ribbon-header .info-col .doc-icon {
+    font-size: 20px;
+}
+
+.workspace-documents-container .word-ribbon-header .info-col .title-stack {
+    display: flex;
+    flex-direction: column;
+}
+
+.workspace-documents-container .word-ribbon-header .info-col .title-stack .doc-name {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+
+.workspace-documents-container .word-ribbon-header .info-col .title-stack .doc-subtitle {
+    font-size: 11px;
+    color: #8e8e93;
+}
+
+.workspace-documents-container .word-ribbon-header .actions-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.workspace-documents-container .word-ribbon-header .actions-row .download-btn {
+    background: #0052FF;
+    color: #ffffff;
+    border: 1px solid #0052FF;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+}
+
+.workspace-documents-container .word-ribbon-header .actions-row .close-btn {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #48484a;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* Viewport for A4 Pages */
+.workspace-documents-container .pages-viewport {
+    flex: 1;
+    background: #f5f5f7;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #d2d2d7;
+    min-height: 400px;
+}
+
+/* PDF Viewport */
+.workspace-documents-container .pdf-page-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
+    padding: 5px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02);
+    border: 1px solid #d2d2d7;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.workspace-documents-container .pdf-page-container iframe {
+    width: 100%;
+    height: 82vh;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Virtual A4 Sheets */
+.workspace-documents-container .a4-page-sheet {
+    background: #ffffff;
+    width: 100%;
+    max-width: 950px;
+    height: 1000px;
+    padding: 60px 80px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02);
+    border: 1px solid #d2d2d7;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.workspace-documents-container .a4-page-sheet .sheet-content {
+    flex: 1;
+}
+
+.workspace-documents-container .a4-page-sheet .page-footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #edebe9;
+    padding-top: 15px;
+    margin-top: 20px;
+    font-size: 11px;
+    color: #8e8e93;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Tracker synchronization binding sheet */
+.workspace-documents-container .tracker-sync-sheet {
+    background: #ffffff;
+    width: 100%;
+    max-width: 950px;
+    min-height: 1000px;
+    padding: 60px 80px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02);
+    border: 1px solid #d2d2d7;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 800px;
+    text-align: center;
+    gap: 25px;
+    padding: 0 40px;
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner .tracker-logo {
+    background: #f5f5f7;
+    color: #0052FF;
+    font-size: 56px;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #0052FF;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #1d1d1f;
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner p {
+    margin: 0;
+    font-size: 13px;
+    color: #8e8e93;
+    line-height: 1.6;
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner .tracker-info-box {
+    background: #fafafa;
+    border: 1px solid #e5e5e7;
+    border-radius: 8px;
+    padding: 16px 20px;
+    width: 100%;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner .tracker-info-box .box-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #0052FF;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner .tracker-info-box code {
+    font-size: 11px;
+    background: #f4f4f6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: block;
+    word-break: break-all;
+    font-family: monospace;
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner .tracker-info-box .box-disclaimer {
+    font-size: 11px;
+    color: #8e8e93;
+    display: block;
+    margin-top: 10px;
+    line-height: 1.4;
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner .tracker-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.workspace-documents-container .tracker-sync-sheet .tracker-sync-inner .tracker-actions .tracker-download-link {
+    background: #0052FF;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+/* Dashboard Header */
+.workspace-documents-container .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+}
+
+.workspace-documents-container .dashboard-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+    color: #000000;
+    letter-spacing: -1px;
+}
+
+.workspace-documents-container .dashboard-header p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #666666;
+}
+
+/* Dashboard Form cards */
+.workspace-documents-container .actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.workspace-documents-container .actions-grid .link-card,
+.workspace-documents-container .actions-grid .upload-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.workspace-documents-container .actions-grid h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: #000000;
+}
+
+.workspace-documents-container .actions-grid .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.workspace-documents-container .actions-grid .form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.workspace-documents-container .actions-grid label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #666;
+}
+
+.workspace-documents-container .actions-grid input[type="text"] {
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    color: #000000;
+    padding: 10px 14px;
+    font-size: 14px;
+    outline: none;
+    border-radius: 8px;
+}
+
+.workspace-documents-container .actions-grid .link-btn {
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+/* Upload Dropzone */
+.workspace-documents-container .actions-grid .upload-dropzone {
+    border: 2px dashed #d2d2d7;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fafafa;
+}
+
+.workspace-documents-container .actions-grid .upload-dropzone label {
+    cursor: pointer;
+    display: block;
+}
+
+.workspace-documents-container .actions-grid .upload-dropzone .upload-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.workspace-documents-container .actions-grid .upload-dropzone .chosen-name {
+    font-weight: 700;
+    color: #000000;
+}
+
+.workspace-documents-container .actions-grid .upload-dropzone .browse-text {
+    color: #86868b;
+}
+
+.workspace-documents-container .actions-grid .upload-btn {
+    align-self: flex-start;
+}
+
+/* Assets card & list table */
+.workspace-documents-container .assets-container {
+    flex: 1;
+    min-height: 300px;
+}
+
+.workspace-documents-container .assets-container .assets-header-text {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.workspace-documents-container .assets-container .assets-empty {
+    font-size: 13px;
+    color: #666666;
+    font-style: italic;
+    padding: 30px;
+    text-align: center;
+    border: 1px dashed #e5e5e5;
+    background: #fafafa;
+    border-radius: 8px;
+}
+
+.workspace-documents-container .assets-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.workspace-documents-container .assets-table thead tr {
+    border-bottom: 2px solid #000000;
+}
+
+.workspace-documents-container .assets-table th {
+    padding: 12px 8px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.workspace-documents-container .assets-table tbody tr {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.workspace-documents-container .assets-table td {
+    padding: 12px 8px;
+    font-size: 13px;
+}
+
+.workspace-documents-container .assets-table td .doc-preview-trigger {
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0052FF;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.workspace-documents-container .assets-table td .doc-date {
+    color: #666666;
+}
+
+.workspace-documents-container .assets-table td.actions-cell {
+    text-align: right;
+}
+
+.workspace-documents-container .assets-table td .delete-link-btn {
+    background: transparent;
+    border: none;
+    color: #ff453a;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: underline;
+}

@@ -1,0 +1,112 @@
+/* ========================================================
+    THEMBRIDGE LIGHT HYBRID - DRIBBBLE GRADIENT ORBIT ENGINE
+   ======================================================== */
+.apple-parallax-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #ffffff; /* Clean pristine Apple white fallback canvas */
+    z-index: -1; /* Pinned securely beneath interactive landing layers and forms */
+    overflow: hidden;
+    
+    /* Forces global layer caching to hardware VRAM */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Base class structural constraints for the vector circles */
+.dribbble-gradient-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px); /* Creates the smooth, bleed-through iridescent edge layout style */
+    opacity: 0.15; /* Elegant daylight presence saturation balance */
+    will-change: transform;
+}
+
+/* 🔵 Orb One: Primary Corporate Blue Anchor */
+.primary-blue-orb {
+    top: -15%;
+    left: -10%;
+    width: 55vw;
+    height: 55vw;
+    background: radial-gradient(circle, #2563eb 0%, rgba(37, 99, 235, 0.4) 50%, transparent 70%);
+    animation: slow-orbit-alpha 28s ease-in-out infinite alternate;
+    transform: translate3d(0, 0, 0);
+}
+
+/* 🔵 Orb Two: Deep Royal Indigo Contrast Layer */
+.indigo-royal-orb {
+    bottom: -20%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, #1e40af 0%, rgba(30, 64, 175, 0.4) 50%, transparent 70%);
+    animation: slow-orbit-beta 35s ease-in-out infinite alternate-reverse;
+    transform: translate3d(0, 0, 0);
+}
+
+/* 🔵 Orb Three: Sky Ambient Fill Accent */
+.sky-ambient-orb {
+    top: 30%;
+    right: 15%;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, #38bdf8 0%, rgba(56, 189, 248, 0.3) 60%, transparent 70%);
+    animation: slow-orbit-gamma 22s ease-in-out infinite alternate;
+    transform: translate3d(0, 0, 0);
+}
+
+/* Apple High-End Glassmorphic Matte Layer (Balances text readability) */
+.apple-glass-matte-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px); /* Native Apple OS soft-focus layer blend */
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* ========================================================
+   🚀 HARDWARE ACCELERATED DRIBBBLE ORBIT MOTION PATTERNS
+   ======================================================== */
+@keyframes slow-orbit-alpha {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate3d(6vw, 4vh, 0) scale(1.08) rotate(120deg);
+    }
+    100% {
+        transform: translate3d(-3vw, 8vh, 0) scale(0.95) rotate(360deg);
+    }
+}
+
+@keyframes slow-orbit-beta {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate3d(-5vw, -6vh, 0) scale(1.1) rotate(-180deg);
+    }
+    100% {
+        transform: translate3d(4vw, 3vh, 0) scale(0.9) rotate(-360deg);
+    }
+}
+
+@keyframes slow-orbit-gamma {
+    0% {
+        transform: translate3d(0, 0, 0) scale(0.95);
+    }
+    50% {
+        transform: translate3d(-8vw, 5vh, 0) scale(1.05);
+    }
+    100% {
+        transform: translate3d(2vw, -4vh, 0) scale(1);
+    }
+}

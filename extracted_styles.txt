@@ -1,0 +1,818 @@
+Total inline styles found: 204
+L285 |                     className={`file-explorer-item vscode-mono-font ${isActive ? 'active' : ''}`}
+  style={{ 
+                        paddingLeft: `${depth * 10 + 6}px`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        paddingTop: '6px',
+                        paddingBottom: '6px',
+                        margin: '2px 0',
+                        borderRadius: '4px',
+                        background: isActive ? 'rgba(0, 82, 255, 0.08)' : 'transparent',
+                        color: isActive ? '#0052FF' : '#1d1d1f',
+                        fontWeight: isActive ? '700' : '400'
+                    }}
+
+L300 | <span
+  style={{ marginRight: '6px', color: meta.color }}
+
+L306 | <div key={name}
+  style={{ margin: '3px 0' }}
+
+L309 |                         className="file-explorer-folder vscode-mono-font"
+  style={{ 
+                            paddingLeft: `${depth * 10 + 6}px`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontWeight: '700',
+                            fontSize: '11px',
+                            color: '#86868b',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.5px',
+                            cursor: 'default',
+                            paddingTop: '6px',
+                            paddingBottom: '6px',
+                            userSelect: 'none'
+                        }}
+
+L324 | <span
+  style={{ marginRight: '6px' }}
+
+L327 | <div
+  style={{ display: 'flex', flexDirection: 'column' }}
+
+L649 | <div className="App"
+  style={{ padding: '40px', textAlign: 'center' }}
+
+L972 | <div
+  style={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center', background: '#0a0a0a', color: '#86868b', fontFamily: 'sans-serif' }}
+
+L973 | <div
+  style={{ textAlign: 'center' }}
+
+L974 | <div className="spinner"
+  style={{ marginBottom: '15px', fontSize: '24px' }}
+
+L983 | <div
+  style={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center', background: '#0a0a0a', color: '#ff453a', fontFamily: '-apple-system, sans-serif' }}
+
+L984 | <div
+  style={{ textAlign: 'center', maxWidth: '400px', padding: '30px', background: 'rgba(255, 69, 58, 0.08)', borderRadius: '12px', border: '1px solid rgba(255, 69, 58, 0.15)', backdropFilter: 'blur(10px)', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}
+
+L985 | <div
+  style={{ fontSize: '48px', marginBottom: '15px' }}
+
+L986 | <h3
+  style={{ margin: '0 0 10px 0', fontSize: '18px', fontWeight: '700', color: '#fff' }}
+
+L987 | <p
+  style={{ fontSize: '13px', color: '#86868b', margin: '0 0 20px 0', lineHeight: '1.5' }}
+
+L988 | <button onClick={() => navigate('/workspace')}
+  style={{ background: '#ff453a', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', transition: 'background 0.2s' }}
+
+L999 | <div className="apple-workspace-wrapper"
+  style={{ overflowY: 'auto', padding: '40px 20px', justifyContent: 'center', alignItems: 'flex-start', background: '#f5f5f7' }}
+
+L1000 | <div className="apple-panel-card"
+  style={{ width: '100%', maxWidth: '750px', marginTop: '0px', background: 'rgba(255,255,255,0.8)', padding: '35px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 20px 40px rgba(0,0,0,0.05)', backdropFilter: 'blur(20px)' }}
+
+L1001 | <div
+  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '20px', marginBottom: '25px' }}
+
+L1003 | <span
+  style={{ fontSize: '11px', color: '#0052FF', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}
+
+L1004 | <h2
+  style={{ fontSize: '28px', fontWeight: '800', margin: '4px 0 0 0', letterSpacing: '-0.5px', color: '#1d1d1f' }}
+
+L1006 | <button onClick={() => navigate('/workspace')}
+  style={{ background: '#f2f2f7', border: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: '#1d1d1f', transition: 'background 0.2s' }}
+
+L1011 | <form onSubmit={handleCreateWorkspaceSubmit}
+  style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+
+L1014 | <h4
+  style={{ fontSize: '12px', textTransform: 'uppercase', color: '#8e8e93', marginBottom: '14px', letterSpacing: '0.8px', fontWeight: '700' }}
+
+L1015 | <div
+  style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}
+
+L1016 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+
+L1017 | <label
+  style={{ fontSize: '13px', fontWeight: '600', color: '#1d1d1f' }}
+
+L1023 |                                         required
+  style={{ padding: '12px', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '14px', outline: 'none', background: '#fff', color: '#1d1d1f' }}
+
+L1026 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+
+L1027 | <label
+  style={{ fontSize: '13px', fontWeight: '600', color: '#1d1d1f' }}
+
+L1031 |                                         onChange={(e) => setProjectType(e.target.value)}
+  style={{ padding: '12px', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '14px', background: '#fff', color: '#1d1d1f', outline: 'none' }}
+
+L1040 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '16px' }}
+
+L1041 | <label
+  style={{ fontSize: '13px', fontWeight: '600', color: '#1d1d1f' }}
+
+L1046 |                                     placeholder="Describe objectives, architecture goals, or deliverables..."
+  style={{ padding: '12px', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '14px', minHeight: '80px', fontFamily: 'inherit', resize: 'vertical', outline: 'none', background: '#fff', color: '#1d1d1f' }}
+
+L1051 | <hr
+  style={{ border: 'none', borderTop: '1px solid rgba(0,0,0,0.06)', margin: '10px 0' }}
+
+L1055 | <h4
+  style={{ fontSize: '12px', textTransform: 'uppercase', color: '#8e8e93', marginBottom: '14px', letterSpacing: '0.8px', fontWeight: '700' }}
+
+L1056 | <div
+  style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}
+
+L1057 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+
+L1058 | <label
+  style={{ fontSize: '13px', fontWeight: '600', color: '#1d1d1f' }}
+
+L1059 | <select value={frontendStack} onChange={(e) => setFrontendStack(e.target.value)}
+  style={{ padding: '12px', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '14px', background: '#fff', color: '#1d1d1f', outline: 'none' }}
+
+L1071 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+
+L1072 | <label
+  style={{ fontSize: '13px', fontWeight: '600', color: '#1d1d1f' }}
+
+L1073 | <select value={backendStack} onChange={(e) => setBackendStack(e.target.value)}
+  style={{ padding: '12px', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '14px', background: '#fff', color: '#1d1d1f', outline: 'none' }}
+
+L1086 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+
+L1087 | <label
+  style={{ fontSize: '13px', fontWeight: '600', color: '#1d1d1f' }}
+
+L1088 | <select value={dbType} onChange={(e) => setDbType(e.target.value)}
+  style={{ padding: '12px', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '14px', background: '#fff', color: '#1d1d1f', outline: 'none' }}
+
+L1106 | <label
+  style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '10px', color: '#1d1d1f' }}
+
+L1107 | <div
+  style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}
+
+L1115 |                                             onClick={() => handleLanguageToggle(lang)}
+  style={{
+                                                padding: '8px 16px',
+                                                borderRadius: '20px',
+                                                border: isSelected ? '1px solid #0052FF' : '1px solid #d2d2d7',
+                                                background: isSelected ? '#e8f0ff' : '#ffffff',
+                                                color: isSelected ? '#0052FF' : '#1d1d1f',
+                                                fontSize: '13px',
+                                                fontWeight: '500',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.15s ease'
+                                            }}
+
+L1137 |                             type="submit"
+  style={{ width: '100%', background: '#1d1d1f', color: '#fff', border: 'none', padding: '16px', borderRadius: '8px', fontSize: '14px', fontWeight: '700', letterSpacing: '0.5px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', marginTop: '10px', transition: 'background 0.2s' }}
+
+L1164 | <div className="apple-workspace-wrapper apple-text-font"
+  style={{ height: '100vh', overflow: 'hidden', background: '#f5f5f7', color: '#000000', display: 'flex' }}
+
+L1166 | <aside className="apple-inner-sidebar"
+  style={{ display: 'flex', flexDirection: 'column', height: '100vh', padding: '34px 22px', borderRight: '1px solid #e5e5e5', width: '260px', flexShrink: 0, background: '#ffffff' }}
+
+L1167 | <div className="sidebar-brand"
+  style={{ marginBottom: '30px', display: 'flex', alignItems: 'center', gap: '14px' }}
+
+L1168 | <div className="sidebar-logo"
+  style={{ background: '#000000', color: '#ffffff', fontWeight: 'bold', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', borderRadius: '50%' }}
+
+L1169 | <span
+  style={{ fontWeight: '800', letterSpacing: '-0.5px', color: '#000000' }}
+
+L1172 | <nav className="apple-menu-list"
+  style={{ gap: '4px', marginBottom: '20px', display: 'flex', flexDirection: 'column' }}
+
+L1174 | <button className="apple-menu-item" onClick={() => navigate('/dashboard')}
+  style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '500', background: 'transparent', border: 'none', textAlign: 'left', padding: '10px 12px', cursor: 'pointer', color: '#000000' }}
+
+L1177 | <button className="apple-menu-item" onClick={() => navigate('/workspace')}
+  style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '500', background: 'transparent', border: 'none', textAlign: 'left', padding: '10px 12px', cursor: 'pointer', color: '#000000' }}
+
+L1182 | <nav className="apple-menu-list"
+  style={{ gap: '4px', marginBottom: '20px', display: 'flex', flexDirection: 'column' }}
+
+L1195 |                                 onClick={() => handleTabClick(tab)}
+  style={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    gap: '8px',
+                                    padding: '10px 12px',
+                                    border: 'none',
+                                    textAlign: 'left',
+                                    cursor: 'pointer',
+                                    background: activeTab === tab ? '#000000' : 'transparent',
+                                    color: activeTab === tab ? '#ffffff' : '#000000',
+                                    fontWeight: activeTab === tab ? '700' : '500'
+                                }}
+
+L1214 | <nav className="apple-menu-list"
+  style={{ gap: '4px', marginTop: 'auto', display: 'flex', flexDirection: 'column' }}
+
+L1219 |                         onClick={() => setIsSplitView(!isSplitView)}
+  style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '8px',
+                            padding: '10px 12px',
+                            border: 'none',
+                            textAlign: 'left',
+                            cursor: 'pointer',
+                            background: isSplitView ? '#0052FF' : 'transparent',
+                            color: isSplitView ? '#ffffff' : '#000000',
+                            fontWeight: isSplitView ? '700' : '500',
+                            borderRadius: '8px',
+                            transition: 'all 0.2s ease',
+                            outline: 'none',
+                            width: '100%'
+                        }}
+
+L1241 | <div
+  style={{ flex: 1, display: 'flex', gap: '20px', margin: '20px', height: 'calc(100vh - 40px)', overflow: 'hidden' }}
+
+L1243 | <div
+  style={{ 
+                        flex: activeTab === 'Files' ? 1 : 1.2, 
+                        display: 'flex', 
+                        gap: '20px', 
+                        height: '100%', 
+                        overflow: 'hidden',
+                        transition: 'flex 0.3s ease'
+                    }}
+
+L1253 |                         className="apple-card-modern"
+  style={{ 
+                            width: isDrawerOpen ? '240px' : '0px', 
+                            height: '100%', 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            transition: 'width 0.2s ease, padding 0.2s ease',
+                            overflow: 'hidden',
+                            padding: isDrawerOpen ? '24px' : '0px',
+                            flexShrink: 0,
+                            border: '1px solid #e5e5e5',
+                            borderRadius: '12px'
+                        }}
+
+L1266 | <div
+  style={{ width: '190px', height: '100%', display: 'flex', flexDirection: 'column', opacity: isDrawerOpen ? 1 : 0, transition: 'opacity 0.1s ease' }}
+
+L1267 | <div
+  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e5e5', paddingBottom: '10px', marginBottom: '15px' }}
+
+L1268 | <span
+  style={{ fontSize: '11px', color: '#000000', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px' }}
+
+L1271 | <span
+  style={{ background: '#000000', color: '#ffffff', padding: '2px 6px', fontSize: '9px', fontWeight: '800', borderRadius: '4px' }}
+
+L1275 | <div
+  style={{ flex: 1, overflowY: 'auto' }}
+
+L1279 | <div
+  style={{ fontSize: '11px', color: '#86868b', fontStyle: 'italic', padding: '10px' }}
+
+L1295 |                         className="apple-card-modern"
+  style={{ 
+                            flex: 1, 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            background: '#ffffff', 
+                            overflow: 'hidden',
+                            padding: '0px',
+                            border: '1px solid #e5e5e5',
+                            borderRadius: '12px'
+                        }}
+
+L1306 | <div
+  style={{ height: '42px', background: '#ffffff', display: 'flex', alignItems: 'center', padding: '0 20px', justifyContent: 'space-between', borderBottom: '1px solid #e5e5e5', userSelect: 'none' }}
+
+L1307 | <div
+  style={{ display: 'flex', gap: '14px', alignItems: 'center' }}
+
+L1308 | <div
+  style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+
+L1309 | <span
+  style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ffffff', display: 'inline-block', border: '1px solid #e5e5e5' }}
+
+L1310 | <span
+  style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#000000', display: 'inline-block', border: '1px solid #e5e5e5' }}
+
+L1311 | <span
+  style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ffffff', display: 'inline-block', border: '1px solid #e5e5e5' }}
+
+L1317 |                                     className="apple-btn-secondary"
+  style={{
+                                        cursor: 'pointer',
+                                        fontSize: '11px',
+                                        padding: '4px 10px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        outline: 'none',
+                                        fontWeight: '600'
+                                    }}
+
+L1335 |                                     className={isSplitView ? "apple-btn-primary" : "apple-btn-secondary"}
+  style={{
+                                        cursor: 'pointer',
+                                        fontSize: '11px',
+                                        padding: '4px 10px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        outline: 'none',
+                                        fontWeight: '600',
+                                        background: isSplitView ? '#0052FF' : '#ffffff',
+                                        color: isSplitView ? '#ffffff' : '#000000',
+                                        border: isSplitView ? 'none' : '1px solid #000000'
+                                    }}
+
+L1354 | <div
+  style={{ fontSize: '12px', color: '#1d1d1f', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
+
+L1356 | <span
+  style={{ opacity: 0.5 }}
+
+L1357 | <span
+  style={{ textDecoration: 'underline' }}
+
+L1360 | <div
+  style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
+
+L1368 |                                             disabled={isSaving}
+  style={{
+                                                background: saveSuccess ? '#30d158' : '#1d1d1f',
+                                                color: '#ffffff',
+                                                border: 'none',
+                                                padding: '5px 12px',
+                                                borderRadius: '20px',
+                                                fontSize: '11px',
+                                                fontWeight: '600',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s ease',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '4px',
+                                                outline: 'none',
+                                                opacity: isSaving ? 0.7 : 1
+                                            }}
+
+L1389 | <div
+  style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#0052FF', fontWeight: '600' }}
+
+L1390 | <span
+  style={{ width: '8px', height: '8px', background: '#0052FF', borderRadius: '50%', display: 'inline-block' }}
+
+L1396 | <div
+  style={{ height: '40px', background: '#fafafa', display: 'flex', borderBottom: '1px solid #e5e5e5', overflowX: 'auto', scrollbarWidth: 'none' }}
+
+L1407 |                                         className={`editor-tab-item vscode-mono-font ${isActive ? 'active' : ''}`}
+  style={{ borderBottom: isActive ? 'none' : '1px solid #e5e5e5' }}
+
+L1409 | <span
+  style={{ color: meta.color, fontSize: '13px' }}
+
+L1420 | <div
+  style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#fafafa', color: '#1d1d1f', padding: '40px', textAlign: 'center' }}
+
+L1421 | <div
+  style={{ fontSize: '64px', marginBottom: '20px' }}
+
+L1422 | <h3
+  style={{ margin: '0 0 10px 0', fontSize: '20px', fontWeight: '800', color: '#ff453a' }}
+
+L1423 | <p
+  style={{ fontSize: '13px', color: '#666666', maxWidth: '450px', lineHeight: '1.6', margin: 0 }}
+
+L1431 | <div
+  style={{ flex: 1, display: 'flex', background: '#ffffff', position: 'relative', borderBottom: '1px solid #e5e5e5', overflow: 'hidden' }}
+
+L1432 | <div
+  style={{ flex: 1, display: 'flex', overflow: 'hidden' }}
+
+L1451 | <div
+  style={{ 
+                                        width: '280px', 
+                                        borderLeft: '1px solid #e5e5e5', 
+                                        background: '#fafafa', 
+                                        display: 'flex', 
+                                        flexDirection: 'column', 
+                                        height: '100%',
+                                        flexShrink: 0
+                                    }}
+
+L1460 | <div
+  style={{ display: 'flex', borderBottom: '1px solid #e5e5e5', background: '#ffffff', padding: '6px', gap: '4px' }}
+
+L1467 |                                                         onClick={() => setEditorSidebarTab(tab)}
+  style={{
+                                                            flex: 1,
+                                                            background: isActive ? '#000000' : 'transparent',
+                                                            color: isActive ? '#ffffff' : '#8e8e93',
+                                                            border: 'none',
+                                                            padding: '6px 8px',
+                                                            fontSize: '11px',
+                                                            fontWeight: '800',
+                                                            borderRadius: '6px',
+                                                            cursor: 'pointer',
+                                                            textTransform: 'uppercase',
+                                                            letterSpacing: '0.5px',
+                                                            transition: 'all 0.2s ease'
+                                                        }}
+
+L1489 | <div
+  style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto', padding: '12px' }}
+
+L1491 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '10px', height: '100%' }}
+
+L1492 | <div
+  style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}
+
+L1494 | <div
+  style={{ textAlign: 'center', padding: '30px 10px', color: '#8e8e93', fontSize: '12px', fontStyle: 'italic' }}
+
+L1504 | <div key={c.id}
+  style={{ background: '#ffffff', border: '1px solid #e5e5e5', borderRadius: '8px', padding: '10px', fontSize: '12px' }}
+
+L1505 | <div
+  style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px', color: '#8e8e93', fontSize: '10px' }}
+
+L1506 | <span
+  style={{ fontWeight: '600', color: '#333', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '140px' }}
+
+L1509 | <span
+  style={{ background: '#e8f0ff', color: '#0066cc', fontWeight: '700', padding: '1px 5px', borderRadius: '4px' }}
+
+L1520 |                                                                                 }}
+  style={{ 
+                                                                                    display: 'inline-flex', 
+                                                                                    alignItems: 'center', 
+                                                                                    gap: '4px', 
+                                                                                    background: '#f2f2f7', 
+                                                                                    color: '#0052FF', 
+                                                                                    fontSize: '10px', 
+                                                                                    fontWeight: '700', 
+                                                                                    padding: '2px 8px', 
+                                                                                    borderRadius: '10px', 
+                                                                                    marginBottom: '6px',
+                                                                                    cursor: 'pointer',
+                                                                                    border: '1px solid #d2d2d7',
+                                                                                    transition: 'background 0.2s'
+                                                                                }}
+
+L1541 | <p
+  style={{ margin: '0 0 6px 0', color: '#1d1d1f', lineHeight: '1.4', wordBreak: 'break-word' }}
+
+L1542 | <span
+  style={{ fontSize: '9px', color: '#86868b' }}
+
+L1550 | <div
+  style={{ padding: '10px 0 0 0', borderTop: '1px solid #e5e5e5', display: 'flex', flexDirection: 'column', gap: '8px' }}
+
+L1551 | <div
+  style={{ display: 'flex', gap: '6px', alignItems: 'center' }}
+
+L1552 | <label
+  style={{ fontSize: '11px', fontWeight: '600', color: '#666', width: '70px', flexShrink: 0 }}
+
+L1556 |                                                                 onChange={(e) => setCommentLine(parseInt(e.target.value))}
+  style={{ flex: 1, padding: '4px', fontSize: '12px', borderRadius: '4px', border: '1px solid #d2d2d7', background: '#ffffff', color: '#000000', outline: 'none' }}
+
+L1563 | <div
+  style={{ display: 'flex', gap: '6px', alignItems: 'center' }}
+
+L1564 | <label
+  style={{ fontSize: '11px', fontWeight: '600', color: '#666', width: '70px', flexShrink: 0 }}
+
+L1568 |                                                                 onChange={(e) => setSelectedTaskId(e.target.value)}
+  style={{ flex: 1, padding: '4px', fontSize: '12px', borderRadius: '4px', border: '1px solid #d2d2d7', background: '#ffffff', color: '#000000', outline: 'none' }}
+
+L1580 |                                                             placeholder="Enter line feedback..."
+  style={{ width: '100%', height: '60px', padding: '8px', fontSize: '12px', borderRadius: '6px', border: '1px solid #d2d2d7', resize: 'none', outline: 'none', fontFamily: 'inherit', color: '#000000', background: '#ffffff' }}
+
+L1585 |                                                             className="apple-btn-primary"
+  style={{ width: '100%', fontSize: '11px', padding: '6px 12px', borderRadius: '15px' }}
+
+L1621 | <div
+  style={{ height: '24px', background: '#fafafa', borderTop: '1px solid #e5e5e5', display: 'flex', alignItems: 'center', padding: '0 15px', justifyContent: 'space-between', fontSize: '11px', color: '#8e8e93', userSelect: 'none' }}
+
+L1623 | <div
+  style={{ display: 'flex', gap: '15px' }}
+
+L1635 |                         className="apple-card-modern"
+  style={{ 
+                            flex: isSplitView ? 0.8 : 1, 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            background: '#ffffff', 
+                            overflowY: activeTab === 'Documents' ? 'hidden' : 'auto', 
+                            padding: isSplitView ? '24px' : '40px', 
+                            borderRadius: '12px', 
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.04)', 
+                            border: '1px solid #e5e5e5',
+                            height: '100%',
+                            transition: 'all 0.3s ease'
+                        }}
+
+L1870 | <div
+  style={{ padding: '10px', color: '#1d1d1f', fontFamily: '-apple-system, sans-serif' }}
+
+L1871 | <div
+  style={{ marginBottom: '30px' }}
+
+L1872 | <span
+  style={{ fontSize: '11px', color: '#0052FF', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}
+
+L1873 | <h2
+  style={{ fontSize: '28px', fontWeight: '800', margin: '4px 0 0 0', letterSpacing: '-0.5px' }}
+
+L1874 | <p
+  style={{ fontSize: '14px', color: '#86868b', marginTop: '6px' }}
+
+L1877 | <div
+  style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}
+
+L1879 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+
+L1880 | <div
+  style={{ background: '#fafafa', borderRadius: '12px', border: '1px solid #e5e5e5', padding: '24px' }}
+
+L1881 | <h3
+  style={{ margin: '0 0 15px 0', fontSize: '18px', fontWeight: '700' }}
+
+L1882 | <p
+  style={{ fontSize: '13px', color: '#86868b', lineHeight: '1.5', margin: '0 0 20px 0' }}
+
+L1886 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
+
+L1887 | <div
+  style={{ fontSize: '13px', fontWeight: '600' }}
+
+L1890 | <div
+  style={{ display: 'flex', gap: '4px', background: '#e5e5e7', padding: '3px', borderRadius: '8px', marginBottom: '4px' }}
+
+L1895 |                                         onClick={() => setLangTab(lang)}
+  style={{
+                                            flex: 1,
+                                            padding: '6px 12px',
+                                            borderRadius: '6px',
+                                            border: 'none',
+                                            background: langTab === lang ? '#ffffff' : 'transparent',
+                                            color: '#1d1d1f',
+                                            fontSize: '12px',
+                                            fontWeight: '600',
+                                            cursor: 'pointer',
+                                            boxShadow: langTab === lang ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                                            transition: 'all 0.15s ease'
+                                        }}
+
+L1914 | <div
+  style={{ background: '#000', color: '#30d158', fontFamily: 'SFMono-Regular, Consolas, monospace', padding: '10px 14px', borderRadius: '8px', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+
+L1916 | <button onClick={() => navigator.clipboard.writeText(getCommand())}
+  style={{ background: 'transparent', border: 'none', color: '#30d158', cursor: 'pointer', fontSize: '11px' }}
+
+L1919 | <div
+  style={{ fontSize: '13px', fontWeight: '600', marginTop: '8px' }}
+
+L1920 | <div
+  style={{ background: '#000', color: '#30d158', fontFamily: 'SFMono-Regular, Consolas, monospace', padding: '10px 14px', borderRadius: '8px', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+
+L1922 | <button onClick={() => navigator.clipboard.writeText("tb login")}
+  style={{ background: 'transparent', border: 'none', color: '#30d158', cursor: 'pointer', fontSize: '11px' }}
+
+L1925 | <div
+  style={{ fontSize: '13px', fontWeight: '600', marginTop: '8px' }}
+
+L1926 | <div
+  style={{ background: '#000', color: '#30d158', fontFamily: 'SFMono-Regular, Consolas, monospace', padding: '10px 14px', borderRadius: '8px', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+
+L1928 | <button onClick={() => navigator.clipboard.writeText("tb init && tb link")}
+  style={{ background: 'transparent', border: 'none', color: '#30d158', cursor: 'pointer', fontSize: '11px' }}
+
+L1933 | <div
+  style={{ background: '#fafafa', borderRadius: '12px', border: '1px solid #e5e5e5', padding: '24px' }}
+
+L1934 | <h3
+  style={{ margin: '0 0 12px 0', fontSize: '16px', fontWeight: '700' }}
+
+L1935 | <p
+  style={{ fontSize: '12px', color: '#86868b', lineHeight: '1.4', marginBottom: '16px' }}
+
+L1940 | <div
+  style={{ overflowX: 'auto', marginBottom: '20px' }}
+
+L1942 | <div
+  style={{ fontSize: '11px', color: '#8e8e93', fontStyle: 'italic', padding: '10px 0' }}
+
+L1944 | <table
+  style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}
+
+L1946 | <tr
+  style={{ borderBottom: '1px solid #e5e5e5', textAlign: 'left' }}
+
+L1947 | <th
+  style={{ padding: '8px 10px', fontSize: '10px', color: '#86868b', textTransform: 'uppercase' }}
+
+L1948 | <th
+  style={{ padding: '8px 10px', fontSize: '10px', color: '#86868b', textTransform: 'uppercase' }}
+
+L1949 | <th
+  style={{ padding: '8px 10px', fontSize: '10px', color: '#86868b', textTransform: 'uppercase' }}
+
+L1950 | <th
+  style={{ padding: '8px 10px', fontSize: '10px', color: '#86868b', textTransform: 'uppercase' }}
+
+L1951 | <th
+  style={{ padding: '8px 10px', fontSize: '10px', color: '#86868b', textTransform: 'uppercase' }}
+
+L1956 | <tr key={k.id}
+  style={{ borderBottom: '1px solid #f0f0f2', fontSize: '11px' }}
+
+L1957 | <td
+  style={{ padding: '12px 10px', fontWeight: '600', color: '#1d1d1f' }}
+
+L1958 | <td
+  style={{ padding: '12px 10px', fontFamily: 'monospace', color: '#0052FF', letterSpacing: '0.2px' }}
+
+L1959 | <td
+  style={{ padding: '12px 10px', color: '#86868b' }}
+
+L1960 | <td
+  style={{ padding: '12px 10px', color: '#86868b' }}
+
+L1961 | <td
+  style={{ padding: '12px 10px' }}
+
+L1964 |                                                         onClick={() => handleRevokeKey(k.id)}
+  style={{ background: '#ff3b30', color: '#fff', border: 'none', padding: '4px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: '600', cursor: 'pointer' }}
+
+L1978 | <div
+  style={{
+                                position: 'fixed',
+                                top: 0,
+                                left: 0,
+                                width: '100vw',
+                                height: '100vh',
+                                background: 'rgba(0,0,0,0.5)',
+                                backdropFilter: 'blur(4px)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                zIndex: 9999
+                            }}
+
+L1991 | <div
+  style={{
+                                    background: '#ffffff',
+                                    borderRadius: '16px',
+                                    padding: '30px',
+                                    maxWidth: '500px',
+                                    width: '90%',
+                                    boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
+                                    border: '1px solid #e5e5e5',
+                                    fontFamily: '-apple-system, sans-serif'
+                                }}
+
+L2001 | <h3
+  style={{ margin: '0 0 10px 0', fontSize: '20px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }}
+
+L2004 | <p
+  style={{ fontSize: '13px', color: '#86868b', lineHeight: '1.5', margin: '0 0 20px 0' }}
+
+L2008 | <div
+  style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}
+
+L2013 |                                             value={newlyGeneratedKey}
+  style={{ flex: 1, padding: '12px 14px', fontSize: '13px', fontFamily: 'monospace', border: '1px solid #d2d2d7', borderRadius: '8px', background: '#f5f5f7', color: '#1d1d1f', outline: 'none' }}
+
+L2020 |                                             }}
+  style={{ background: '#0052FF', color: '#ffffff', border: 'none', padding: '0 16px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}
+
+L2026 | <div
+  style={{ background: '#ff3b3010', border: '1px solid #ff3b3030', padding: '12px 16px', borderRadius: '8px', display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '24px' }}
+
+L2027 | <span
+  style={{ fontSize: '16px', marginTop: '2px' }}
+
+L2028 | <div
+  style={{ fontSize: '12px', color: '#ff3b30', fontWeight: '600', lineHeight: '1.4' }}
+
+L2035 |                                         onClick={() => setNewlyGeneratedKey("")}
+  style={{ width: '100%', background: '#1d1d1f', color: '#ffffff', border: 'none', padding: '12px', borderRadius: '8px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}
+
+L2044 | <div
+  style={{ display: 'flex', gap: '10px' }}
+
+L2050 |                                 onChange={(e) => setNewDeviceName(e.target.value)}
+  style={{ flex: 1, padding: '10px 14px', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '12px', background: '#fff', color: '#000', outline: 'none' }}
+
+L2054 |                                 onClick={handleGenerateKey}
+  style={{ background: '#0052FF', color: '#fff', border: 'none', padding: '0 16px', borderRadius: '8px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', transition: 'background 0.2s' }}
+
+L2063 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+
+L2064 | <div
+  style={{ background: '#fafafa', borderRadius: '12px', border: '1px solid #e5e5e5', padding: '24px' }}
+
+L2065 | <h3
+  style={{ margin: '0 0 15px 0', fontSize: '18px', fontWeight: '700' }}
+
+L2066 | <p
+  style={{ fontSize: '13px', color: '#86868b', lineHeight: '1.5', margin: '0 0 20px 0' }}
+
+L2071 | <div
+  style={{ background: '#fff3cd', color: '#856404', padding: '12px', borderRadius: '8px', fontSize: '12px', marginBottom: '20px', fontWeight: '500' }}
+
+L2076 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+
+L2078 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+
+L2079 | <label
+  style={{ fontSize: '13px', fontWeight: '700' }}
+
+L2084 |                                     onChange={(e) => setPresetProfile(e.target.value)}
+  style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid #d2d2d7', background: isAuthorized ? '#fff' : '#e5e5e7', color: '#000', fontSize: '13px', outline: 'none' }}
+
+L2089 | <span
+  style={{ fontSize: '11px', color: '#86868b' }}
+
+L2098 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+
+L2099 | <div
+  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+
+L2100 | <label
+  style={{ fontSize: '13px', fontWeight: '700' }}
+
+L2101 | <span
+  style={{ fontSize: '12px', fontWeight: '700', color: '#0052FF' }}
+
+L2111 |                                     onChange={(e) => setMaxFileSizeMb(parseFloat(e.target.value))}
+  style={{ width: '100%', accentColor: '#0052FF', cursor: isAuthorized ? 'pointer' : 'not-allowed' }}
+
+L2113 | <span
+  style={{ fontSize: '11px', color: '#86868b' }}
+
+L2117 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+
+L2118 | <label
+  style={{ fontSize: '13px', fontWeight: '700' }}
+
+L2125 |                                     onChange={(e) => setAllowedExtensions(e.target.value)}
+  style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '13px', background: isAuthorized ? '#fff' : '#e5e5e7', color: '#000', outline: 'none' }}
+
+L2127 | <span
+  style={{ fontSize: '11px', color: '#86868b' }}
+
+L2131 | <div
+  style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+
+L2132 | <label
+  style={{ fontSize: '13px', fontWeight: '700' }}
+
+L2139 |                                     onChange={(e) => setIgnoredFolders(e.target.value)}
+  style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '13px', background: isAuthorized ? '#fff' : '#e5e5e7', color: '#000', outline: 'none' }}
+
+L2141 | <span
+  style={{ fontSize: '11px', color: '#86868b' }}
+
+L2146 | <div
+  style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}
+
+L2149 |                                         onClick={handleSaveSettings}
+  style={{ width: '100%', background: '#1d1d1f', color: '#fff', border: 'none', padding: '12px', borderRadius: '8px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', transition: 'background 0.2s' }}
+
+L2154 | <div
+  style={{ color: '#30d158', fontSize: '12px', fontWeight: '600', textAlign: 'center' }}
+

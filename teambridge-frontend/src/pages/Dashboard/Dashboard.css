@@ -1,0 +1,653 @@
+/* ========================================================
+    TEAMBRIDGE WORKSPACE HUB - ELITE MANAGEMENT CSS ENGINE
+   ======================================================== */
+:root {
+    --sb-width: 280px;
+    --apple-bg: #f5f5f7;
+    --card-bg: #ffffff;
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --dev-blue: #2c2c2c;
+    --dev-green: #10b981;
+    --border-line: #d2d2d7;
+    --system-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--apple-bg);
+    color: var(--text-primary);
+    font-family: var(--system-font);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ========================================================
+   🏛️ SIDEBAR COMPONENT REGION
+   ======================================================== */
+.sidebar {
+    width: var(--sb-width);
+    background-color: #ffffff;
+    border-right: 1px solid var(--border-line);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 32px 24px;
+    box-sizing: border-box;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 44px;
+}
+
+.sidebar-logo {
+    width: 28px;
+    height: 38px;
+    background: rgb(37, 37, 37);
+    color: #ffffff;
+    border-radius: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.sidebar-brand span {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-grow: 1;
+}
+
+.menu-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin:0 0 6px 0;
+}
+
+.menu-btn-item {
+    background: transparent;
+    border: none;
+    text-align: left;
+    color: #515154;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    width: 110%;
+    margin-left:-14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-btn-item:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: var(--text-primary);
+}
+
+.menu-btn-item.active {
+    color: #ffffff;
+    background-color: #272727;
+    font-weight: 600;
+}
+
+.sidebar-user-footer {
+    border-top: 1px solid var(--border-line);
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.user-info-short {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.user-name-footer {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.user-role-badge {
+    align-self: flex-start;
+    font-size: 11px;
+    font-weight: 600;
+    background-color: #e8e8ed;
+    color: #424245;
+    padding: 3px 10px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 11px;
+    background-color: #fff1f211;
+    color: #e11d48;
+    border: 1px solid #fecdd323;
+    border-radius: 0px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.logout-btn:hover {
+    background-color: #e11d48;
+    color:#ffffff;
+}
+
+/* ========================================================
+   🖥️ MAIN FRAME CANVAS LAYOUT
+   ======================================================== */
+.main-content {
+    margin-left: var(--sb-width);
+    flex-grow: 1;
+    padding: 50px 60px;
+    box-sizing: border-box;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 36px;
+}
+
+.content-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin: 6px 0 0 0;
+}
+
+.user-code-display {
+    margin-top: 10px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--dev-blue);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+/* ========================================================
+   📊 ANALYTICS HUB GRID MODULES
+   ======================================================== */
+.workspace-metrics-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.metric-pill-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 7px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+}
+
+.metric-pill-card .lbl {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.metric-pill-card .num {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* ========================================================
+   📥 SETUP INITIALIZATION PANEL VIEW
+   ======================================================== */
+.setup-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.setup-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.setup-card:hover {
+    transform: translateY(-4px);
+}
+
+.card-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.setup-card h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+    letter-spacing: -0.4px;
+}
+
+.setup-card p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 32px 0;
+    flex-grow: 1;
+}
+
+.setup-action-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.setup-action-btn.primary { background: var(--dev-blue); color: white; }
+.setup-action-btn.primary:hover { background: #0077ed; }
+.setup-action-btn.secondary { background: #f5f5f7; color: var(--text-primary); border: 1px solid var(--border-line); }
+.setup-action-btn.secondary:hover { background: #e8e8ed; }
+
+/* ========================================================
+   📋 CAPSTONE ACTIVE WORKSPACE OVERVIEW VIEW
+   ======================================================== */
+.active-workspace-dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+.panel-block-container {
+    background: var(--card-bg);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 7px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+
+.panel-block-container h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    letter-spacing: -0.3px;
+}
+
+/* Operational Data Tables */
+.premium-data-table-wrapper {
+    overflow-x: auto;
+}
+
+.premium-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.premium-data-table th {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-line);
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.premium-data-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f5f5f7;
+    color: var(--text-primary);
+}
+
+.status-badge-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+}
+.status-badge-inline.done { background-color: #030303; color: #15803d; }
+.status-badge-inline.progress { background-color: #0e0e0f00; color: #161617; }
+
+/* Timeline Logger Logs Feed */
+.timeline-logger-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+}
+
+.log-event-row {
+    display: flex;
+    gap: 14px;
+}
+
+.log-bullet-node {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-line);
+    margin-top: 5px;
+    position: relative;
+    z-index: 2;
+}
+
+.log-event-row.highlight .log-bullet-node {
+    background: var(--dev-blue);
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.15);
+}
+
+.log-body-content {
+    flex: 1;
+}
+
+.log-body-content p {
+    margin: 0 0 4px 0;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.log-body-content .time-lbl {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* ========================================================
+   🧱 INTERACTIVE INPUT ENTRY CARDS
+   ======================================================== */
+.form-workspace-section {
+    background: var(--card-bg);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+.back-link-btn {
+    background: transparent;
+    border: none;
+    color: var(--dev-blue);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.form-container-header h2 { font-size: 24px; font-weight: 600; margin: 0 0 6px 0; }
+.form-container-header p { color: var(--text-secondary); font-size: 14px; margin: 0 0 32px 0; }
+
+.dashboard-interactive-form { display: flex; flex-direction: column; gap: 20px; }
+.dash-input-group { display: flex; flex-direction: column; gap: 6px; }
+.dash-input-group label { font-size: 13px; font-weight: 600; color: #424245; }
+.dash-input-group input {
+    padding: 12px 16px;
+    border: 1px solid var(--border-line);
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.15s ease;
+}
+.dash-input-group input:focus {
+    border-color: var(--dev-blue);
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+}
+
+.form-submit-btn {
+    width:100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+}
+.form-submit-btn.blue { background: var(--dev-blue); }
+.form-submit-btn.green { background: var(--dev-green); }
+
+/* ========================================================
+   🎯 MATRIX SLOT AVATAR CONFINEMENT ENGINE (2x2 Micro Fit)
+   ======================================================== */
+.matrix-slot-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg);
+    border: 1px dashed var(--border-line);
+    border-radius: 12px;
+    padding: 16px;
+    min-height: 105px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.matrix-slot-box.shaded {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.matrix-slot-box:hover {
+    border-color: var(--dev-blue);
+    background-color: rgba(0, 102, 204, 0.02);
+}
+
+.matrix-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.matrix-avatar-txt {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--dev-blue);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0,102,204,0.2);
+}
+
+.slot-lbl {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* FEEDBACK NOTIFICATION ALERTS */
+.alert-box {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+.alert-box.error { background-color: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; }
+.alert-box.success { background-color: #dcfce7; color: #16a34a; border: 1px solid #86efac; }
+
+@media(max-width: 1100px) {
+    .workspace-metrics-bar { grid-template-columns: repeat(2, 1fr); }
+    .active-workspace-dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@keyframes motionFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+select option {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+}
+
+textarea:focus {
+    border-color: var(--dev-blue);
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+    outline: none;
+}
+
+/* Document Framework Overlays */
+.premium-data-table th {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+/* ========================================================
+    DARK THEME OVERRIDES (GLOBAL SETTINGS INTEGRATION)
+   ======================================================== */
+body.dark .dashboard-container {
+    background-color: #09090b !important;
+    color: #f4f4f5 !important;
+}
+
+body.dark .sidebar {
+    background-color: #18181b !important;
+    border-right: 1px solid #27272a !important;
+}
+
+body.dark .sidebar-brand span {
+    color: #f4f4f5 !important;
+}
+
+body.dark .menu-btn-item {
+    color: #a1a1aa !important;
+}
+
+body.dark .menu-btn-item:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+}
+
+body.dark .menu-btn-item.active {
+    background: #27272a !important;
+    color: #ffffff !important;
+}
+
+body.dark .panel-block-container {
+    background: #18181b !important;
+    border: 1px solid #27272a !important;
+    color: #f4f4f5 !important;
+}
+
+body.dark .panel-block-container h3 {
+    color: #ffffff !important;
+}
+
+body.dark .premium-data-table th {
+    background-color: #27272a !important;
+    color: #a1a1aa !important;
+    border-bottom: 2px solid #3f3f46 !important;
+}
+
+body.dark .premium-data-table td {
+    border-bottom: 1px solid #27272a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark .premium-data-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+body.dark .content-header h1 {
+    color: #ffffff !important;
+}
+
+body.dark .content-header .subtitle {
+    color: #a1a1aa !important;
+}
+
+body.dark .metric-pill-card {
+    background-color: #18181b !important;
+    border: 1px solid #27272a !important;
+}
+
+body.dark .metric-pill-card .lbl {
+    color: #a1a1aa !important;
+}
+
+body.dark .metric-pill-card .num {
+    color: #ffffff !important;
+}
+
+body.dark .user-name-footer {
+    color: #ffffff !important;
+}
+
+body.dark .user-role-badge {
+    color: #a1a1aa !important;
+}
+
+body.dark .logout-btn {
+    background: #27272a !important;
+    color: #ffffff !important;
+}
+
+body.dark .logout-btn:hover {
+    background: #3f3f46 !important;
+}

@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* Global Variables */
+
+:root{
+    --primary-color:#2563eb;
+    --secondary-color:#1e293b;
+    --background-color:#f4f6f8;
+    --card-color:#ffffff;
+    --text-color:#333333;
+    --border-color:#dcdcdc;
+}
+
+/* Global Dark Mode CSS Variables */
+body.dark,
+.dark {
+    --background-color: #09090b;
+    --card-color: #18181b;
+    --text-color: #f4f4f5;
+    --border-color: #27272a;
+    --secondary-color: #27272a;
+}
+
+/* Body */
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    min-height:100vh;
+}
+
+/* Links */
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* Buttons */
+
+button{
+    cursor:pointer;
+    border:none;
+    outline:none;
+}
+
+/* Inputs */
+
+input,
+select,
+textarea{
+    outline:none;
+    font-family:inherit;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#c5c5c5;
+    border-radius:8px;
+}

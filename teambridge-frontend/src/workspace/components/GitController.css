@@ -1,0 +1,178 @@
+.workspace-git-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+/* Header */
+.workspace-git-container .git-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+}
+
+.workspace-git-container .git-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+    color: #000000;
+    letter-spacing: -1px;
+}
+
+.workspace-git-container .git-header p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #666666;
+}
+
+.workspace-git-container .git-header .refresh-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+    border-radius: 12px;
+}
+
+/* Diff Panel */
+.workspace-git-container .diff-panel {
+    background: #ffffff;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    min-height: 300px;
+}
+
+.workspace-git-container .diff-panel .diff-title {
+    font-size: 12px;
+    color: #86868b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.workspace-git-container .diff-panel .diff-console-box {
+    font-family: '"SF Mono", Monaco, Consolas, monospace';
+    font-size: 13px;
+    line-height: 1.6;
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    overflow-y: auto;
+    max-height: 400px;
+    padding: 16px;
+    flex: 1;
+}
+
+.workspace-git-container .diff-panel .diff-status-text {
+    color: #86868b;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Monospace diff line formats */
+.workspace-git-container .diff-line {
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+.workspace-git-container .diff-line.addition {
+    background: #e6ffed;
+    color: #22863a;
+}
+
+.workspace-git-container .diff-line.deletion {
+    background: #ffeef0;
+    color: #b31d28;
+}
+
+.workspace-git-container .diff-line.hunk {
+    color: #0052FF;
+    font-weight: bold;
+    background: #f0f5ff;
+}
+
+.workspace-git-container .diff-line.meta {
+    color: #86868b;
+    font-weight: bold;
+}
+
+.workspace-git-container .diff-line.normal {
+    color: #1d1d1f;
+}
+
+/* Untracked Files Section */
+.workspace-git-container .untracked-files-box {
+    margin-top: 10px;
+}
+
+.workspace-git-container .untracked-files-box .untracked-title {
+    font-size: 11px;
+    color: #ff9500;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.workspace-git-container .untracked-files-box .untracked-list {
+    background: #fff9e6;
+    border: 1px solid #ffe8cc;
+    padding: 10px 14px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.workspace-git-container .untracked-files-box .untracked-item {
+    font-size: 12px;
+    font-family: monospace;
+    color: #b25e00;
+}
+
+/* Commit Form Section */
+.workspace-git-container .commit-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.workspace-git-container .commit-form-section label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.workspace-git-container .commit-form-section .commit-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 14px;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+    resize: vertical;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+.workspace-git-container .commit-form-section .sync-btn {
+    padding: 14px 28px;
+    font-size: 14px;
+    font-weight: 800;
+    width: fit-content;
+}
+
+.workspace-git-container .commit-form-section .sync-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
