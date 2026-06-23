@@ -536,7 +536,7 @@ export default function ActiveWorkspace() {
         const session = JSON.parse(sessionStorage.getItem("user_session") || "{}");
         const email = session.email || "student@teambridge.edu";
 
-        const socket = io(__BACKEND_URL__);
+        const socket = io(__BACKEND_URL__, { transports: ["websocket"], upgrade: false });
         socket.emit('join_chat', { team_code: teamCode });
 
         socket.on('comment_added', (data) => {

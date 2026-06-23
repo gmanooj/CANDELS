@@ -5,7 +5,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import './DigitalDeclaration.css';
 
 // Initialize your Socket.io client (adjust the URL port to match your Flask configuration)
-const socket = io(__BACKEND_URL__);
+const socket = io(__BACKEND_URL__, { transports: ["websocket"], upgrade: false });
 
 const DigitalDeclaration = ({ teamCode, currentUser }) => {
   const canvasRef = useRef(null);

@@ -124,7 +124,7 @@ export default function Chat({
         fetchChats();
 
         // Establish real-time Socket.IO link to eliminate polling loops
-        const socket = io(__BACKEND_URL__);
+        const socket = io(__BACKEND_URL__, { transports: ["websocket"], upgrade: false });
 
         socket.emit('join_chat', { team_code: teamCode });
 
