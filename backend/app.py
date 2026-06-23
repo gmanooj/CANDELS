@@ -86,9 +86,20 @@ def create_app():
         )
         return response
 
+    from werkzeug.exceptions import HTTPException
+
     @app.errorhandler(500)
     @app.errorhandler(Exception)
     def handle_unhandled_exception(e):
+        if isinstance(e, HTTPException):
+            response = jsonify({
+                "status": "error",
+                "message": e.description,
+                "error_type": e.__class__.__name__
+            })
+            response.status_code = e.code
+            return response
+
         tb = traceback.format_exc()
         logger.error(
             f"[FATAL_EXCEPTION] Exception on {request.method} {request.path}: {str(e)}\n{tb}"
@@ -100,6 +111,10 @@ def create_app():
         })
         response.status_code = 500
         return response
+
+    @app.route('/')
+    def health_check():
+        return jsonify({"status": "healthy", "service": "TeamBridge Engine"}), 200
 
     with app.app_context():
         print("Bypassing database connection temporarily for debugging...", flush=True)
