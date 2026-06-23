@@ -102,11 +102,10 @@ def create_app():
         return response
 
     with app.app_context():
-        print("Connecting to database and verifying tables...", flush=True)
-        db.create_all()  # Generates missing relational framework tables seamlessly
-        print("Database connected successfully!", flush=True)
-        check_and_migrate_db() # Run settings migrations automatically
-        print("Database migrations completed!", flush=True)
+        print("Bypassing database connection temporarily for debugging...", flush=True)
+        # db.create_all()  # Generates missing relational framework tables seamlessly
+        # check_and_migrate_db() # Run settings migrations automatically
+        print("Bypassed database connection successfully!", flush=True)
         
     return app
 
