@@ -38,7 +38,12 @@ function Profile() {
 
   const fetchFreshDatabaseProfile = async (userCode, sessionUser) => {
     try {
-      const response = await fetch(`${__BACKEND_URL__}/api/users/profile-context?user_code=${userCode}`);
+      const token = sessionStorage.getItem("auth_token");
+      const response = await fetch(`${__BACKEND_URL__}/api/users/profile-context?user_code=${userCode}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       if (response.ok) {
         const dbData = await response.json();
         
@@ -104,9 +109,13 @@ function Profile() {
     setErrorMessage(""); setSuccessMessage("");
 
     try {
+      const token = sessionStorage.getItem("auth_token");
       const res = await fetch(__BACKEND_URL__ + "/api/profile/update", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify({ 
           user_code: user.user_code, 
           ...profileForm,

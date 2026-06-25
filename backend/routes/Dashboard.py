@@ -263,3 +263,60 @@ def get_digital_form_context():
         
     except Exception as e:
         return jsonify({"error": f"Digital Form assembly failed: {str(e)}"}), 500
+
+
+@dashboard_bp.route('/api/profile/update', methods=['POST'])
+@jwt_required()
+def update_user_profile():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Missing payload data"}), 400
+
+        user_code = data.get('user_code')
+        if not user_code:
+            return jsonify({"error": "Missing user_code parameter"}), 400
+
+        user = User.query.filter_by(user_code=user_code).first()
+        if not user:
+            return jsonify({"error": "User profile not found"}), 404
+
+        # Update fields if present in payload
+        if 'phone' in data:
+            user.phone = data['phone']
+        if 'gender' in data:
+            user.gender = data['gender']
+        if 'dob' in data:
+            dob_str = data['dob']
+            if dob_str:
+                try:
+                    # Expecting YYYY-MM-DD
+                    user.dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
+                except ValueError:
+                    return jsonify({"error": "Invalid date format for DOB. Use YYYY-MM-DD"}), 400
+            else:
+                user.dob = None
+        if 'bio' in data:
+            user.bio = data['bio']
+        if 'github_url' in data:
+            user.github_url = data['github_url']
+        if 'linkedin_url' in data:
+            user.linkedin_url = data['linkedin_url']
+        if 'profile_image' in data:
+            user.profile_image = data['profile_image']
+
+        db.session.commit()
+
+        # Compute completion percentage (same logic as get_user_profile_context)
+        fields = [user.phone, user.gender, user.dob, user.bio, user.github_url, user.linkedin_url, user.profile_image]
+        populated = sum(1 for field in fields if field and str(field).strip())
+        completion_percentage = int((populated / len(fields)) * 100)
+
+        return jsonify({
+            "message": "Profile updated successfully",
+            "completion_percentage": completion_percentage
+        }), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500

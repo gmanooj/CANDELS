@@ -377,10 +377,11 @@
 
 /* Submit Action Matrix Controls Button */
 .form-submit-btn.blue {
-    width: 180%;
+    width: 100%;
+    max-width: 240px;
     margin-top: 40px;
-    margin-left:20px;
-    padding: 16px;
+    margin-left: 0;
+    padding: 14px 24px;
     background: linear-gradient(180deg, #1c1c1c 0%, #252525 100%);
     color: #ffffff;
     border: none;
