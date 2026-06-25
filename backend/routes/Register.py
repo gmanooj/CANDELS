@@ -26,7 +26,11 @@ def send_real_smtp_email(target_email, verification_code):
     Sends the HTML verification code to the target email using the Resend Web API.
     This bypasses Render's SMTP port firewall restrictions.
     """
-    resend_api_key = os.environ.get("RESEND_API_KEY", "re_DK1PM9Jd_LHscFa7L7CQprghQnBxGiW6q")
+    resend_api_key = os.environ.get("RESEND_API_KEY")
+    if not resend_api_key:
+        print("❌ Resend API Key is missing! Please configure RESEND_API_KEY in the environment.", flush=True)
+        return False
+        
     url = "https://api.resend.com/emails"
     headers = {
         "Authorization": f"Bearer {resend_api_key}",
