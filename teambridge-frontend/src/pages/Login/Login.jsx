@@ -143,9 +143,9 @@ function Login() {
           {/* Top Header Navbar Row */}
           <div className="logo-box-full">
             <div className="logo-layout-left">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', opacity: splashActive ? 0 : 1, transition: 'opacity 0.3s ease' }}>
-                <img src="/logo.png" alt="Candels Logo" style={{ height: '45px', objectFit: 'cover' }} />
-                <span style={{ fontSize: '24px', fontWeight: 'bold', letterSpacing: '1px', color: '#1d1d1f' }}>CANDELS</span>
+              <div className="logo-header-group" style={{ opacity: splashActive ? 0 : 1 }}>
+                <img src="/logo.png" alt="Candels Logo" className="logo-img-main" />
+                <span className="logo-text-title">CANDELS</span>
               </div>
             </div>
             <button className="action-launch-workspace-btn" onClick={() => setIsWorkspaceOpen(true)}>
@@ -161,7 +161,7 @@ function Login() {
               track timeline components, and organize documentation files inside an
               isolated, high-performance university workspace framework.
             </p>
-            <div style={{ display: 'flex', gap: '15px' }}>
+            <div className="hero-btn-group">
               <button className="hero-btn-primary" onClick={() => setIsWorkspaceOpen(true)}>
                 Launch Team Workspace →
               </button>
@@ -295,7 +295,7 @@ function Login() {
                     <img src="/workspace_initial.png" alt="Workspace IDE Mockup" className="mockup-image" />
                   )}
                   {activeFeatureTab === 'e2ee' && (
-                    <img src="/workspace_initial.png" alt="E2EE Chat Mockup" className="mockup-image" style={{ filter: 'hue-rotate(60deg) brightness(0.95)' }} />
+                    <img src="/workspace_initial.png" alt="E2EE Chat Mockup" className="mockup-image chat-hue" />
                   )}
                   {activeFeatureTab === 'gallery' && (
                     <img src="/implementations_view.png" alt="Implementation Gallery Mockup" className="mockup-image" />
@@ -315,7 +315,7 @@ function Login() {
               <h3>Designed For Academic Excellence & Professional Sprinting</h3>
               <p>Candels adapts dynamically to the unique workflows of college campuses and software product lines.</p>
 
-              <div className="toggle-segment-bar" style={{ marginTop: '20px' }}>
+              <div className="toggle-segment-bar">
                 <button
                   className={`toggle-segment-item ${activeUserRoleTab === 'students' ? 'active' : ''}`}
                   onClick={() => setActiveUserRoleTab('students')}
@@ -438,7 +438,7 @@ function Login() {
                   </div>
                   <div className="mock-tab vscode-mono-font">.env</div>
                 </div>
-                <div className="mockup-body" style={{ background: '#fafafa' }}>
+                <div className="mockup-body gray-bg">
                   <img src="/env_lock.png" alt="Credentials Locked Screen" className="mockup-image" />
                 </div>
               </div>
@@ -446,9 +446,9 @@ function Login() {
           </div>
 
           {/* Footer Branding Area */}
-          <div className="landing-footer" style={{ borderTop: '1px solid #d2d2d7', paddingTop: '30px', paddingBottom: '30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#86868b', fontSize: '13px' }}>
+          <div className="landing-footer">
             <span>&copy; 2026 Candels Systems Inc. All rights reserved.</span>
-            <div style={{ display: 'flex', gap: '20px' }}>
+            <div className="landing-footer-links">
               <span>Security Audited</span>
               <span>Terms of Service</span>
               <span>API Gateway</span>
@@ -468,17 +468,17 @@ function Login() {
           </button>
 
           <div className="login-card">
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <img src="/logo.png" alt="Candels Logo" style={{ height: '36px', objectFit: 'contain' }} />
-                <span style={{ fontSize: '22px', fontWeight: 'bold', letterSpacing: '0.5px', color: '#1d1d1f' }}>CANDELS</span>
+            <div className="login-brand-container">
+              <div className="login-brand-logo-group">
+                <img src="/logo.png" alt="Candels Logo" className="login-brand-logo-img" />
+                <span className="login-brand-logo-text">CANDELS</span>
               </div>
             </div>
             <h2>Account Login</h2>
             <p>Please enter your credentials to access the platform.</p>
 
             {errorMessage && (
-              <div style={{ color: "#ef4444", background: "#fee2e2", padding: "10px", borderRadius: "8px", marginBottom: "15px", fontSize: "14px" }}>
+              <div className="login-error-message">
                 {errorMessage}
               </div>
             )}
@@ -505,20 +505,20 @@ function Login() {
               </div>
 
               <div className="login-options">
-                <label style={{ display: "flex", alignItems: "center", gap: "5px", cursor: "pointer" }}>
+                <label className="login-remember-me-lbl">
                   <input type="checkbox" /> Remember me
                 </label>
                 <Link to="/forgot-password" className="forgot-password">Forgot Password?</Link>
               </div>
 
-              <button className="login-btn" type="submit" style={{ backgroundColor: '#2b2a2a' }}>
+              <button className="login-btn" type="submit">
                 Login
               </button>
             </form>
 
             <div className="divider">or</div>
 
-            <div id="google-signin-target" style={{ display: "flex", justifyContent: "center", width: "100%", minHeight: "44px" }}></div>
+            <div id="google-signin-target" className="google-signin-wrapper"></div>
 
             <p className="register-link">
               Don't have an account? <Link to="/register">Register here</Link>

@@ -282,10 +282,10 @@ export default function ActiveWorkspace() {
                 <div 
                     key={filePath}
                     onClick={() => setActiveFile(filePath)}
-                    className={`file-explorer-item vscode-mono-font ${isActive ? 'active' : ''}`}
-                    style={{ paddingLeft: `${depth * 10 + 6}px` }}
+                    className={`file-explorer-item vscode-mono-font file-row-indent ${isActive ? 'active' : ''}`}
+                    style={{ '--depth': depth }}
                 >
-                    <span style={{ marginRight: '6px', color: meta.color }}>{meta.icon}</span>
+                    <span className="file-icon-span" style={{ color: meta.color }}>{meta.icon}</span>
                     <span>{baseName}</span>
                 </div>
             );
@@ -293,10 +293,10 @@ export default function ActiveWorkspace() {
             return (
                 <div key={name} className="folder-wrapper">
                     <div 
-                        className="file-explorer-folder vscode-mono-font"
-                        style={{ paddingLeft: `${depth * 10 + 6}px` }}
+                        className="file-explorer-folder vscode-mono-font file-row-indent"
+                        style={{ '--depth': depth }}
                     >
-                        <span style={{ marginRight: '6px' }}>📁</span>
+                        <span className="folder-icon-span">📁</span>
                         <span>{name}</span>
                     </div>
                     <div className="folder-children">
@@ -1123,7 +1123,7 @@ export default function ActiveWorkspace() {
             )}
 
             {/* Mobile top-bar — hidden on desktop via CSS */}
-            <div className="workspace-mobile-topbar" style={{ display: 'none' }}>
+            <div className="workspace-mobile-topbar">
                 <button
                     className={`hamburger-toggle-btn ${sidebarOpen ? 'open' : ''}`}
                     onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -1133,16 +1133,16 @@ export default function ActiveWorkspace() {
                     <span className="ham-bar" />
                     <span className="ham-bar" />
                 </button>
-                <span className="mobile-breadcrumb" style={{ fontWeight: '700', fontSize: '15px', letterSpacing: '0.5px' }}>
+                <span className="mobile-breadcrumb">
                     CANDELS IDE: {projectName || "Active Node"}
                 </span>
-                <div style={{ width: '44px' }} />
+                <div className="mobile-topbar-placeholder" />
             </div>
 
             <aside className={`apple-inner-sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
-                <div className="sidebar-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingBottom: '10px' }}>
-                    <img src="/logo.png" alt="Candels Logo" style={{ height: '36px', width: '36px', objectFit: 'contain' }} />
-                    <span className="sidebar-brand-title" style={{ fontSize: '20px', fontWeight: 'bold', letterSpacing: '0.5px' }}>CANDELS</span>
+                <div className="sidebar-brand">
+                    <img src="/logo.png" alt="Candels Logo" className="sidebar-logo" />
+                    <span className="sidebar-brand-title">CANDELS</span>
                 </div>
 
                 <div className="sidebar-scrollable-content">
@@ -1193,10 +1193,7 @@ export default function ActiveWorkspace() {
 
             <div className="apple-main-layout-container">
                 {(activeTab === 'Files' || isSplitView) && (
-                    <div 
-                        className="apple-workspace-main-panel"
-                        style={{ flex: activeTab === 'Files' ? 1 : 1.2 }}
-                    >
+                    <div className={`apple-workspace-main-panel ${isSplitView ? 'split-active' : ''}`}>
                     <div className={`apple-card-modern file-drawer-card ${isDrawerOpen ? 'is-open' : 'is-closed'}`}>
                         <div className={`file-drawer-inner ${isDrawerOpen ? 'is-open' : 'is-closed'}`}>
                             <div className="file-drawer-header">
@@ -1261,15 +1258,12 @@ export default function ActiveWorkspace() {
                                 {(() => {
                                     const isSensitive = activeFile.endsWith('.env') || activeFile.endsWith('.key') || activeFile.toLowerCase().includes('secret') || activeFile.toLowerCase().includes('password') || activeFile.toLowerCase().includes('credential');
                                     if (isSensitive) return null;
+                                    const btnClass = `editor-save-btn ${saveSuccess ? 'save-success' : ''} ${isSaving ? 'saving' : ''}`;
                                     return (
                                         <button
                                             onClick={() => saveFileContent(activeFile, currentContent)}
                                             disabled={isSaving}
-                                            className="editor-save-btn"
-                                            style={{
-                                                background: saveSuccess ? '#30d158' : '#1d1d1f',
-                                                opacity: isSaving ? 0.7 : 1
-                                            }}
+                                            className={btnClass}
                                         >
                                             {isSaving ? '⏳ Saving...' : saveSuccess ? '✓ Saved' : '💾 Save File'}
                                         </button>
@@ -1480,22 +1474,7 @@ export default function ActiveWorkspace() {
                 )}
 
                 {activeTab !== 'Files' && (
-                    <div 
-                        className="apple-card-modern" 
-                        style={{ 
-                            flex: isSplitView ? 0.8 : 1, 
-                            display: 'flex', 
-                            flexDirection: 'column', 
-                            background: '#ffffff', 
-                            overflowY: activeTab === 'Documents' ? 'hidden' : 'auto', 
-                            padding: isSplitView ? '24px' : '40px', 
-                            borderRadius: '12px', 
-                            boxShadow: '0 4px 20px rgba(0,0,0,0.04)', 
-                            border: '1px solid #e5e5e5',
-                            height: '100%',
-                            transition: 'all 0.3s ease'
-                        }}
-                    >
+                    <div className={`apple-card-modern workspace-form-card ${isSplitView ? 'split-active' : ''} ${activeTab === 'Documents' ? 'docs-tab' : ''}`}>
                     <ErrorBoundary>
                     {activeTab === 'Tasks' && (
                         <Tasks
@@ -1898,7 +1877,6 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                                     disabled={!isAuthorized}
                                     value={presetProfile}
                                     onChange={(e) => setPresetProfile(e.target.value)}
-                                    style={{ background: isAuthorized ? '#fff' : '#e5e5e7' }}
                                 >
                                     <option value="University/Capstone Mode">University/Capstone Mode</option>
                                     <option value="Corporate/R&D Mode">Corporate/R&D Mode</option>
@@ -1926,7 +1904,6 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                                     value={maxFileSizeMb}
                                     onChange={(e) => setMaxFileSizeMb(parseFloat(e.target.value))}
                                     className="watchdog-slider-input"
-                                    style={{ cursor: isAuthorized ? 'pointer' : 'not-allowed' }}
                                 />
                                 <span className="watchdog-core-desc">Watchdog daemon will skip files larger than this threshold.</span>
                             </div>
@@ -1940,7 +1917,6 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                                     value={allowedExtensions}
                                     placeholder="e.g. .py,.js,.jsx,.ts,.tsx,.css,.html,.json"
                                     onChange={(e) => setAllowedExtensions(e.target.value)}
-                                    style={{ background: isAuthorized ? '#fff' : '#e5e5e7' }}
                                 />
                                 <span className="watchdog-core-desc">Comma-separated whitelist of extensions synced by local CLI. (Empty means any extension allowed)</span>
                             </div>
@@ -1954,7 +1930,6 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                                     value={ignoredFolders}
                                     placeholder="e.g. .git,node_modules,venv,env"
                                     onChange={(e) => setIgnoredFolders(e.target.value)}
-                                    style={{ background: isAuthorized ? '#fff' : '#e5e5e7' }}
                                 />
                                 <span className="watchdog-core-desc">Directories ignored during watchdog file scans.</span>
                             </div>

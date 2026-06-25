@@ -1110,3 +1110,111 @@
     }
 }
 
+/* ============================================================
+   🎨 CLEAN STYLING EXTENSIONS — INLINE STYLE REMOVAL
+   ============================================================ */
+.logo-header-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: opacity 0.3s ease;
+}
+
+.logo-img-main {
+    height: 45px;
+    object-fit: cover;
+}
+
+.logo-text-title {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #1d1d1f;
+}
+
+.hero-btn-group {
+    display: flex;
+    gap: 15px;
+}
+
+.chat-hue {
+    filter: hue-rotate(60deg) brightness(0.95);
+}
+
+.mockup-body.gray-bg {
+    background: #fafafa !important;
+}
+
+.landing-footer {
+    border-top: 1px solid #d2d2d7;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #86868b;
+    font-size: 13px;
+}
+
+.landing-footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.login-brand-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.login-brand-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-brand-logo-img {
+    height: 36px;
+    object-fit: contain;
+}
+
+.login-brand-logo-text {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    color: #1d1d1f;
+}
+
+.login-error-message {
+    color: #ef4444;
+    background: #fee2e2;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-remember-me-lbl {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.google-signin-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+}
+
+@media (max-width: 768px) {
+    .hero-btn-group {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
+    }
+}
+
+

@@ -228,7 +228,7 @@ function Dashboard() {
       )}
 
       {/* Mobile top-bar — hidden on desktop via CSS */}
-      <div className="mobile-topbar" style={{ display: 'none' }}>
+      <div className="mobile-topbar">
         <button
           className={`hamburger-toggle-btn ${sidebarOpen ? 'open' : ''}`}
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -238,17 +238,17 @@ function Dashboard() {
           <span className="ham-bar" />
           <span className="ham-bar" />
         </button>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <img src="/logo.png" alt="Candels" style={{ height: '28px', width: '28px', objectFit: 'contain' }} />
-          <span style={{ fontWeight: '700', fontSize: '16px', letterSpacing: '0.5px' }}>CANDELS</span>
+        <div className="topbar-brand-logo-group">
+          <img src="/logo.png" alt="Candels" className="topbar-brand-logo-img" />
+          <span className="topbar-brand-logo-text">CANDELS</span>
         </div>
-        <div style={{ width: '44px' }} />
+        <div className="topbar-spacer" />
       </div>
 
       <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
-        <div className="sidebar-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '44px' }}>
-          <img src="/logo.png" alt="Candels Logo" style={{ height: '40px', width: '40px', objectFit: 'contain' }} />
-          <span style={{ fontSize: '22px', fontWeight: 'bold', letterSpacing: '1px' }}>CANDELS</span>
+        <div className="sidebar-brand sidebar-brand-inner">
+          <img src="/logo.png" alt="Candels Logo" className="sidebar-brand-img" />
+          <span className="sidebar-brand-text">CANDELS</span>
         </div>
         
         <nav className="sidebar-menu">
@@ -262,15 +262,15 @@ function Dashboard() {
         </nav>
 
         <div className="sidebar-user-footer">
-          <div className="user-info-short" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "12px" }}>
+          <div className="user-info-short user-info-footer-group">
             {user?.profile_image ? (
-              <img src={user.profile_image} alt="Avatar" style={{ width: "38px", height: "38px", borderRadius: "50%", objectFit: "cover" }} />
+              <img src={user.profile_image} alt="Avatar" className="user-avatar-img" />
             ) : (
-              <div style={{ width: "38px", height: "38px", borderRadius: "50%", backgroundColor: "var(--dev-blue)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}>{user?.first_name ? user.first_name[0] : "?"}</div>
+              <div className="user-avatar-placeholder">{user?.first_name ? user.first_name[0] : "?"}</div>
             )}
             <div>
-              <p className="user-name-footer" style={{ fontSize: "14px" }}>{user?.first_name} {user?.last_name}</p>
-              <span className="user-role-badge" style={{ fontSize: "9px" }}>{user?.role}</span>
+              <p className="user-name-footer">{user?.first_name} {user?.last_name}</p>
+              <span className="user-role-badge">{user?.role}</span>
             </div>
           </div>
           <button className="logout-btn" onClick={() => { sessionStorage.clear(); navigate("/"); }}> Sign Out </button>
@@ -468,39 +468,38 @@ function Dashboard() {
                   {digitalCharter && digitalCharter.faculty ? (
                     <div className="doc-faculty-card animation-slide-in" style={{ display: "flex", alignItems: "center", gap: "15px", background: "#f0fdf4", padding: "15px", borderRadius: "8px", border: "1px solid #bbf7d0" }}>
                       {digitalCharter.faculty.photo ? (
-                        <img src={digitalCharter.faculty.photo} className="doc-avatar-img" alt="Faculty Guide" style={{ width: "45px", height: "45px", borderRadius: "50%" }} />
+                        <img src={digitalCharter.faculty.photo} className="doc-avatar-img" alt="Faculty Guide" />
                       ) : (
-                        <div className="doc-avatar-fallback" style={{ width: "45px", height: "45px", borderRadius: "50%", background: "#10b981", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}>{digitalCharter.faculty.name[0]}</div>
+                        <div className="doc-avatar-fallback">{digitalCharter.faculty.name[0]}</div>
                       )}
                       <div>
-                        <h4 style={{ margin: 0, fontSize: "15px", color: "#14532d" }}>Guide Name: {digitalCharter.faculty.name}</h4>
-                        <span className="doc-code-txt" style={{ fontSize: "12px", color: "#166534" }}>Authorized Guide Token: {digitalCharter.faculty.user_code}</span>
+                        <h4 className="doc-faculty-info-name">Guide Name: {digitalCharter.faculty.name}</h4>
+                        <span className="doc-code-txt doc-faculty-info-code">Authorized Guide Token: {digitalCharter.faculty.user_code}</span>
                       </div>
                     </div>
                   ) : (
-                    <form onSubmit={handleFacultyBinding} style={{ display: "flex", gap: "12px", maxWidth: "500px" }}>
+                    <form onSubmit={handleFacultyBinding} className="doc-faculty-bind-form">
                       <input 
                         type="text" 
                         value={facultySearchId} 
                         onChange={(e) => setFacultySearchId(e.target.value)} 
                         placeholder="Enter Unique Faculty Token ID (e.g., TB-FAC-8058)" 
-                        style={{ flex: 1, padding: "12px", borderRadius: "10px", border: "1px solid #cbd5e1", fontSize: "14px" }} 
+                        className="matrix-assign-textarea" 
                         required 
                       />
-                      <button type="submit" className="form-submit-btn blue" style={{ width: "auto", margin: 0, padding: "0 24px" }}>Assign Guide Matrix</button>
+                      <button type="submit" className="form-submit-btn blue matrix-assign-submit-btn">Assign Guide Matrix</button>
                     </form>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="alert-box error" style={{ padding: "50px", textAlign: "center", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "12px" }}>
-                <h3 style={{ color: "#0f172a", marginBottom: "12px" }}>No Workspace Cluster Linked</h3>
-                <p style={{ color: "#64748b", fontSize: "14px", marginBottom: "24px", maxWidth: "480px", margin: "0 auto 24px auto" }}>
+              <div className="alert-box error no-workspace-alert">
+                <h3>No Workspace Cluster Linked</h3>
+                <p>
                   Your identity token is currently unassigned to any team code. Accept an invite from your alerts feed or spin up a workspace cluster.
                 </p>
                 <button 
-                  className="form-submit-btn blue" 
-                  style={{ width: "auto", display: "inline-block", padding: "12px 24px" }}
+                  className="form-submit-btn blue no-workspace-alert-btn" 
                   onClick={() => setCurrentTab("create_team")}
                 >
                   🚀 Spin Up Workspace Cluster

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './workspace.css';
 import './WorkspaceDashboard.css';
 
 export default function WorkspaceDashboard() {
@@ -128,7 +129,7 @@ export default function WorkspaceDashboard() {
             )}
 
             {/* Mobile top-bar — hidden on desktop via CSS */}
-            <div className="workspace-mobile-topbar" style={{ display: 'none' }}>
+            <div className="workspace-mobile-topbar">
                 <button
                     className={`hamburger-toggle-btn ${sidebarOpen ? 'open' : ''}`}
                     onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -138,14 +139,14 @@ export default function WorkspaceDashboard() {
                     <span className="ham-bar" />
                     <span className="ham-bar" />
                 </button>
-                <span style={{ fontWeight: '700', fontSize: '16px', letterSpacing: '0.5px' }}>CANDELS Workspace</span>
-                <div style={{ width: '44px' }} />
+                <span className="mobile-breadcrumb">CANDELS Workspace</span>
+                <div className="mobile-topbar-placeholder" />
             </div>
 
             <aside className={`apple-inner-sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
-                <div className="sidebar-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '36px' }}>
-                    <img src="/logo.png" alt="Candels Logo" style={{ height: '40px', width: '40px', objectFit: 'contain' }} />
-                    <span style={{ fontSize: '22px', fontWeight: 'bold', letterSpacing: '1px' }}>CANDELS</span>
+                <div className="sidebar-brand">
+                    <img src="/logo.png" alt="Candels Logo" className="sidebar-logo" />
+                    <span className="sidebar-brand-title">CANDELS</span>
                 </div>
 
                 <nav className="apple-menu-list">
