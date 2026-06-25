@@ -1008,4 +1008,81 @@ body.dark .no-workspace-alert p {
     width: auto !important;
     display: inline-block !important;
     padding: 12px 24px !important;
-}
+}
+
+/* ============================================================
+   🎨 RESPONSIVE CONSTRAINTS & DECLARATION SHEET STYLES
+   ============================================================ */
+.main-content {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.panel-block-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden; /* Prevent data tables from blowing out layout */
+}
+
+.declaration-section {
+    animation: motionFadeIn 0.2s ease;
+}
+
+.digital-paper-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    box-sizing: border-box;
+    width: 100%;
+}
+body.dark .digital-paper-container {
+    background: #18181b;
+    border: 1px solid #27272a;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.doc-faculty-allocation-footer {
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 30px;
+    margin-top: 30px;
+}
+body.dark .doc-faculty-allocation-footer {
+    border-top-color: #27272a;
+}
+
+.doc-section-heading {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #1d1d1f;
+}
+body.dark .doc-section-heading {
+    color: #f4f4f5;
+}
+
+.doc-faculty-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f0fdf4;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #bbf7d0;
+}
+body.dark .doc-faculty-card {
+    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.2);
+}
+@media (max-width: 480px) {
+    .digital-paper-container {
+        padding: 20px 14px;
+    }
+    .doc-faculty-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+

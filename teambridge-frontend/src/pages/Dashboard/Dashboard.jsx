@@ -450,9 +450,9 @@ function Dashboard() {
 
         {/* --- DYNAMIC REAL-TIME TEAM DECLARATION COMPONENT HARNESS --- */}
         {currentTab === "team_declaration" && (
-          <section style={{ animation: "motionFadeIn 0.2s ease" }}>
+          <section className="declaration-section">
             {activeTeamCode ? (
-              <div className="digital-paper-container" style={{ background: "#fff", padding: "30px", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.03)" }}>
+              <div className="digital-paper-container">
                 {/* Embedded Signature Canvas Component Engine */}
                 <DigitalDeclaration 
                   teamCode={activeTeamCode} 
@@ -463,10 +463,10 @@ function Dashboard() {
                 />
 
                 {/* Shared Faculty Assignment Layout block footer */}
-                <div style={{ borderTop: "1px dashed #cbd5e1", paddingTop: "30px", marginTop: "30px" }}>
-                  <h4 className="doc-section-heading" style={{ fontSize: "16px", fontWeight: "600", marginBottom: "15px" }}>Affiliated Governance Guide Allocation</h4>
+                <div className="doc-faculty-allocation-footer">
+                  <h4 className="doc-section-heading">Affiliated Governance Guide Allocation</h4>
                   {digitalCharter && digitalCharter.faculty ? (
-                    <div className="doc-faculty-card animation-slide-in" style={{ display: "flex", alignItems: "center", gap: "15px", background: "#f0fdf4", padding: "15px", borderRadius: "8px", border: "1px solid #bbf7d0" }}>
+                    <div className="doc-faculty-card animation-slide-in">
                       {digitalCharter.faculty.photo ? (
                         <img src={digitalCharter.faculty.photo} className="doc-avatar-img" alt="Faculty Guide" />
                       ) : (

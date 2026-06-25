@@ -2571,6 +2571,8 @@ body.dark .watchdog-core-flex-group input {
         flex-direction: column;
         min-height: 100vh;
         padding-top: 54px !important; /* Offset for mobile topbar */
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
     }
 
     /* Sidebar: slide down from topbar, covering full width */
@@ -2601,6 +2603,86 @@ body.dark .watchdog-core-flex-group input {
         width: 100% !important;
         margin-left: 0 !important;
         padding: 20px 16px 80px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Vertical stacking of active IDE workspace containers */
+    .apple-workspace-wrapper.is-main-view .apple-main-layout-container {
+        flex-direction: column !important;
+        margin: 10px !important;
+        height: auto !important;
+        min-height: calc(100vh - 74px) !important;
+        gap: 16px !important;
+        overflow: visible !important;
+        width: calc(100% - 20px) !important;
+        box-sizing: border-box !important;
+    }
+
+    .apple-workspace-wrapper.is-main-view .apple-workspace-main-panel {
+        flex-direction: column !important;
+        height: auto !important;
+        gap: 16px !important;
+        overflow: visible !important;
+        width: 100% !important;
+    }
+
+    /* File Drawer Explorer Panel - full width & dynamic height stacking */
+    .apple-workspace-wrapper.is-main-view .file-drawer-card.is-open {
+        width: 100% !important;
+        height: 250px !important;
+        max-height: 250px !important;
+        flex-shrink: 0 !important;
+        padding: 16px !important;
+        box-sizing: border-box !important;
+    }
+
+    .apple-workspace-wrapper.is-main-view .file-drawer-card.is-closed {
+        width: 100% !important;
+        height: 0px !important;
+        padding: 0px !important;
+        border-width: 0px !important;
+    }
+
+    .apple-workspace-wrapper.is-main-view .file-drawer-inner {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Editor viewport — fit to column */
+    .editor-viewport-card {
+        width: 100% !important;
+        height: 500px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Tab options content cards */
+    .workspace-form-card {
+        width: 100% !important;
+        height: 500px !important;
+        min-height: 400px !important;
+        box-sizing: border-box !important;
+        padding: 24px 16px !important;
+    }
+
+    /* Text truncation helper for long workspace navigation headers */
+    .mobile-breadcrumb {
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        color: #1d1d1f;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60%;
+    }
+    body.dark .mobile-breadcrumb {
+        color: #f4f4f5;
+    }
+
+    /* Wrap the tags on workspace dashboard cards to prevent horizontal overflow */
+    .workspace-dashboard-container .project-meta-row {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
     }
 
     /* Mobile top-bar — fixed at top of viewport */

@@ -139,22 +139,22 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
   };
 
   return (
-    <div className="create-team-page-wrapper" style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+    <div className={styles.createTeamPageWrapper}>
       
       {/* SECTION A: COMBINED WORKSPACE INITIALIZATION MAPPING FORM */}
-      <section className="form-workspace-section" style={{ background: "#ffffff", padding: "28px", borderRadius: "16px", boxShadow: "0 4px 24px rgba(0,0,0,0.01)" }}>
-        <div className="form-container-header" style={{ marginBottom: "20px" }}>
+      <section className={styles.formWorkspaceSection}>
+        <div className={styles.formContainerHeader}>
           <h2>Initialize New Project Ecosystem</h2>
           <p>Setup framework constraints and map structural identity tokens for your teammates and guide simultaneously.</p>
         </div>
 
-        {errorMessage && <div className="alert-box error" style={{ marginBottom: "16px" }}>{errorMessage}</div>}
-        {successMessage && <div className="alert-box success" style={{ marginBottom: "16px" }}>{successMessage}</div>}
+        {errorMessage && <div className={`${styles.alertBox} ${styles.error}`}>{errorMessage}</div>}
+        {successMessage && <div className={`${styles.alertBox} ${styles.success}`}>{successMessage}</div>}
 
-        <form onSubmit={handleDeployPipeline} style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "32px" }}>
+        <form onSubmit={handleDeployPipeline} className={styles.deployForm}>
           
           {/* Left Inputs Pillar */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <div className={styles.formColLeft}>
             <div className="dash-input-group">
               <label>Project Operational Title</label>
               <input type="text" name="project_name" value={teamMeta.project_name} onChange={handleInputChange} placeholder="e.g., Autonomous Edge Routing Mesh" required />
@@ -165,7 +165,7 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
               <input type="text" name="subject" value={teamMeta.subject} onChange={handleInputChange} placeholder="e.g., Advanced Distributed Architecture" required />
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div className={styles.formGridTwoCol}>
               <div className="dash-input-group">
                 <label>Institution Type</label>
                 <select name="workplaceType" value={teamMeta.workplaceType} onChange={handleInputChange}>
@@ -180,7 +180,7 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div className={styles.formGridTwoCol}>
               <div className="dash-input-group">
                 <label>Ecosystem Visibility</label>
                 <select name="workspace_visibility" value={teamMeta.workspace_visibility} onChange={handleInputChange}>
@@ -198,28 +198,27 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
               </div>
             </div>
 
-            <button type="submit" className="form-submit-btn blue" style={{ marginTop: "12px", width: "100%" ,backgroundColor: "#252526"}}>Submit & Send Invitations</button>
+            <button type="submit" className="form-submit-btn blue">Submit & Send Invitations</button>
           </div>
 
           {/* Right Token Mapping Matrix Box */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <div className={styles.formColRight}>
             <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#1d1d1f", display: "block", marginBottom: "8px" }}>🛡️ Governance Guide Assignment</label>
+              <label className={styles.formLabelHeader}>🛡️ Governance Guide Assignment</label>
               <input 
                 type="text" 
                 value={guideInputId}
                 onChange={(e) => setGuideInputId(e.target.value)}
                 placeholder="Enter Target Faculty Token (e.g., TB-FAC-8058)" 
-                style={{ width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid #d2d2d7", fontSize: "14px" }}
                 required
               />
             </div>
 
             <div>
-              <label style={{ fontSize: "13px", fontWeight: "600", color: "#1d1d1f", display: "block", marginBottom: "8px" }}>👥 Peer Node Assignment Matrix</label>
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <label className={styles.formLabelHeader}>👥 Peer Node Assignment Matrix</label>
+              <div className={styles.peerMatrixContainer}>
                 {/* Master Node Slot */}
-                <div style={{ padding: "12px", background: "#f5f5f7", border: "1px solid #e5e7eb", borderRadius: "8px", fontSize: "13px", color: "#1d1d1f" }}>
+                <div className={styles.peerMatrixCard}>
                   <strong>Slot 1 (Creator):</strong> {user?.user_code} (You)
                 </div>
 
@@ -227,14 +226,13 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
                 {[...Array(teamMeta.max_team_size - 1).keys()].map((idx) => {
                   const currentSlot = idx + 2;
                   return (
-                    <div key={currentSlot} style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                      <span style={{ fontSize: "11px", color: "#86868b", fontWeight: "500" }}>Slot {currentSlot} Assignment Input:</span>
+                    <div key={currentSlot} className={styles.peerMatrixSlotInputGroup}>
+                      <span>Slot {currentSlot} Assignment Input:</span>
                       <input 
                         type="text"
                         value={peerInputs[currentSlot] || ""}
                         onChange={(e) => handlePeerIdChange(currentSlot, e.target.value)}
                         placeholder="Enter Colleague Token (e.g., TB-STU-7622)"
-                        style={{ padding: "10px", borderRadius: "8px", border: "1px solid #d2d2d7", fontSize: "13px" }}
                       />
                     </div>
                   );
@@ -247,14 +245,14 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
       </section>
 
       {/* SECTION B: DYNAMIC TRACKING LEDGER TABLE SYSTEM */}
-      <section style={{ background: "#ffffff", padding: "28px", borderRadius: "16px", boxShadow: "0 4px 24px rgba(0,0,0,0.01)" }}>
-        <h3 style={{ margin: "0 0 16px 0", fontSize: "18px", color: "#1d1d1f", fontWeight: "600" }}>Dynamic Database Pipeline Tracking Ledger</h3>
+      <section className={styles.ledgerSection}>
+        <h3>Dynamic Database Pipeline Tracking Ledger</h3>
         
-        <div className="premium-data-table-wrapper" style={{ overflowX: "auto" }}>
-          <table className="premium-data-table" style={{ width: "100%", borderCollapse: "collapse" }}>
+        <div className={styles.premiumDataTableWrapper}>
+          <table className={styles.premiumDataTable}>
             <thead>
-              <tr style={{ textAlign: "left", borderBottom: "2px solid #f5f5f7", color: "#86868b", fontSize: "13px" }}>
-                <th style={{ padding: "12px" }}>Action</th>
+              <tr>
+                <th>Action</th>
                 <th>Project Architecture Node</th>
                 <th>Domain Scope</th>
                 <th>Your Role</th>
@@ -269,20 +267,20 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
 
                 return (
                   <React.Fragment key={index}>
-                    <tr style={{ borderBottom: "1px solid #f5f5f7", fontSize: "14px", color: "#1d1d1f" }}>
-                      <td style={{ padding: "12px" }}>
+                    <tr>
+                      <td>
                         <button 
                           onClick={() => toggleExpandRow(index, pipeline.team_code)}
-                          style={{ background: isCurrentRowExpanded ? "#e8e8ed" : "#eff6ff", color: isCurrentRowExpanded ? "#1d1d1f" : "#232323", border: "none", borderRadius: "6px", width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", cursor: "pointer", fontSize: "14px" }}
+                          className={`${styles.expandRowBtn} ${isCurrentRowExpanded ? styles.expanded : ''}`}
                         >
                           {isCurrentRowExpanded ? "−" : "＋"}
                         </button>
                       </td>
                       <td><strong>{pipeline.project_name}</strong></td>
                       <td>{pipeline.subject}</td>
-                      <td><span style={{ fontSize: "12px", background: "#f5f5f7", padding: "4px 8px", borderRadius: "6px" }}>{userRoleContext}</span></td>
+                      <td><span className={styles.badgeRole}>{userRoleContext}</span></td>
                       <td>
-                        <span className={`status-badge-inline progress`} style={{ padding: "4px 10px", borderRadius: "20px", fontSize: "12px" }}>
+                        <span className={`status-badge-inline progress ${styles.badgeStatusInline}`}>
                           Active Review
                         </span>
                       </td>
@@ -290,22 +288,25 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
 
                     {/* DYNAMIC ROW EXPANSION INJECTION */}
                     {isCurrentRowExpanded && (
-                      <tr style={{ background: "#fbfbfd" }}>
-                        <td colSpan="5" style={{ padding: "16px 24px border-bottom: 1px solid #e5e7eb" }}>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                            <h5 style={{ margin: "0 0 6px 0", fontSize: "13px", color: "#1d1d1f", fontWeight: "600" }}> Emitters & Consensus Node Status Matrix</h5>
-                            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "12px" }}>
-                              {expandedRoster.map((node, nIdx) => (
-                                <div key={nIdx} style={{ background: "#ffffff", padding: "12px", borderRadius: "10px", border: "1px solid #e5e7eb", display: "flex", alignItems: "center", justify_content: "between", gap: "10px" }}>
-                                  <div>
-                                    <p style={{ margin: "0 0 2px 0", fontSize: "13px", fontWeight: "600" }}>{node.name}</p>
-                                    <span style={{ fontSize: "11px", color: "#86868b" }}>{node.user_code}</span>
+                      <tr className={styles.expandedRosterRow}>
+                        <td colSpan="5" className={styles.expandedRosterCell}>
+                          <div className={styles.rosterContainer}>
+                            <h5> Emitters & Consensus Node Status Matrix</h5>
+                            <div className={styles.rosterGrid}>
+                              {expandedRoster.map((node, nIdx) => {
+                                const statusClass = node.status === "Approved" ? styles.approved : styles.pending;
+                                return (
+                                  <div key={nIdx} className={styles.rosterNodeCard}>
+                                    <div>
+                                      <p>{node.name}</p>
+                                      <span>{node.user_code}</span>
+                                    </div>
+                                    <span className={`${styles.nodeStatusBadge} ${statusClass}`}>
+                                      {node.status === "Approved" ? "✓ Bound" : "⏳ Pending"}
+                                    </span>
                                   </div>
-                                  <span style={{ fontSize: "11px", marginLeft: "auto", padding: "2px 8px", borderRadius: "6px", fontWeight: "500", background: node.status === "Approved" ? "#ecfdf5" : "#fff7ed", color: node.status === "Approved" ? "#047857" : "#c2410c" }}>
-                                    {node.status === "Approved" ? "✓ Bound" : "⏳ Pending"}
-                                  </span>
-                                </div>
-                              ))}
+                                );
+                              })}
                             </div>
                           </div>
                         </td>
@@ -316,7 +317,7 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
               })}
               {myPipelines.length === 0 && (
                 <tr>
-                  <td colSpan="5" style={{ padding: "30px", textAlign: "center", color: "#86868b" }}>No active tracking ledger records verified in database clusters.</td>
+                  <td colSpan="5" className={styles.emptyLedgerText}>No active tracking ledger records verified in database clusters.</td>
                 </tr>
               )}
             </tbody>

@@ -216,6 +216,12 @@ textarea {
         --space-xl:  24px;
         --space-2xl: 40px;
     }
+
+    /* Enforce box-sizing and prevent pixel width overflows on narrow viewports down to 200px */
+    button, input, select, textarea, img, .apple-card-modern, .console-card, .setup-card {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
 }
 
 /* Phone: ≤ 480px */
