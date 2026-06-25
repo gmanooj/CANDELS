@@ -58,6 +58,10 @@ class TeamMembership(db.Model):
 
 class WorkspaceTask(db.Model):
     __tablename__ = 'workspace_tasks'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_code = db.Column(db.String(50), nullable=False, index=True)
     title = db.Column(db.String(255), nullable=False)
@@ -68,6 +72,10 @@ class WorkspaceTask(db.Model):
 
 class WorkspaceDocument(db.Model):
     __tablename__ = 'workspace_documents'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_code = db.Column(db.String(50), nullable=False, index=True)
     document_name = db.Column(db.String(255), nullable=False)
@@ -82,6 +90,10 @@ class WorkspaceDocument(db.Model):
 
 class WorkspacePresentation(db.Model):
     __tablename__ = 'workspace_presentations'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_code = db.Column(db.String(50), nullable=False, index=True)
     presentation_name = db.Column(db.String(255), nullable=False)
@@ -92,6 +104,10 @@ class WorkspacePresentation(db.Model):
 
 class WorkspacePerformanceScore(db.Model):
     __tablename__ = 'workspace_performance_scores'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_code = db.Column(db.String(50), nullable=False, index=True)
     user_code = db.Column(db.String(20), nullable=False, index=True)
@@ -101,6 +117,10 @@ class WorkspacePerformanceScore(db.Model):
 
 class WorkspaceChatMessage(db.Model):
     __tablename__ = 'workspace_chat_messages'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_code = db.Column(db.String(50), nullable=False, index=True)
     sender_code = db.Column(db.String(20), nullable=False)
@@ -110,6 +130,10 @@ class WorkspaceChatMessage(db.Model):
 
 class WorkspaceImplementation(db.Model):
     __tablename__ = 'workspace_implementations'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_code = db.Column(db.String(50), nullable=False, index=True)
     image_url = db.Column(db.String(500), nullable=False)
@@ -126,6 +150,10 @@ class WorkspaceImplementation(db.Model):
 
 class WorkspaceCodeComment(db.Model):
     __tablename__ = 'workspace_code_comments'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_code = db.Column(db.String(50), nullable=False, index=True)
     file_path = db.Column(db.String(255), nullable=False, index=True)
@@ -136,6 +164,10 @@ class WorkspaceCodeComment(db.Model):
 
 class UserAPIKey(db.Model):
     __tablename__ = 'user_api_keys'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     user_id = db.Column(db.String(150), nullable=False)
     key_hash = db.Column(db.String(64), nullable=False, unique=True)
@@ -148,6 +180,10 @@ class UserAPIKey(db.Model):
 
 class WorkspaceSetting(db.Model):
     __tablename__ = 'workspace_settings'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     team_code = db.Column(db.String(50), primary_key=True, nullable=False)
     preset_profile = db.Column(db.String(50), default='University/Capstone Mode', nullable=False)
     max_file_size_mb = db.Column(db.Float, default=2.0, nullable=False)
@@ -156,6 +192,10 @@ class WorkspaceSetting(db.Model):
 
 class WorkspaceBoardColumn(db.Model):
     __tablename__ = 'workspace_board_columns'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     team_code = db.Column(db.String(50), nullable=False)
     column_name = db.Column(db.String(100), nullable=False)
@@ -163,6 +203,10 @@ class WorkspaceBoardColumn(db.Model):
 
 class SystemRequest(db.Model):
     __tablename__ = 'system_requests'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     email = db.Column(db.String(150), nullable=False, index=True)
     subject = db.Column(db.String(255), nullable=False)
