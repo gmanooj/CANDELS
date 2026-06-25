@@ -23,19 +23,11 @@ register_bp = Blueprint(
 # ======================================================================
 def send_real_smtp_email(target_email, verification_code):
     """
-    Sends the HTML verification code to the target email using the Resend Web API.
+    Sends the HTML verification code to the target email using Brevo or Resend Web API.
     This bypasses Render's SMTP port firewall restrictions.
     """
+    brevo_api_key = os.environ.get("BREVO_API_KEY")
     resend_api_key = os.environ.get("RESEND_API_KEY")
-    if not resend_api_key:
-        print("❌ Resend API Key is missing! Please configure RESEND_API_KEY in the environment.", flush=True)
-        return False
-        
-    url = "https://api.resend.com/emails"
-    headers = {
-        "Authorization": f"Bearer {resend_api_key}",
-        "Content-Type": "application/json"
-    }
 
     # Premium corporate HTML email design layout matching an Apple Light theme
     html_content = f"""
@@ -59,24 +51,65 @@ def send_real_smtp_email(target_email, verification_code):
     </html>
     """
 
-    payload = {
-        "from": "onboarding@resend.dev",
-        "to": target_email,
-        "subject": f"✨ TeamBridge Security Passcode: {verification_code} ✨",
-        "html": html_content
-    }
+    import requests
 
-    try:
-        import requests
-        response = requests.post(url, headers=headers, json=payload, timeout=10)
-        if response.status_code in [200, 201]:
-            print(f"📡 Resend API transmission successful: Mail sent successfully to {target_email}!")
-            return True
-        else:
-            print(f"❌ Resend API FAIL: {response.status_code} - {response.text}")
+    if brevo_api_key:
+        url = "https://api.brevo.com/v3/smtp/email"
+        headers = {
+            "api-key": brevo_api_key,
+            "content-type": "application/json"
+        }
+        payload = {
+            "sender": {
+                "name": "TeamBridge Support",
+                "email": "gmanooj1@gmail.com"
+            },
+            "to": [
+                {
+                    "email": target_email
+                }
+            ],
+            "subject": f"✨ TeamBridge Security Passcode: {verification_code} ✨",
+            "htmlContent": html_content
+        }
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=10)
+            if response.status_code in [200, 201]:
+                print(f"📡 Brevo API transmission successful: Mail sent successfully to {target_email}!", flush=True)
+                return True
+            else:
+                print(f"❌ Brevo API FAIL: {response.status_code} - {response.text}", flush=True)
+                return False
+        except Exception as mail_error:
+            print(f"❌ Brevo API Dispatch Exception: {str(mail_error)}", flush=True)
             return False
-    except Exception as mail_error:
-        print(f"❌ Resend API Dispatch Exception: {str(mail_error)}")
+
+    elif resend_api_key:
+        url = "https://api.resend.com/emails"
+        headers = {
+            "Authorization": f"Bearer {resend_api_key}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "from": "onboarding@resend.dev",
+            "to": target_email,
+            "subject": f"✨ TeamBridge Security Passcode: {verification_code} ✨",
+            "html": html_content
+        }
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=10)
+            if response.status_code in [200, 201]:
+                print(f"📡 Resend API transmission successful: Mail sent successfully to {target_email}!", flush=True)
+                return True
+            else:
+                print(f"❌ Resend API FAIL: {response.status_code} - {response.text}", flush=True)
+                return False
+        except Exception as mail_error:
+            print(f"❌ Resend API Dispatch Exception: {str(mail_error)}", flush=True)
+            return False
+
+    else:
+        print("❌ Neither BREVO_API_KEY nor RESEND_API_KEY is configured in the environment.", flush=True)
         return False
 
 
