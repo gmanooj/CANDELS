@@ -445,3 +445,108 @@
         padding: 24px;
     }
 }
+
+/* ============================================================
+   📱 RESPONSIVE OVERRIDES — PROFILE / ACCOUNT PAGE
+   Tablet ≤ 768px  |  Phone ≤ 480px
+   ============================================================ */
+
+/* ── TABLET (≤ 768px) ── */
+@media (max-width: 768px) {
+
+    /* Main card — no rounded corners on mobile, full bleed */
+    .profile-workspace-card {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    /* Header — tighter padding */
+    .profile-header-card {
+        padding: 32px 20px 28px;
+    }
+
+    /* Avatar + name — stack vertically */
+    .profile-identity-group {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+    }
+
+    /* Avatar scale down on mobile */
+    .profile-avatar-media,
+    .profile-avatar-placeholder {
+        width: 100px;
+        height: 100px;
+        font-size: 38px;
+    }
+
+    /* Name headline */
+    .profile-meta-details h1 {
+        font-size: 24px;
+        letter-spacing: -0.5px;
+    }
+
+    /* Edit action button — full-width pill */
+    .profile-header-card .setup-action-btn {
+        position: static;
+        width: 100%;
+        text-align: center;
+        margin-top: 16px;
+        min-height: 48px;
+        border: 1px solid var(--border-line);
+    }
+
+    /* Analytics meter box */
+    .profile-analytics-meter-box {
+        padding: 20px;
+    }
+
+    /* Form section — single column, tighter */
+    .dashboard-interactive-form {
+        padding: 20px;
+    }
+
+    .profile-input-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* All form inputs touch-target */
+    .dash-input-group input,
+    .dash-input-group select,
+    .dash-input-group textarea {
+        min-height: 48px;
+        font-size: 16px;
+        padding: 14px 16px;
+    }
+
+    /* Save button — full width on mobile */
+    .form-submit-btn.blue {
+        max-width: 100%;
+        width: 100%;
+        margin-top: 24px;
+        min-height: 48px;
+        font-size: 16px;
+    }
+}
+
+/* ── PHONE (≤ 480px) ── */
+@media (max-width: 480px) {
+    .profile-header-card {
+        padding: 24px 16px;
+    }
+
+    .profile-meta-details h1 {
+        font-size: 20px;
+    }
+
+    .dashboard-interactive-form {
+        padding: 16px;
+    }
+
+    .profile-input-grid {
+        gap: 12px;
+    }
+}

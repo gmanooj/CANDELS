@@ -1010,3 +1010,120 @@ body.frosted,
 @keyframes settingsSpin {
   to { transform: rotate(360deg); }
 }
+
+/* ============================================================
+   📱 RESPONSIVE OVERRIDES — SETTINGS PAGE
+   Tablet ≤ 768px  |  Phone ≤ 480px
+   ============================================================ */
+
+/* ── TABLET (≤ 768px) ── */
+@media (max-width: 768px) {
+
+    /* Window — allow normal body scroll on mobile */
+    .settings-window-container {
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+        flex-direction: column;
+    }
+
+    /* Settings body — stack sidebar above content */
+    .settings-body-layout,
+    .settings-content-area {
+        flex-direction: column;
+        height: auto;
+    }
+
+    /* Sidebar nav — horizontal scrollable tab bar */
+    .settings-sidebar-nav,
+    .settings-left-sidebar {
+        width: 100% !important;
+        height: auto !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 8px 12px;
+        gap: 4px;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        background: var(--bg-sidebar);
+        backdrop-filter: blur(20px);
+    }
+    .settings-sidebar-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Sidebar nav items — pill style on mobile */
+    .settings-nav-item,
+    .settings-sidebar-btn {
+        flex-shrink: 0;
+        border-radius: 20px;
+        padding: 8px 16px;
+        min-height: 40px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    /* Main content panel */
+    .settings-main-panel,
+    .settings-content-panel {
+        padding: 20px 16px;
+        overflow-y: auto;
+    }
+
+    /* Settings card grid — single column */
+    .settings-card-grid,
+    .settings-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+    }
+
+    /* All inputs inside settings — touch targets */
+    .settings-main-panel input,
+    .settings-main-panel select,
+    .settings-main-panel textarea,
+    .settings-content-panel input,
+    .settings-content-panel select,
+    .settings-content-panel textarea {
+        min-height: 48px;
+        font-size: 16px;
+        padding: 12px 16px;
+    }
+
+    /* Save / action buttons — full width */
+    .settings-main-panel button.primary,
+    .settings-save-btn,
+    .settings-action-btn {
+        width: 100%;
+        min-height: 48px;
+        font-size: 15px;
+    }
+
+    /* Theme toggle buttons — adapt sizing */
+    .settings-theme-toggle-btn {
+        padding: 10px 16px;
+        min-height: 44px;
+        font-size: 13px;
+    }
+}
+
+/* ── PHONE (≤ 480px) ── */
+@media (max-width: 480px) {
+    .settings-sidebar-nav,
+    .settings-left-sidebar {
+        padding: 6px 8px;
+    }
+
+    .settings-nav-item,
+    .settings-sidebar-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .settings-main-panel,
+    .settings-content-panel {
+        padding: 16px 12px;
+    }
+}

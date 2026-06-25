@@ -9,6 +9,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [currentTab, setCurrentTab] = useState("overview");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [activeProjectsList, setActiveProjectsList] = useState([]);
   const [workspaceStats, setWorkspaceStats] = useState({ operational: "Connecting...", completed: "0 Pipelines", standing: "Syncing...", latency: "0ms" });
@@ -218,7 +219,33 @@ function Dashboard() {
         </div>
       )}
 
-      <aside className="sidebar">
+      {/* Mobile overlay backdrop */}
+      {sidebarOpen && (
+        <div
+          className="mobile-sidebar-backdrop active"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Mobile top-bar — hidden on desktop via CSS */}
+      <div className="mobile-topbar" style={{ display: 'none' }}>
+        <button
+          className={`hamburger-toggle-btn ${sidebarOpen ? 'open' : ''}`}
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          <span className="ham-bar" />
+          <span className="ham-bar" />
+          <span className="ham-bar" />
+        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src="/logo.png" alt="Candels" style={{ height: '28px', width: '28px', objectFit: 'contain' }} />
+          <span style={{ fontWeight: '700', fontSize: '16px', letterSpacing: '0.5px' }}>CANDELS</span>
+        </div>
+        <div style={{ width: '44px' }} />
+      </div>
+
+      <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '44px' }}>
           <img src="/logo.png" alt="Candels Logo" style={{ height: '40px', width: '40px', objectFit: 'contain' }} />
           <span style={{ fontSize: '22px', fontWeight: 'bold', letterSpacing: '1px' }}>CANDELS</span>
@@ -227,11 +254,11 @@ function Dashboard() {
         <nav className="sidebar-menu">
           <span className="menu-section-title">Operations Center</span>
           <button className={`menu-btn-item ${currentTab === "overview" ? "active" : ""}`} onClick={() => setCurrentTab("overview")}>System Overview </button>
-          <button className={`menu-btn-item ${currentTab === "create_team" ? "active" : ""}`} onClick={() => setCurrentTab("create_team")}>Initialize Workspace</button>
-          <button className="menu-btn-item" onClick={() => navigate("/workspace")}>Workspace</button>
-          <button className={`menu-btn-item ${currentTab === "team_declaration" ? "active" : ""}`} onClick={() => setCurrentTab("team_declaration")}>Team Declaration Form</button>
-          <button className="menu-btn-item" onClick={() => navigate("/profile")}> Account </button>
-          <button className="menu-btn-item font-semibold text-blue-600 dark:text-blue-400" onClick={() => navigate("/settings")}>Settings</button>
+          <button className={`menu-btn-item ${currentTab === "create_team" ? "active" : ""}`} onClick={() => { setCurrentTab("create_team"); setSidebarOpen(false); }}>Initialize Workspace</button>
+          <button className="menu-btn-item" onClick={() => { navigate("/workspace"); setSidebarOpen(false); }}>Workspace</button>
+          <button className={`menu-btn-item ${currentTab === "team_declaration" ? "active" : ""}`} onClick={() => { setCurrentTab("team_declaration"); setSidebarOpen(false); }}>Team Declaration Form</button>
+          <button className="menu-btn-item" onClick={() => { navigate("/profile"); setSidebarOpen(false); }}> Account </button>
+          <button className="menu-btn-item font-semibold text-blue-600 dark:text-blue-400" onClick={() => { navigate("/settings"); setSidebarOpen(false); }}>Settings</button>
         </nav>
 
         <div className="sidebar-user-footer">

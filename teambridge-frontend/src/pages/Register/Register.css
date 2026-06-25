@@ -477,3 +477,86 @@
     20%, 60% { transform: translateX(-8px); }
     40%, 80% { transform: translateX(8px); }
 }
+
+/* ============================================================
+   📱 RESPONSIVE OVERRIDES — REGISTER PAGE
+   Tablet ≤ 768px  |  Phone ≤ 480px
+   ============================================================ */
+
+/* ── TABLET (≤ 768px) ── */
+@media (max-width: 768px) {
+    .register-container-viewport {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+
+    /* Hide the left branding sidebar on mobile */
+    .register-branding-sidebar {
+        display: none;
+    }
+
+    /* Form panel takes full width */
+    .register-form-workspace-panel {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        align-items: flex-start;
+        padding: 32px 20px;
+    }
+
+    .register-scrollable-inner-card {
+        max-height: none;
+        overflow-y: visible;
+        padding: 0;
+        width: 100%;
+    }
+
+    /* Inputs → min 48px touch target */
+    .input-group input,
+    .input-group select {
+        padding: 14px 16px;
+        min-height: 48px;
+        font-size: 16px; /* Prevent iOS auto-zoom */
+    }
+
+    /* Submit button — full width */
+    .login-btn {
+        min-height: 48px;
+        font-size: 16px;
+        padding: 15px;
+    }
+
+    /* OTP grid stays but boxes are larger */
+    .single-digit-input-block {
+        max-width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+}
+
+/* ── PHONE (≤ 480px) ── */
+@media (max-width: 480px) {
+    .register-form-workspace-panel {
+        padding: 24px 16px;
+    }
+
+    .register-scrollable-inner-card h2 {
+        font-size: 24px;
+    }
+
+    .segmented-otp-grid-row {
+        gap: 6px;
+    }
+
+    .single-digit-input-block {
+        max-width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+
+    .motion-wrapper-card {
+        padding: 28px 20px;
+    }
+}

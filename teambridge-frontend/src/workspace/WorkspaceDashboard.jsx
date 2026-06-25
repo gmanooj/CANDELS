@@ -11,6 +11,7 @@ export default function WorkspaceDashboard() {
     
     // About & Contact tab states
     const [activeTab, setActiveTab] = useState('clusters'); // 'clusters', 'about', 'contact'
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [userEmail, setUserEmail] = useState("");
     const [contactSubject, setContactSubject] = useState("Bug Report");
     const [contactMessage, setContactMessage] = useState("");
@@ -117,8 +118,31 @@ export default function WorkspaceDashboard() {
 
     return (
         <div className="apple-workspace-wrapper workspace-dashboard-container">
-            
-            <aside className="apple-inner-sidebar">
+
+            {/* Mobile overlay backdrop */}
+            {sidebarOpen && (
+                <div
+                    className="mobile-sidebar-backdrop active"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
+            {/* Mobile top-bar — hidden on desktop via CSS */}
+            <div className="workspace-mobile-topbar" style={{ display: 'none' }}>
+                <button
+                    className={`hamburger-toggle-btn ${sidebarOpen ? 'open' : ''}`}
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    aria-label="Toggle navigation menu"
+                >
+                    <span className="ham-bar" />
+                    <span className="ham-bar" />
+                    <span className="ham-bar" />
+                </button>
+                <span style={{ fontWeight: '700', fontSize: '16px', letterSpacing: '0.5px' }}>CANDELS Workspace</span>
+                <div style={{ width: '44px' }} />
+            </div>
+
+            <aside className={`apple-inner-sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
                 <div className="sidebar-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '36px' }}>
                     <img src="/logo.png" alt="Candels Logo" style={{ height: '40px', width: '40px', objectFit: 'contain' }} />
                     <span style={{ fontSize: '22px', fontWeight: 'bold', letterSpacing: '1px' }}>CANDELS</span>

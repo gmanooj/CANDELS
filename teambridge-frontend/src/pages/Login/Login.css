@@ -818,28 +818,29 @@
     height: 280px;
 }
 
-/* Responsive Overrides */
+/* ============================================================
+   📱 RESPONSIVE OVERRIDES — MOBILE-FIRST BREAKPOINTS
+   Tablet ≤ 768px  |  Phone ≤ 480px
+   ============================================================ */
+
+/* ── TABLET (≤ 1024px) — Existing Overrides kept ── */
 @media (max-width: 1024px) {
     .tab-showcase-panel {
         grid-template-columns: 1fr;
         gap: 30px;
         padding: 30px;
     }
-    
     .dark-security-section {
         grid-template-columns: 1fr;
         gap: 30px;
         padding: 30px;
     }
-    
     .audience-cards-grid {
         grid-template-columns: 1fr;
     }
-    
     .steps-flow-timeline {
         grid-template-columns: 1fr;
     }
-    
     .timeline-step {
         align-items: flex-start;
         text-align: left;
@@ -848,7 +849,6 @@
         position: relative;
         padding-bottom: 24px;
     }
-    
     .step-circle {
         position: absolute;
         left: -28px;
@@ -856,3 +856,197 @@
         margin-bottom: 0;
     }
 }
+
+/* ── TABLET (≤ 768px) ── */
+@media (max-width: 768px) {
+
+    /* LANDING PAGE */
+    .landing-page-full {
+        padding: 24px 20px;
+        gap: 32px;
+        overflow-y: auto;
+    }
+
+    /* Hide branding image on mobile, show full form */
+    .logo-box-full {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 12px;
+    }
+
+    /* Hero: single column, stack text → CTA → visual */
+    .hero-intro-text-block {
+        max-width: 100%;
+        margin: 0;
+    }
+    .hero-intro-text-block h2 {
+        font-size: 32px;
+        letter-spacing: -1px;
+        line-height: 1.2;
+    }
+    .hero-intro-text-block p {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    /* Dashboard metric cards → single column */
+    .landing-dashboard-metrics {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .dashboard-metric-card {
+        margin-left: 0;
+    }
+
+    /* Feature grid → single column */
+    .feature-showcase-box {
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 16px;
+    }
+
+    /* Audience cards → single column */
+    .audience-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* Section headers */
+    .section-header-centered h3 {
+        font-size: 26px;
+        letter-spacing: -0.6px;
+    }
+
+    /* Light accent section */
+    .light-accent-section {
+        padding: 32px 20px;
+        border-radius: 20px;
+    }
+
+    /* Dark security section — stack on mobile */
+    .dark-security-section {
+        grid-template-columns: 1fr;
+        padding: 32px 20px;
+        gap: 24px;
+    }
+    .dark-security-section h3 {
+        font-size: 26px;
+    }
+
+    /* CTA buttons — full width on mobile */
+    .hero-btn-primary,
+    .hero-btn-secondary {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        padding: 14px 20px;
+        min-height: 48px;
+    }
+
+    /* LOGIN PAGE - single column card, no split hero */
+    .login-page-full-view {
+        align-items: flex-start;
+        padding-top: 60px;
+        padding: 0;
+        background: #f5f5f7;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        padding: 32px 24px;
+        min-height: 100vh;
+        border: none;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Hide landing carousel graphic side on login panel */
+    .panel-active-view .landing-page-full {
+        display: none;
+    }
+
+    /* Inputs → min touch target */
+    .input-group input {
+        padding: 14px 16px;
+        min-height: 48px;
+        font-size: 16px; /* Prevent iOS zoom */
+    }
+
+    /* Login button */
+    .login-btn {
+        padding: 15px;
+        min-height: 48px;
+        font-size: 16px;
+    }
+
+    .back-to-landing-arrow-btn {
+        top: 20px;
+        left: 20px;
+    }
+
+    /* Tabs — scrollable horizontal row on mobile */
+    .landing-tabs-row {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        gap: 8px;
+    }
+    .landing-tabs-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Showcase panel — single column */
+    .tab-showcase-panel {
+        grid-template-columns: 1fr;
+        padding: 24px;
+        gap: 24px;
+        min-height: auto;
+    }
+
+    /* Hide mockup frame on mobile to save space */
+    .showcase-mockup-frame {
+        display: none;
+    }
+}
+
+/* ── PHONE (≤ 480px) ── */
+@media (max-width: 480px) {
+    .landing-page-full {
+        padding: 16px;
+        gap: 24px;
+    }
+
+    .hero-intro-text-block h2 {
+        font-size: 26px;
+    }
+
+    .hero-intro-text-block p {
+        font-size: 15px;
+    }
+
+    .login-card {
+        padding: 28px 16px;
+    }
+
+    .section-header-centered h3 {
+        font-size: 22px;
+    }
+
+    .input-group input {
+        font-size: 16px;
+    }
+
+    /* Steps flow — vertical stacked on phone */
+    .steps-flow-timeline {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+

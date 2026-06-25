@@ -2481,3 +2481,179 @@ body.dark .form-textarea-small {
     color: #ffffff !important;
 }
 
+/* ============================================================
+   📱 RESPONSIVE OVERRIDES — WORKSPACE & ACTIVE WORKSPACE
+   Tablet ≤ 768px  |  Phone ≤ 480px
+   ============================================================ */
+
+/* ── TABLET (≤ 768px) ── */
+@media (max-width: 768px) {
+
+    /* Main workspace wrapper — no flex row on mobile */
+    .apple-workspace-wrapper {
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Sidebar: slide off-screen, revealed via hamburger toggle */
+    .apple-inner-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: min(300px, 88vw);
+        height: 100vh;
+        z-index: 999;
+        transform: translateX(-100%);
+        transition: transform 320ms cubic-bezier(0.25, 1, 0.5, 1);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+        overflow-y: auto;
+    }
+    .apple-inner-sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+
+    /* Main content takes full width */
+    .apple-main-content,
+    .apple-workspace-content,
+    .workspace-main-area {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 0;
+    }
+
+    /* Mobile top-bar — hamburger + breadcrumb */
+    .workspace-mobile-topbar {
+        display: flex !important;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: #ffffff;
+        border-bottom: 1px solid #e5e5e5;
+        position: sticky;
+        top: 0;
+        z-index: 200;
+    }
+    body.dark .workspace-mobile-topbar {
+        background: #18181b;
+        border-bottom-color: #27272a;
+    }
+
+    /* Editor — full viewport minus topbar */
+    .apple-editor-zone,
+    .editor-main-panel,
+    .code-editor-container {
+        height: calc(100vh - 56px);
+        width: 100% !important;
+    }
+
+    /* Tab bar — horizontally scrollable */
+    .apple-tab-bar,
+    .editor-tabs-row {
+        overflow-x: auto;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+    .apple-tab-bar::-webkit-scrollbar,
+    .editor-tabs-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Right sidebar panels — collapse into tabs below */
+    .editor-sidebar-container,
+    .apple-right-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50vh;
+        max-height: 50vh;
+        z-index: 500;
+        border-left: none;
+        border-top: 1px solid #e5e5e5;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(100%);
+        transition: transform 320ms cubic-bezier(0.25, 1, 0.5, 1);
+        overflow-y: auto;
+        box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+    }
+    .editor-sidebar-container.panel-open,
+    .apple-right-panel.panel-open {
+        transform: translateY(0);
+    }
+    body.dark .editor-sidebar-container {
+        border-top-color: #27272a;
+    }
+
+    /* Workspace dashboard grid → single column */
+    .apple-workspace-card,
+    .workspace-card-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    /* Individual workspace/team cards — full width */
+    .apple-workspace-card {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    /* Data tables — isolated horizontal scroll */
+    .premium-data-table-wrapper,
+    .workspace-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .premium-data-table,
+    .workspace-data-table {
+        min-width: 500px;
+    }
+
+    /* Menu items — bigger tap targets */
+    .apple-menu-item,
+    .menu-btn-item {
+        min-height: 48px;
+        padding: 12px 16px;
+        font-size: 15px;
+    }
+
+    /* Notification / action buttons */
+    .apple-workspace-btn,
+    .workspace-action-btn {
+        min-height: 48px;
+        padding: 12px 20px;
+    }
+}
+
+/* ── PHONE (≤ 480px) ── */
+@media (max-width: 480px) {
+    .apple-inner-sidebar {
+        width: 92vw;
+    }
+
+    /* Editor tab text — truncate on small screens */
+    .apple-tab-item span,
+    .editor-tab-label {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+    }
+
+    /* File tree items */
+    .file-tree-item,
+    .apple-file-row {
+        min-height: 44px;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    /* Workspace status footer */
+    .editor-status-footer {
+        font-size: 11px;
+        padding: 6px 12px;
+    }
+}

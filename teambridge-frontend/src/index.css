@@ -2,75 +2,225 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset */
+/* =========================================================
+   TEAMBRIDGE — GLOBAL RESPONSIVE DESIGN SYSTEM
+   Mobile-first with Inter typography and smooth transitions
+   ========================================================= */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* Google Font: Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* Reset */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Global Variables */
+/* ─── BREAKPOINT TOKENS ───────────────────────────────────
+   --bp-mobile  : max-width 480px  (phones)
+   --bp-tablet  : max-width 768px  (tablets / large phones)
+   --bp-desktop : min-width 1025px (laptops and above)
+   ──────────────────────────────────────────────────────── */
 
-:root{
-    --primary-color:#2563eb;
-    --secondary-color:#1e293b;
-    --background-color:#f4f6f8;
-    --card-color:#ffffff;
-    --text-color:#333333;
-    --border-color:#dcdcdc;
+/* Global Design Tokens */
+:root {
+    /* Brand Palette */
+    --primary-color:       #2563eb;
+    --secondary-color:     #1e293b;
+    --background-color:    #f4f6f8;
+    --card-color:          #ffffff;
+    --text-color:          #333333;
+    --border-color:        #dcdcdc;
+
+    /* Spacing Scale */
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md:  16px;
+    --space-lg:  24px;
+    --space-xl:  40px;
+    --space-2xl: 64px;
+
+    /* Touch Targets (WCAG 2.5.8) */
+    --touch-target: 48px;
+
+    /* Sidebar */
+    --sb-width:         280px;
+    --sb-mobile-width:  100%;
+
+    /* Transitions */
+    --ease-spring:  cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-smooth:  cubic-bezier(0.16, 1, 0.3, 1);
+    --duration-fast: 180ms;
+    --duration-mid:  320ms;
+
+    /* Typography */
+    --font-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
 /* Global Dark Mode CSS Variables */
 body.dark,
 .dark {
     --background-color: #09090b;
-    --card-color: #18181b;
-    --text-color: #f4f4f5;
-    --border-color: #27272a;
-    --secondary-color: #27272a;
+    --card-color:       #18181b;
+    --text-color:       #f4f4f5;
+    --border-color:     #27272a;
+    --secondary-color:  #27272a;
 }
 
-/* Body */
-
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--background-color);
-    color: var(--text-color);
-    min-height:100vh;
+/* ─── BASE BODY ──────────────────────────────────────────── */
+body {
+    font-family: var(--font-base);
+    background:  var(--background-color);
+    color:       var(--text-color);
+    min-height:  100vh;
+    -webkit-font-smoothing:  antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* prevent horizontal overflow on mobile */
+    overflow-x: hidden;
 }
 
 /* Links */
-
-a{
-    text-decoration:none;
-    color:inherit;
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-/* Buttons */
-
-button{
-    cursor:pointer;
-    border:none;
-    outline:none;
+/* ─── GLOBAL INTERACTIVE TOUCH TARGETS ───────────────────── */
+button,
+[role="button"],
+.menu-btn-item,
+.setup-action-btn,
+.login-btn,
+.hero-btn-primary,
+.hero-btn-secondary,
+.tab-btn-pill,
+.logout-btn {
+    min-height: var(--touch-target);
+    cursor: pointer;
+    border: none;
+    outline: none;
 }
 
-/* Inputs */
-
+/* Inputs / Selects / Textareas */
 input,
 select,
-textarea{
-    outline:none;
-    font-family:inherit;
+textarea {
+    outline:     none;
+    font-family: inherit;
+    min-height:  var(--touch-target);
 }
 
-/* Scrollbar */
-
-::-webkit-scrollbar{
-    width:8px;
+/* ─── SCROLLBAR ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background:    #c5c5c5;
+    border-radius: 8px;
 }
 
-::-webkit-scrollbar-thumb{
-    background:#c5c5c5;
-    border-radius:8px;
+/* ─── RESPONSIVE UTILITY CLASSES ─────────────────────────── */
+
+/* Show/hide helpers */
+.hide-on-mobile  { display: block; }
+.show-on-mobile  { display: none;  }
+.hide-on-tablet  { display: block; }
+
+/* Full-width helper */
+.full-width { width: 100% !important; }
+
+/* ─── MOBILE SIDEBAR OVERLAY BACKDROP ───────────────────── */
+.mobile-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 998;
+    animation: backdropFadeIn var(--duration-fast) ease forwards;
+}
+.mobile-sidebar-backdrop.active {
+    display: block;
+}
+@keyframes backdropFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ─── HAMBURGER BUTTON (global, shown only on mobile) ─────── */
+.hamburger-toggle-btn {
+    display:         none;
+    flex-direction:  column;
+    justify-content: center;
+    align-items:     center;
+    gap:             5px;
+    width:           44px;
+    height:          44px;
+    background:      transparent;
+    border:          none;
+    cursor:          pointer;
+    padding:         8px;
+    border-radius:   10px;
+    transition:      background var(--duration-fast) ease;
+    z-index:         1001;
+}
+.hamburger-toggle-btn:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+.hamburger-toggle-btn .ham-bar {
+    width:            22px;
+    height:           2px;
+    background:       #1d1d1f;
+    border-radius:    2px;
+    transition:       all var(--duration-mid) var(--ease-spring);
+    transform-origin: center;
+}
+/* Animated X state */
+.hamburger-toggle-btn.open .ham-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.hamburger-toggle-btn.open .ham-bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.hamburger-toggle-btn.open .ham-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ─── SLIDE-IN SIDEBAR (mobile) ───────────────────────────── */
+.sidebar-slide-in-mobile {
+    transform: translateX(-100%);
+    transition: transform var(--duration-mid) var(--ease-spring);
+}
+.sidebar-slide-in-mobile.sidebar-open {
+    transform: translateX(0);
+}
+
+/* ─── MEDIA QUERIES ──────────────────────────────────────── */
+
+/* Tablet: ≤ 768px */
+@media (max-width: 768px) {
+    .hide-on-mobile  { display: none !important;  }
+    .show-on-mobile  { display: block !important; }
+    .hide-on-tablet  { display: none !important;  }
+
+    .hamburger-toggle-btn { display: flex; }
+
+    :root {
+        --space-xl:  24px;
+        --space-2xl: 40px;
+    }
+}
+
+/* Phone: ≤ 480px */
+@media (max-width: 480px) {
+    :root {
+        --space-xl:  16px;
+        --space-2xl: 24px;
+    }
 }

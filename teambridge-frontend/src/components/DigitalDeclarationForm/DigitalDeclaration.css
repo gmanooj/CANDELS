@@ -401,3 +401,141 @@
   .document-paper { box-shadow: none; border: none; padding: 0; }
   .active-signature-section { display: none !important; }
 }
+
+/* ============================================================
+   📱 RESPONSIVE OVERRIDES — PROJECT DECLARATION PAGE
+   Tablet ≤ 768px  |  Phone ≤ 480px
+   ============================================================ */
+
+/* ── TABLET (≤ 768px) ── */
+@media (max-width: 768px) {
+  .declaration-container {
+    padding: 20px 12px;
+  }
+
+  .document-paper {
+    padding: 28px 20px;
+    border-radius: 12px;
+    overflow: visible;
+  }
+
+  /* Title — center-aligned, no large left margin */
+  .doc-header h1 {
+    font-size: 22px;
+    margin-left: 0;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  /* Team badge */
+  .team-badge {
+    margin-left: 0;
+  }
+
+  /* Participants grid — single column */
+  .participants-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Participant photo — smaller */
+  .roster-inline-photo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .faculty-avatar-container img,
+  .faculty-avatar-container .avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    font-size: 24px;
+  }
+
+  /* Faculty banner — vertical stack */
+  .faculty-supervisor-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  /* Project meta box */
+  .project-meta-box {
+    padding: 16px;
+    margin-bottom: 28px;
+  }
+
+  /* Canvas — full width */
+  .canvas-wrapper {
+    display: block;
+    width: 100%;
+  }
+  .canvas-wrapper canvas {
+    width: 100% !important;
+    height: 200px !important;
+  }
+
+  /* Canvas controls — full width buttons */
+  .canvas-controls {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .canvas-controls button {
+    width: 100%;
+    min-height: 48px;
+    font-size: 15px;
+  }
+
+  /* Official seal repositioning */
+  .official-seal {
+    position: static;
+    margin: 20px auto 0;
+    display: block;
+    width: fit-content;
+  }
+
+  /* Active signature section */
+  .active-signature-section {
+    padding: 20px 16px;
+  }
+
+  /* Step progress — compact indicator */
+  .participant-identity-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+}
+
+/* ── PHONE (≤ 480px) ── */
+@media (max-width: 480px) {
+  .document-paper {
+    padding: 20px 12px;
+  }
+
+  .doc-header h1 {
+    font-size: 18px;
+  }
+
+  .project-meta-box h2 {
+    font-size: 16px;
+  }
+
+  .participants-grid {
+    gap: 12px;
+  }
+
+  .participant-card {
+    padding: 16px;
+  }
+
+  .card-name-text {
+    font-size: 15px;
+  }
+
+  .canvas-wrapper canvas {
+    height: 160px !important;
+  }
+}
