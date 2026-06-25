@@ -39,7 +39,12 @@ export default function WorkspaceDashboard() {
             setUserEmail(loggedInUser.email);
         }
 
-        fetch(`${__BACKEND_URL__}/api/users/dashboard-context?user_code=${userCode}`)
+        const token = sessionStorage.getItem("auth_token");
+        fetch(`${__BACKEND_URL__}/api/users/dashboard-context?user_code=${userCode}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
         .then(res => {
             if (!res.ok) {
                 throw new Error("Active resource stream context returned a system connection drop.");

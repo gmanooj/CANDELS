@@ -33,8 +33,13 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
 
   const fetchLocalPipelineLedger = async () => {
     try {
+      const token = sessionStorage.getItem("auth_token");
       // Hits your workspace dashboard-context engine
-      const response = await fetch(`${__BACKEND_URL__}/api/users/dashboard-context?user_code=${user.user_code}`);
+      const response = await fetch(`${__BACKEND_URL__}/api/users/dashboard-context?user_code=${user.user_code}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         // Fallback or custom extension to fetch all pending/active team arrays
@@ -47,7 +52,12 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
 
   const fetchSpecificRosterDetails = async (teamCode) => {
     try {
-      const response = await fetch(`${__BACKEND_URL__}/api/team/digital-form-context?team_code=${teamCode}`);
+      const token = sessionStorage.getItem("auth_token");
+      const response = await fetch(`${__BACKEND_URL__}/api/team/digital-form-context?team_code=${teamCode}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         setExpandedRoster(data.roster || []);
@@ -92,9 +102,13 @@ function CreateTeam({ user, fetchUserWorkspaceMatrix }) {
     };
 
     try {
+      const token = sessionStorage.getItem("auth_token");
       const response = await fetch(__BACKEND_URL__ + "/api/team/initialize", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(payload)
       });
 
