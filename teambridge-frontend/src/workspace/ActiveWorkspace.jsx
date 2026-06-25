@@ -37,6 +37,7 @@ export default function ActiveWorkspace() {
     const [activeTab, setActiveTab] = useState('Files'); // Files, Tasks, Chat, Monitor, Git, Reports
     const [isDrawerOpen, setIsDrawerOpen] = useState(true);
     const [isSplitView, setIsSplitView] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     // Dynamic Database-backed Workspace States
     // Dynamic Database-backed Workspace States
@@ -1107,12 +1108,38 @@ export default function ActiveWorkspace() {
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
+        setSidebarOpen(false);
     };
 
     return (
         <div className="apple-workspace-wrapper apple-text-font is-main-view">
             
-            <aside className="apple-inner-sidebar">
+            {/* Mobile overlay backdrop */}
+            {sidebarOpen && (
+                <div
+                    className="mobile-sidebar-backdrop active"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
+            {/* Mobile top-bar — hidden on desktop via CSS */}
+            <div className="workspace-mobile-topbar" style={{ display: 'none' }}>
+                <button
+                    className={`hamburger-toggle-btn ${sidebarOpen ? 'open' : ''}`}
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    aria-label="Toggle navigation menu"
+                >
+                    <span className="ham-bar" />
+                    <span className="ham-bar" />
+                    <span className="ham-bar" />
+                </button>
+                <span className="mobile-breadcrumb" style={{ fontWeight: '700', fontSize: '15px', letterSpacing: '0.5px' }}>
+                    CANDELS IDE: {projectName || "Active Node"}
+                </span>
+                <div style={{ width: '44px' }} />
+            </div>
+
+            <aside className={`apple-inner-sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
                 <div className="sidebar-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingBottom: '10px' }}>
                     <img src="/logo.png" alt="Candels Logo" style={{ height: '36px', width: '36px', objectFit: 'contain' }} />
                     <span className="sidebar-brand-title" style={{ fontSize: '20px', fontWeight: 'bold', letterSpacing: '0.5px' }}>CANDELS</span>
@@ -1121,13 +1148,13 @@ export default function ActiveWorkspace() {
                 <div className="sidebar-scrollable-content">
                     <nav className="apple-menu-list">
                         <span className="menu-section-title">Navigation</span>
-                        <button className="apple-menu-item" onClick={() => navigate('/dashboard')}>
+                        <button className="apple-menu-item" onClick={() => { navigate('/dashboard'); setSidebarOpen(false); }}>
                             Dashboard
                         </button>
-                        <button className="apple-menu-item" onClick={() => navigate('/workspace')}>
+                        <button className="apple-menu-item" onClick={() => { navigate('/workspace'); setSidebarOpen(false); }}>
                             IDE Clusters
                         </button>
-                        <button className="apple-menu-item font-semibold text-blue-600 dark:text-blue-400" onClick={() => navigate('/settings')}>
+                        <button className="apple-menu-item font-semibold text-blue-600 dark:text-blue-400" onClick={() => { navigate('/settings'); setSidebarOpen(false); }}>
                             ⚙️ Settings
                         </button>
                     </nav>
@@ -1157,7 +1184,7 @@ export default function ActiveWorkspace() {
                     <span className="menu-section-title">Workspace Mode</span>
                     <button 
                         className={`apple-menu-item split-toggle-btn ${isSplitView ? 'is-active' : ''}`} 
-                        onClick={() => setIsSplitView(!isSplitView)}
+                        onClick={() => { setIsSplitView(!isSplitView); setSidebarOpen(false); }}
                     >
                         <span>{isSplitView ? '◫' : '◻'}</span> Split Screen Mode
                     </button>

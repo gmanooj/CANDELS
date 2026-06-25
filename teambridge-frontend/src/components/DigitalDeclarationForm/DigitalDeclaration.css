@@ -421,10 +421,26 @@
 
   /* Title — center-aligned, no large left margin */
   .doc-header h1 {
-    font-size: 22px;
+    font-size: 22px !important;
     margin-left: 0;
     margin-bottom: 20px;
     text-align: center;
+  }
+
+  .doc-section-title {
+    font-size: 16px !important;
+  }
+
+  .canvas-title {
+    font-size: 18px !important;
+  }
+
+  .active-signature-section h3 {
+    font-size: 16px !important;
+  }
+
+  .project-meta-box h2 {
+    font-size: 14px !important;
   }
 
   /* Team badge */
@@ -516,11 +532,19 @@
   }
 
   .doc-header h1 {
-    font-size: 18px;
+    font-size: 18px !important;
+  }
+
+  .doc-section-title {
+    font-size: 14px !important;
+  }
+
+  .canvas-title {
+    font-size: 16px !important;
   }
 
   .project-meta-box h2 {
-    font-size: 16px;
+    font-size: 13px !important;
   }
 
   .participants-grid {

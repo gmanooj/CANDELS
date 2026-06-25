@@ -714,6 +714,48 @@ body.dark .logout-btn:hover {
     }
     .content-header h1 {
         font-size: 24px;
+        letter-spacing: -0.5px;
+    }
+    .subtitle {
+        font-size: 13px !important;
+    }
+
+    /* Scaling metric values and labels on tablet/mobile */
+    .metric-pill-card .lbl {
+        font-size: 11px !important;
+        letter-spacing: 0.2px;
+    }
+    .metric-pill-card .num {
+        font-size: 20px !important;
+    }
+
+    /* Scaling card titles */
+    .setup-card h2 {
+        font-size: 18px !important;
+        letter-spacing: -0.2px;
+        margin-bottom: 8px;
+    }
+    .setup-card p {
+        font-size: 13px !important;
+        line-height: 1.4;
+        margin-bottom: 20px;
+    }
+
+    /* Sidebar font size adjustments on mobile */
+    .menu-btn-item {
+        font-size: 13px !important;
+    }
+    .user-name-footer {
+        font-size: 14px !important;
+    }
+
+    /* Form title scaling */
+    .form-container-header h2 {
+        font-size: 20px !important;
+    }
+    .form-container-header p {
+        font-size: 13px !important;
+        margin-bottom: 20px;
     }
 
     /* Metrics bar → 2 columns on tablet */
@@ -788,13 +830,23 @@ body.dark .logout-btn:hover {
 
     .content-header h1 {
         font-size: 20px;
+        letter-spacing: -0.3px;
+    }
+    .subtitle {
+        font-size: 12px !important;
     }
 
     .metric-pill-card {
         padding: 16px;
     }
+    .metric-pill-card .num {
+        font-size: 18px !important;
+    }
 
     .setup-card {
         padding: 20px 16px;
     }
-}
+    .setup-card h2 {
+        font-size: 16px !important;
+    }
+}

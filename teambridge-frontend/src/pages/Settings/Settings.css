@@ -1019,6 +1019,22 @@ body.frosted,
 /* ── TABLET (≤ 768px) ── */
 @media (max-width: 768px) {
 
+    .settings-sidebar-header {
+        display: none !important;
+    }
+
+    .settings-section-header h2 {
+        font-size: 18px !important;
+        letter-spacing: -0.2px;
+    }
+    .settings-section-header p {
+        font-size: 12px !important;
+    }
+
+    .settings-window-title {
+        font-size: 13px !important;
+    }
+
     /* Window — allow normal body scroll on mobile */
     .settings-window-container {
         height: auto;

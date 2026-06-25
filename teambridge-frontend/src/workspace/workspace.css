@@ -2616,7 +2616,29 @@ body.dark .form-textarea-small {
     .menu-btn-item {
         min-height: 48px;
         padding: 12px 16px;
-        font-size: 15px;
+        font-size: 13px !important;
+    }
+
+    /* Scaling headings inside workspace */
+    .content-header h1 {
+        font-size: 24px !important;
+        letter-spacing: -0.5px;
+    }
+    .about-hero-section h2 {
+        font-size: 20px !important;
+    }
+    .about-hero-section p {
+        font-size: 13px !important;
+        line-height: 1.4;
+    }
+    .about-feature-card h4 {
+        font-size: 14px !important;
+    }
+    .about-feature-card p {
+        font-size: 13px !important;
+    }
+    .apple-workspace-card h3 {
+        font-size: 18px !important;
     }
 
     /* Notification / action buttons */
@@ -2631,6 +2653,17 @@ body.dark .form-textarea-small {
 @media (max-width: 480px) {
     .apple-inner-sidebar {
         width: 92vw;
+    }
+
+    .content-header h1 {
+        font-size: 20px !important;
+        letter-spacing: -0.3px;
+    }
+    .about-hero-section h2 {
+        font-size: 18px !important;
+    }
+    .apple-workspace-card h3 {
+        font-size: 16px !important;
     }
 
     /* Editor tab text — truncate on small screens */

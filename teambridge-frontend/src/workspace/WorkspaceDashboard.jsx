@@ -150,7 +150,7 @@ export default function WorkspaceDashboard() {
 
                 <nav className="apple-menu-list">
                     <span className="menu-section-title">Tools & Directions</span>
-                    <button className="apple-menu-item" onClick={() => navigate('/dashboard')}>
+                    <button className="apple-menu-item" onClick={() => { navigate('/dashboard'); setSidebarOpen(false); }}>
                          Back to Dashboard
                     </button>
                     
@@ -158,6 +158,7 @@ export default function WorkspaceDashboard() {
                         className={`apple-menu-item ${activeTab === 'clusters' ? 'active-segment' : ''}`} 
                         onClick={() => {
                             setActiveTab('clusters');
+                            setSidebarOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                     >
@@ -168,6 +169,7 @@ export default function WorkspaceDashboard() {
                         className={`apple-menu-item ${activeTab === 'about' ? 'active-segment' : ''}`} 
                         onClick={() => {
                             setActiveTab('about');
+                            setSidebarOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                     >
@@ -178,17 +180,18 @@ export default function WorkspaceDashboard() {
                         className={`apple-menu-item ${activeTab === 'contact' ? 'active-segment' : ''}`} 
                         onClick={() => {
                             setActiveTab('contact');
+                            setSidebarOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                     >
                          Contact Request
                     </button>
  
-                    <button className="apple-menu-item" onClick={() => navigate('/profile')}>
+                    <button className="apple-menu-item" onClick={() => { navigate('/profile'); setSidebarOpen(false); }}>
                          Account Profile
                     </button>
                     
-                    <button className="apple-menu-item font-semibold text-blue-600 dark:text-blue-400" onClick={() => navigate('/settings')}>
+                    <button className="apple-menu-item font-semibold text-blue-600 dark:text-blue-400" onClick={() => { navigate('/settings'); setSidebarOpen(false); }}>
                          Settings
                     </button>
                 </nav>

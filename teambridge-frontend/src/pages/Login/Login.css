@@ -860,14 +860,61 @@
 /* ── TABLET (≤ 768px) ── */
 @media (max-width: 768px) {
 
-    /* LANDING PAGE */
-    .landing-page-full {
-        padding: 24px 20px;
-        gap: 32px;
-        overflow-y: auto;
+    /* Lock the stage on mobile: no horizontal flex sliding layout */
+    .sliding-stage-wrapper {
+        width: 100% !important;
+        display: block !important;
+        position: relative !important;
+        transform: none !important;
+        height: 100% !important;
     }
 
-    /* Hide branding image on mobile, show full form */
+    /* Landing Page and Login Page absolute positions with Apple scale & fade transition */
+    .landing-page-full,
+    .login-page-full-view {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        box-sizing: border-box !important;
+        overflow-y: auto !important;
+        transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    }
+
+    /* Page state control overlays */
+    .panel-hidden-right .landing-page-full {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+        pointer-events: auto !important;
+        z-index: 10 !important;
+    }
+    .panel-hidden-right .login-page-full-view {
+        opacity: 0 !important;
+        transform: scale(0.95) !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+    }
+
+    .panel-active-view .landing-page-full {
+        opacity: 0 !important;
+        transform: scale(0.95) !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+    }
+    .panel-active-view .login-page-full-view {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+        pointer-events: auto !important;
+        z-index: 10 !important;
+    }
+
+    /* LANDING PAGE padding & layout */
+    .landing-page-full {
+        padding: 24px 16px !important;
+        gap: 32px !important;
+    }
+
     .logo-box-full {
         flex-direction: row;
         align-items: center;
@@ -875,7 +922,7 @@
         padding-bottom: 12px;
     }
 
-    /* Hero: single column, stack text → CTA → visual */
+    /* Hero: stack text, primary button and secondary button */
     .hero-intro-text-block {
         max-width: 100%;
         margin: 0;
@@ -889,27 +936,33 @@
         font-size: 16px;
         line-height: 1.7;
     }
+    .hero-intro-text-block div[style*="display: flex"] {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
 
-    /* Dashboard metric cards → single column */
+    /* Dashboard metrics -> single column */
     .landing-dashboard-metrics {
-        grid-template-columns: 1fr;
-        gap: 16px;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
     }
     .dashboard-metric-card {
-        margin-left: 0;
+        margin-left: 0 !important;
+        border-left: 2px solid rgba(74, 74, 74, 0.8) !important;
+        padding: 16px !important;
     }
 
-    /* Feature grid → single column */
+    /* Feature grid -> single column */
     .feature-showcase-box {
-        flex-direction: row;
-        align-items: flex-start;
-        padding: 16px;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding: 16px !important;
     }
 
-    /* Audience cards → single column */
+    /* Audience cards -> single column */
     .audience-cards-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
     }
 
     /* Section headers */
@@ -920,15 +973,15 @@
 
     /* Light accent section */
     .light-accent-section {
-        padding: 32px 20px;
-        border-radius: 20px;
+        padding: 32px 16px !important;
+        border-radius: 20px !important;
     }
 
     /* Dark security section — stack on mobile */
     .dark-security-section {
-        grid-template-columns: 1fr;
-        padding: 32px 20px;
-        gap: 24px;
+        grid-template-columns: 1fr !important;
+        padding: 32px 16px !important;
+        gap: 24px !important;
     }
     .dark-security-section h3 {
         font-size: 26px;
@@ -937,82 +990,89 @@
     /* CTA buttons — full width on mobile */
     .hero-btn-primary,
     .hero-btn-secondary {
-        width: 100%;
-        justify-content: center;
-        text-align: center;
-        padding: 14px 20px;
-        min-height: 48px;
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 14px 20px !important;
+        min-height: 48px !important;
     }
 
     /* LOGIN PAGE - single column card, no split hero */
     .login-page-full-view {
-        align-items: flex-start;
-        padding-top: 60px;
-        padding: 0;
-        background: #f5f5f7;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        background: #f5f5f7 !important;
     }
 
     .login-card {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 0;
-        padding: 32px 24px;
-        min-height: 100vh;
-        border: none;
-        box-shadow: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    /* Hide landing carousel graphic side on login panel */
-    .panel-active-view .landing-page-full {
-        display: none;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        padding: 40px 24px !important;
+        min-height: 100vh !important;
+        border: none !important;
+        box-shadow: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
     }
 
     /* Inputs → min touch target */
     .input-group input {
-        padding: 14px 16px;
-        min-height: 48px;
-        font-size: 16px; /* Prevent iOS zoom */
+        padding: 14px 16px !important;
+        min-height: 48px !important;
+        font-size: 16px !important; /* Prevent iOS zoom */
+        width: 100% !important;
     }
 
     /* Login button */
     .login-btn {
-        padding: 15px;
-        min-height: 48px;
-        font-size: 16px;
+        padding: 15px !important;
+        min-height: 48px !important;
+        font-size: 16px !important;
+        width: 100% !important;
     }
 
     .back-to-landing-arrow-btn {
-        top: 20px;
-        left: 20px;
+        top: 20px !important;
+        left: 20px !important;
+        z-index: 100 !important;
     }
 
     /* Tabs — scrollable horizontal row on mobile */
     .landing-tabs-row {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        justify-content: flex-start;
-        padding-bottom: 8px;
-        -webkit-overflow-scrolling: touch;
-        gap: 8px;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        justify-content: flex-start !important;
+        padding-bottom: 8px !important;
+        -webkit-overflow-scrolling: touch !important;
+        gap: 8px !important;
+        width: 100% !important;
     }
     .landing-tabs-row::-webkit-scrollbar {
-        display: none;
+        display: none !important;
     }
 
     /* Showcase panel — single column */
     .tab-showcase-panel {
-        grid-template-columns: 1fr;
-        padding: 24px;
-        gap: 24px;
-        min-height: auto;
+        grid-template-columns: 1fr !important;
+        padding: 24px !important;
+        gap: 24px !important;
+        min-height: auto !important;
     }
 
     /* Hide mockup frame on mobile to save space */
     .showcase-mockup-frame {
-        display: none;
+        display: none !important;
+    }
+
+    /* Footer styling */
+    .landing-footer {
+        flex-direction: column !important;
+        gap: 16px !important;
+        align-items: center !important;
+        text-align: center !important;
     }
 }
 

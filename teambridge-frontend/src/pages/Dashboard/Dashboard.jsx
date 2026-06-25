@@ -253,7 +253,7 @@ function Dashboard() {
         
         <nav className="sidebar-menu">
           <span className="menu-section-title">Operations Center</span>
-          <button className={`menu-btn-item ${currentTab === "overview" ? "active" : ""}`} onClick={() => setCurrentTab("overview")}>System Overview </button>
+          <button className={`menu-btn-item ${currentTab === "overview" ? "active" : ""}`} onClick={() => { setCurrentTab("overview"); setSidebarOpen(false); }}>System Overview </button>
           <button className={`menu-btn-item ${currentTab === "create_team" ? "active" : ""}`} onClick={() => { setCurrentTab("create_team"); setSidebarOpen(false); }}>Initialize Workspace</button>
           <button className="menu-btn-item" onClick={() => { navigate("/workspace"); setSidebarOpen(false); }}>Workspace</button>
           <button className={`menu-btn-item ${currentTab === "team_declaration" ? "active" : ""}`} onClick={() => { setCurrentTab("team_declaration"); setSidebarOpen(false); }}>Team Declaration Form</button>
