@@ -77,6 +77,8 @@ def create_app():
     @app.before_request
     def record_request_start():
         request.start_time = time.time()
+        auth_header = request.headers.get("Authorization")
+        logger.info(f"[FORENSICS] Request to {request.path} from {request.remote_addr} | Auth Header: {auth_header}")
 
     @app.after_request
     def log_request_details(response):
