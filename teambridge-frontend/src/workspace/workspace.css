@@ -2820,7 +2820,7 @@ body.dark .watchdog-core-flex-group input {
 /* ── PHONE (≤ 480px) ── */
 @media (max-width: 480px) {
     .apple-inner-sidebar {
-        width: 92vw;
+        width: 100% !important;
     }
 
     .content-header h1 {
@@ -2837,7 +2837,7 @@ body.dark .watchdog-core-flex-group input {
     /* Editor tab text — truncate on small screens */
     .apple-tab-item span,
     .editor-tab-label {
-        max-width: 100px;
+        max-width: 60px !important;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -2856,5 +2856,77 @@ body.dark .watchdog-core-flex-group input {
     .editor-status-footer {
         font-size: 11px;
         padding: 6px 12px;
+    }
+
+    /* Force columns stack in IDE view */
+    .apple-main-layout-container,
+    .apple-workspace-main-panel,
+    .editor-viewport-card,
+    .file-drawer-card,
+    .editor-controls-bar {
+        flex-direction: column !important;
+        height: auto !important;
+        min-height: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Ensure controls bar items stack or wrap cleanly */
+    .editor-controls-bar {
+        align-items: stretch !important;
+        gap: 8px !important;
+        padding: 10px !important;
+    }
+
+    .editor-controls-left,
+    .editor-actions-right {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 6px !important;
+        width: 100% !important;
+    }
+
+    .active-filepath-display {
+        text-align: center !important;
+        padding: 4px 0 !important;
+        font-size: 11px !important;
+    }
+
+    .editor-save-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* Ensure tree list row indents do not overflow the card */
+    .file-row-indent {
+        padding-left: calc(var(--depth, 0) * 6px + 4px) !important;
+    }
+}
+
+/* Extreme small screen support down to 200px */
+@media (max-width: 320px) {
+    .apple-inner-sidebar {
+        padding: 16px 10px !important;
+    }
+
+    .content-header h1 {
+        font-size: 16px !important;
+    }
+
+    .apple-tab-item span,
+    .editor-tab-label {
+        max-width: 45px !important;
+    }
+
+    .file-row-indent {
+        padding-left: calc(var(--depth, 0) * 4px + 2px) !important;
+    }
+
+    .editor-tabs-row {
+        gap: 2px !important;
+    }
+
+    .editor-tab-item {
+        padding: 4px 6px !important;
     }
 }

@@ -1143,3 +1143,21 @@ body.frosted,
         padding: 16px 12px;
     }
 }
+
+@media (max-width: 320px) {
+    .settings-sidebar-nav,
+    .settings-left-sidebar {
+        padding: 4px !important;
+    }
+
+    .settings-main-panel,
+    .settings-content-panel {
+        padding: 10px 6px !important;
+    }
+
+    .settings-container,
+    .settings-layout-wrapper {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+}

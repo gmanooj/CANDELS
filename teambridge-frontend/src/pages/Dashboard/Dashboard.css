@@ -1085,4 +1085,27 @@ body.dark .doc-faculty-card {
         gap: 10px;
     }
 }
+
+@media (max-width: 320px) {
+    .digital-paper-container {
+        padding: 12px 8px !important;
+    }
+
+    .doc-faculty-card {
+        padding: 8px !important;
+        gap: 8px !important;
+    }
+
+    .main-content {
+        padding: 12px 8px 60px !important;
+    }
+
+    .setup-card {
+        padding: 12px 8px !important;
+    }
+
+    .metric-pill-card {
+        padding: 10px 8px !important;
+    }
+}
 

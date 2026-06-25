@@ -517,3 +517,54 @@
 .workspace-tasks-container .task-item-card .card-move-row .card-move-select:disabled {
     cursor: default;
 }
+
+/* ============================================================
+   📱 RESPONSIVE OVERRIDES — TASKS COMPONENT
+   ============================================================ */
+@media (max-width: 768px) {
+    .workspace-tasks-container .leader-actions-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .workspace-tasks-container .filters-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        padding: 10px !important;
+        gap: 12px !important;
+    }
+
+    .workspace-tasks-container .filters-row .selects-wrapper {
+        min-width: 0 !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    .workspace-tasks-container .filters-row .progress-gauge {
+        width: 100% !important;
+    }
+
+    .workspace-tasks-container .leader-actions-grid .creator-row-1,
+    .workspace-tasks-container .leader-actions-grid .creator-row-2 {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+
+    .workspace-tasks-container .leader-actions-grid .creator-row-2 select,
+    .workspace-tasks-container .leader-actions-grid .creator-row-2 button {
+        width: 100% !important;
+    }
+
+    .workspace-tasks-container .column-card {
+        width: 260px !important;
+        padding: 10px !important;
+    }
+}
+
+@media (max-width: 320px) {
+    .workspace-tasks-container .column-card {
+        width: 180px !important;
+    }
+}

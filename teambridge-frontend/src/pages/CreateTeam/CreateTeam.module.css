@@ -572,3 +572,22 @@
     background: rgba(194, 65, 12, 0.2);
     color: #fb923c;
 }
+
+@media (max-width: 320px) {
+    .form-workspace-section,
+    .ledgerSection {
+        padding: 10px 8px !important;
+    }
+
+    .deployForm,
+    .formGridTwoCol,
+    .rosterGrid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    .formGridTwoCol > div {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}

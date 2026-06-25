@@ -227,7 +227,161 @@ textarea {
 /* Phone: ≤ 480px */
 @media (max-width: 480px) {
     :root {
-        --space-xl:  16px;
-        --space-2xl: 24px;
+        --space-xs:  2px !important;
+        --space-sm:  4px !important;
+        --space-md:  8px !important;
+        --space-lg:  12px !important;
+        --space-xl:  16px !important;
+        --space-2xl: 20px !important;
+        --touch-target: 40px !important;
+    }
+
+    html, body {
+        font-size: 13px !important;
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+    }
+
+    /* Prevent overflow on everything */
+    * {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Scale headings down */
+    h1 { font-size: 1.4rem !important; }
+    h2 { font-size: 1.25rem !important; }
+    h3 { font-size: 1.1rem !important; }
+    h4 { font-size: 1rem !important; }
+    p, span, label, input, select, textarea, li, a {
+        font-size: 12px !important;
+    }
+
+    /* Flex row layouts that should flex into vertical columns */
+    .flex-row-mobile-stack,
+    .flex-row-to-column,
+    .dashboard-grid,
+    .form-grid,
+    .form-row,
+    .input-row,
+    .btn-group-row,
+    .stats-row,
+    .profile-grid {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+    }
+
+    /* Override grids to a single column */
+    .grid-cols-2, .grid-cols-3, .grid-cols-4, .grid-cols-default {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+
+    /* Buttons: Must remain in row format (do not wrap text vertically in a column format) 
+       but padding, margin and font size must be small enough to fit within 200px width. */
+    button, .btn, .button, [role="button"],
+    .hero-btn-primary, .hero-btn-secondary,
+    .setup-action-btn, .login-btn, .logout-btn, .apple-workspace-btn {
+        display: inline-flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+        font-size: 12px !important;
+        padding: 6px 10px !important;
+        min-height: 38px !important;
+        height: auto !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    /* Brand / Profiles avatar adjustments */
+    .profile-avatar, .user-avatar, .avatar, .profile-img {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+    }
+
+    .logo-img-main, .login-brand-logo-img, .sidebar-logo {
+        height: 28px !important;
+        width: auto !important;
+    }
+
+    .logo-text-title, .login-brand-logo-text, .sidebar-brand-title {
+        font-size: 14px !important;
+        max-width: 120px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: inline-block !important;
+    }
+}
+
+/* Extreme small screen support down to 200px */
+@media (max-width: 320px) {
+    html, body {
+        font-size: 11px !important;
+    }
+
+    :root {
+        --space-xs: 1px !important;
+        --space-sm: 2px !important;
+        --space-md: 4px !important;
+        --space-lg: 8px !important;
+        --space-xl: 12px !important;
+        --space-2xl: 16px !important;
+        --touch-target: 32px !important;
+    }
+
+    h1 { font-size: 1.2rem !important; }
+    h2 { font-size: 1.05rem !important; }
+    h3 { font-size: 0.95rem !important; }
+    h4 { font-size: 0.85rem !important; }
+    p, span, label, input, select, textarea, li, a {
+        font-size: 11px !important;
+    }
+
+    /* Buttons on extremely narrow screens */
+    button, .btn, .button, [role="button"],
+    .hero-btn-primary, .hero-btn-secondary,
+    .setup-action-btn, .login-btn, .logout-btn, .apple-workspace-btn {
+        font-size: 11px !important;
+        padding: 4px 6px !important;
+        min-height: 32px !important;
+        gap: 4px !important;
+    }
+
+    .profile-avatar, .user-avatar, .avatar, .profile-img {
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
+        min-height: 24px !important;
+    }
+
+    .logo-text-title, .login-brand-logo-text, .sidebar-brand-title {
+        font-size: 12px !important;
+        max-width: 85px !important;
+    }
+
+    /* Card padding optimization */
+    .login-card, .setup-card, .apple-card-modern, .console-card, .workspace-form-card,
+    .form-workspace-section, .ledgerSection, .premium-card {
+        padding: 8px !important;
+        margin: 2px !important;
+    }
+
+    .apple-tabs-row {
+        gap: 2px !important;
+    }
+    .apple-tab-item {
+        padding: 6px !important;
+    }
+    .apple-tab-item span {
+        max-width: 60px !important;
     }
 }

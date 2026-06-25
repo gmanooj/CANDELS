@@ -557,4 +557,22 @@
     .profile-input-grid {
         gap: 12px;
     }
+}
+
+@media (max-width: 320px) {
+    .profile-header-card {
+        padding: 12px 8px !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .dashboard-interactive-form {
+        padding: 10px 8px !important;
+    }
+
+    .form-submit-btn.blue {
+        font-size: 13px !important;
+        min-height: 40px !important;
+    }
 }
