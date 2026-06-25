@@ -6,6 +6,7 @@ from datetime import datetime, timezone, timedelta
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import os
 
 # Import your shared db instance and User model
 from extensions import db
@@ -22,20 +23,15 @@ register_bp = Blueprint(
 # ======================================================================
 def send_real_smtp_email(target_email, verification_code):
     """
-    Connects to the secure SMTP gateway server to transmit a highly professional
-    HTML account initialization verification passcode to the user's mailbox.
+    Sends the HTML verification code to the target email using the Resend Web API.
+    This bypasses Render's SMTP port firewall restrictions.
     """
-    # 💡 CONFIGURATION PROFILES - Swap these parameters with your real mail criteria
-    SMTP_SERVER = "smtp.gmail.com"
-    SMTP_PORT = 587
-    SENDER_EMAIL = "gmanooj2@gmail.com" 
-    SENDER_PASSWORD = "ijcg xasz uwzx bpjg" # Not your login password!
-
-    # Build an elegant, professional email document
-    message = MIMEMultipart("alternative")
-    message["Subject"] = f"✨ TeamBridge Security Passcode: {verification_code} ✨"
-    message["From"] = f"TeamBridge Platform Core <{SENDER_EMAIL}>"
-    message["To"] = target_email
+    resend_api_key = os.environ.get("RESEND_API_KEY", "re_DK1PM9Jd_LHscFa7L7CQprghQnBxGiW6q")
+    url = "https://api.resend.com/emails"
+    headers = {
+        "Authorization": f"Bearer {resend_api_key}",
+        "Content-Type": "application/json"
+    }
 
     # Premium corporate HTML email design layout matching an Apple Light theme
     html_content = f"""
@@ -58,20 +54,25 @@ def send_real_smtp_email(target_email, verification_code):
       </body>
     </html>
     """
-    
-    message.attach(MIMEText(html_content, "html"))
+
+    payload = {
+        "from": "onboarding@resend.dev",
+        "to": target_email,
+        "subject": f"✨ TeamBridge Security Passcode: {verification_code} ✨",
+        "html": html_content
+    }
 
     try:
-        # Establish encrypted handshake layer with the remote mail server
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=10)
-        server.starttls() # Secure the connection with TLS encryption
-        server.login(SENDER_EMAIL, SENDER_PASSWORD)
-        server.sendmail(SENDER_EMAIL, target_email, message.as_string())
-        server.quit()
-        print(f"📡 Real-time transmission successful: Mail sent successfully to {target_email}!")
-        return True
+        import requests
+        response = requests.post(url, headers=headers, json=payload, timeout=10)
+        if response.status_code in [200, 201]:
+            print(f"📡 Resend API transmission successful: Mail sent successfully to {target_email}!")
+            return True
+        else:
+            print(f"❌ Resend API FAIL: {response.status_code} - {response.text}")
+            return False
     except Exception as mail_error:
-        print(f"❌ SMTP DISPATCH FAIL EXCEPTION LOG: {str(mail_error)}")
+        print(f"❌ Resend API Dispatch Exception: {str(mail_error)}")
         return False
 
 
