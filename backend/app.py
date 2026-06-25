@@ -25,12 +25,9 @@ def create_app():
     app.config.from_object(Config)
     
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    from sqlalchemy.pool import NullPool
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-        "pool_recycle": 60,  # Extremely aggressive recycle to beat Aiven's silent drops
-        "pool_pre_ping": True,
-        "pool_size": 5,
-        "max_overflow": 10,
-        "pool_timeout": 30,
+        "poolclass": NullPool,
         "connect_args": {
             "ssl": {"ssl_cert_reqs": 0},
             "connect_timeout": 10
