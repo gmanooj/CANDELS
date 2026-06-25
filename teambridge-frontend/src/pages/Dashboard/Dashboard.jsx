@@ -52,9 +52,16 @@ function Dashboard() {
     }
   }, [navigate]); 
 
+  const getAuthHeaders = () => ({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${sessionStorage.getItem('auth_token')}`
+  });
+
   const fetchProfileStatusHeader = async (userCode, currentUserSession) => {
     try {
-      const response = await fetch(`${__BACKEND_URL__}/api/users/profile-context?user_code=${userCode}`);
+      const response = await fetch(`${__BACKEND_URL__}/api/users/profile-context?user_code=${userCode}`, {
+        headers: getAuthHeaders()
+      });
       if (response.ok) {
         const dbData = await response.json();
         setCompletionPercentage(dbData.completion_percentage);
@@ -70,7 +77,9 @@ function Dashboard() {
 
   const fetchUserWorkspaceMatrix = async (userCode) => {
     try {
-      const response = await fetch(`${__BACKEND_URL__}/api/users/dashboard-context?user_code=${userCode}`);
+      const response = await fetch(`${__BACKEND_URL__}/api/users/dashboard-context?user_code=${userCode}`, {
+        headers: getAuthHeaders()
+      });
       if (response.ok) {
         const data = await response.json();
         const projects = data.projects || [];
@@ -95,7 +104,9 @@ function Dashboard() {
 
   const fetchLiveAlertFeeds = async (userCode) => {
     try {
-      const response = await fetch(`${__BACKEND_URL__}/api/notifications/fetch?user_code=${userCode}`);
+      const response = await fetch(`${__BACKEND_URL__}/api/notifications/fetch?user_code=${userCode}`, {
+        headers: getAuthHeaders()
+      });
       if (response.ok) {
         const data = await response.json();
         setSystemNotifications(data.notifications || []);
@@ -107,7 +118,9 @@ function Dashboard() {
 
   const fetchDigitalDocumentInstrument = async (teamCode) => {
     try {
-      const response = await fetch(`${__BACKEND_URL__}/api/team/digital-form-context?team_code=${teamCode}`);
+      const response = await fetch(`${__BACKEND_URL__}/api/team/digital-form-context?team_code=${teamCode}`, {
+        headers: getAuthHeaders()
+      });
       if (response.ok) {
         const data = await response.json();
         setDigitalCharter(data);
@@ -122,7 +135,7 @@ function Dashboard() {
     try {
       const response = await fetch(__BACKEND_URL__ + "/api/notifications/respond", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ notification_id: notifId, user_code: user.user_code, action: action })
       });
       
@@ -165,7 +178,7 @@ function Dashboard() {
     try {
       const res = await fetch(__BACKEND_URL__ + "/api/team/assign-faculty", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ team_code: activeTeamCode, faculty_id: facultySearchId.trim().toUpperCase() })
       });
       

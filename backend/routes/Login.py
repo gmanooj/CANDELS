@@ -1,6 +1,5 @@
 import os
 # pyrefly: ignore [missing-import]
-import jwt
 from config import Config
 from datetime import datetime, timedelta
 from flask import Blueprint, request, jsonify
@@ -9,6 +8,7 @@ from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 from extensions import db  # 🛠️ FIXED: Routing db through extensions
 from models.users import User
+from flask_jwt_extended import create_access_token
 
 login_bp = Blueprint(
     "login",
@@ -16,15 +16,12 @@ login_bp = Blueprint(
     url_prefix="/api"
 )
 
-JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY", Config.JWT_SECRET_KEY)
 GOOGLE_CLIENT_ID = "1013028712991-mtu8me83bblfi3nqd423e8jvsl6u15cm.apps.googleusercontent.com"
 
 
 def generate_user_jwt(user):
-    payload = {
-        "exp": datetime.utcnow() + timedelta(days=1),
-        "iat": datetime.utcnow(),
-        "sub": user.user_code,
+    # Use flask_jwt_extended to generate tokens compatible with @jwt_required()
+    additional_claims = {
         "user_context": {
             "user_code": user.user_code,
             "first_name": user.first_name,
@@ -33,7 +30,11 @@ def generate_user_jwt(user):
             "role": user.role
         }
     }
-    return jwt.encode(payload, JWT_SECRET_KEY, algorithm="HS256")
+    return create_access_token(
+        identity=user.user_code,
+        additional_claims=additional_claims,
+        expires_delta=timedelta(days=1)
+    )
 
 
 @login_bp.route("/login", methods=["POST"])
@@ -85,15 +86,23 @@ def google_login_user():
             return jsonify({"error": "Missing Google identity authentication token"}), 400
 
         try:
+            # Use a session with a timeout to prevent hanging for 600+ seconds
+            import requests as stdlib_requests
+            session = stdlib_requests.Session()
+            session.timeout = 10  # 10 second timeout for Google's token verification endpoint
+            google_transport = google_requests.Request(session=session)
+            
             id_info = id_token.verify_oauth2_token(
                 token, 
-                google_requests.Request(), 
+                google_transport, 
                 GOOGLE_CLIENT_ID
             )
             google_email = id_info.get("email")
             
-        except ValueError:
+        except ValueError as ve:
             return jsonify({"error": "Invalid Google credential security integrity token"}), 401
+        except Exception as google_err:
+            return jsonify({"error": f"Google token verification failed: {str(google_err)}"}), 502
 
         user = User.query.filter_by(email=google_email).first()
 
@@ -120,4 +129,6 @@ def google_login_user():
         }), 200
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": f"Google Single-Sign-On core error occurred: {str(e)}"}), 500

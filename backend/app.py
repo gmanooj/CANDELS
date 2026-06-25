@@ -24,15 +24,11 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-    from sqlalchemy.pool import NullPool
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-        "poolclass": NullPool,
-        "connect_args": {
-            "ssl": {"ssl_cert_reqs": 0},
-            "connect_timeout": 10
-        }
-    }
+    # DB config is handled by Config class in config.py
+    # Only override here if DATABASE_URL env var is set (for Render deployment)
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url:
+        app.config['SQLALCHEMY_DATABASE_URI'] = db_url.strip()
     
     # 🛠️ FIXED: Explicitly set default JWT headers array location configuration to prevent KeyError exceptions
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
@@ -41,11 +37,16 @@ def create_app():
         os.environ.get("FRONTEND_URL", "http://localhost:5173"),
         "https://candels1921.vercel.app"
     ]
-    CORS(app, resources={r"/*": {"origins": frontend_origins}})
+    CORS(app, 
+         resources={r"/*": {"origins": frontend_origins}},
+         supports_credentials=True,
+         allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
+         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"]
+    )
     
     # Initialize unified extensions cleanly inside the application factory context loop
     db.init_app(app)
-    socketio.init_app(app) # Binds real-time engine cleanly
+    socketio.init_app(app, cors_allowed_origins=frontend_origins) # Binds real-time engine with CORS
     jwt.init_app(app)      # Binds token authentication engine cleanly
     
     # Register blueprints onto central routing tree
@@ -91,6 +92,16 @@ def create_app():
 
     from werkzeug.exceptions import HTTPException
 
+    def _add_cors_headers(response):
+        """Safety net: manually add CORS headers to error responses in case flask-cors misses them."""
+        origin = request.headers.get('Origin', '')
+        if origin in frontend_origins:
+            response.headers['Access-Control-Allow-Origin'] = origin
+            response.headers['Access-Control-Allow-Credentials'] = 'true'
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Requested-With'
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS, PATCH'
+        return response
+
     @app.errorhandler(500)
     @app.errorhandler(Exception)
     def handle_unhandled_exception(e):
@@ -101,7 +112,7 @@ def create_app():
                 "error_type": e.__class__.__name__
             })
             response.status_code = e.code
-            return response
+            return _add_cors_headers(response)
 
         tb = traceback.format_exc()
         logger.error(
@@ -113,17 +124,31 @@ def create_app():
             "error_type": e.__class__.__name__
         })
         response.status_code = 500
-        return response
+        return _add_cors_headers(response)
 
     @app.route('/')
     def health_check():
         return jsonify({"status": "healthy", "service": "TeamBridge Engine"}), 200
 
     with app.app_context():
-        print("Bypassing heavy database schema inspection on boot...", flush=True)
-        # db.create_all()  # Disabled to prevent startup deadlocks over remote SSL
-        # check_and_migrate_db() 
-        print("Bypassed database check successfully!", flush=True)
+        # Boot-time database connectivity check
+        print("[BOOT] Checking database connectivity...", flush=True)
+        try:
+            from sqlalchemy import text
+            with db.engine.connect() as conn:
+                conn.execute(text("SELECT 1"))
+            print("[BOOT] [OK] Database connection SUCCESSFUL", flush=True)
+            db_uri = app.config.get('SQLALCHEMY_DATABASE_URI', '')
+            host_info = db_uri.split('@')[1] if '@' in db_uri else 'unknown'
+            print(f"[BOOT] Connected to: {host_info}", flush=True)
+            try:
+                db.create_all()
+                print("[BOOT] [OK] Database tables verified/created", flush=True)
+            except Exception as schema_err:
+                print(f"[BOOT] [WARN] Table creation skipped: {schema_err}", flush=True)
+        except Exception as db_err:
+            print(f"[BOOT] [FAIL] Database connection FAILED: {db_err}", flush=True)
+            print("[BOOT] [WARN] Server starting without database - API routes requiring DB will fail", flush=True)
         
     @app.teardown_appcontext
     def shutdown_session(exception=None):
