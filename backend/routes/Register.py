@@ -63,7 +63,7 @@ def send_real_smtp_email(target_email, verification_code):
 
     try:
         # Establish encrypted handshake layer with the remote mail server
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=10)
         server.starttls() # Secure the connection with TLS encryption
         server.login(SENDER_EMAIL, SENDER_PASSWORD)
         server.sendmail(SENDER_EMAIL, target_email, message.as_string())
