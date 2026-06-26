@@ -1037,127 +1037,151 @@ body.frosted,
 
     /* Window — allow normal body scroll on mobile */
     .settings-window-container {
-        height: auto;
-        min-height: 100vh;
-        overflow: auto;
-        flex-direction: column;
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-y: auto !important;
+        flex-direction: column !important;
     }
 
     /* Settings body — stack sidebar above content */
-    .settings-body-layout,
-    .settings-content-area {
-        flex-direction: column;
-        height: auto;
+    .settings-main-stage {
+        flex-direction: column !important;
+        height: auto !important;
+        overflow: visible !important;
     }
 
-    /* Sidebar nav — horizontal scrollable tab bar */
-    .settings-sidebar-nav,
-    .settings-left-sidebar {
+    /* Sidebar container — convert to full width header area */
+    .settings-sidebar-aside {
         width: 100% !important;
         height: auto !important;
         border-right: none !important;
-        border-bottom: 1px solid var(--border-color);
-        display: flex;
-        flex-direction: row;
-        overflow-x: auto;
-        padding: 8px 12px;
-        gap: 4px;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        background: var(--bg-sidebar);
-        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-color) !important;
+        padding: 12px 16px !important;
+        box-sizing: border-box !important;
+        gap: 12px !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+    }
+
+    /* Sidebar nav — horizontal scrollable tab bar */
+    .settings-sidebar-nav {
+        width: 100% !important;
+        height: auto !important;
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        padding: 4px 0 !important;
+        gap: 8px !important;
+        white-space: nowrap !important;
+        -webkit-overflow-scrolling: touch !important;
     }
     .settings-sidebar-nav::-webkit-scrollbar {
-        display: none;
+        display: none !important;
     }
 
     /* Sidebar nav items — pill style on mobile */
-    .settings-nav-item,
-    .settings-sidebar-btn {
-        flex-shrink: 0;
-        border-radius: 20px;
-        padding: 8px 16px;
-        min-height: 40px;
-        font-size: 13px;
-        white-space: nowrap;
+    .settings-nav-item {
+        flex-shrink: 0 !important;
+        width: auto !important;
+        border-radius: 20px !important;
+        padding: 8px 16px !important;
+        min-height: 40px !important;
+        font-size: 13px !important;
+        white-space: nowrap !important;
+        justify-content: center !important;
     }
 
-    /* Main content panel */
-    .settings-main-panel,
-    .settings-content-panel {
-        padding: 20px 16px;
-        overflow-y: auto;
+    /* Main content panel wrapper */
+    .settings-content-wrapper {
+        padding: 20px 16px !important;
+        overflow-y: visible !important;
+        height: auto !important;
     }
 
     /* Settings card grid — single column */
-    .settings-card-grid,
-    .settings-grid {
+    .settings-form-row-grid {
         grid-template-columns: 1fr !important;
-        gap: 16px;
+        gap: 16px !important;
+    }
+
+    /* Stack meta items vertically on mobile to prevent squishing */
+    .settings-meta-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 4px !important;
+    }
+    .settings-meta-item-value {
+        width: 100% !important;
+        word-break: break-all !important;
     }
 
     /* All inputs inside settings — touch targets */
-    .settings-main-panel input,
-    .settings-main-panel select,
-    .settings-main-panel textarea,
-    .settings-content-panel input,
-    .settings-content-panel select,
-    .settings-content-panel textarea {
-        min-height: 48px;
-        font-size: 16px;
-        padding: 12px 16px;
+    .settings-input,
+    .settings-select,
+    .settings-textarea {
+        min-height: 44px !important;
+        font-size: 16px !important;
+        padding: 10px 14px !important;
     }
 
     /* Save / action buttons — full width */
-    .settings-main-panel button.primary,
-    .settings-save-btn,
-    .settings-action-btn {
-        width: 100%;
-        min-height: 48px;
-        font-size: 15px;
+    .settings-primary-btn {
+        width: 100% !important;
+        min-height: 44px !important;
+        font-size: 14px !important;
+        justify-content: center !important;
+        display: flex !important;
+        align-items: center !important;
     }
 
-    /* Theme toggle buttons — adapt sizing */
-    .settings-theme-toggle-btn {
-        padding: 10px 16px;
-        min-height: 44px;
-        font-size: 13px;
+    /* Generator form - stack elements */
+    .settings-list-generator-form {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+    .settings-list-generator-form input {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    /* Theme options grid */
+    .settings-theme-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
     }
 }
 
 /* ── PHONE (≤ 480px) ── */
 @media (max-width: 480px) {
-    .settings-sidebar-nav,
-    .settings-left-sidebar {
-        padding: 6px 8px;
+    .settings-window-title {
+        display: none !important;
     }
 
-    .settings-nav-item,
-    .settings-sidebar-btn {
-        padding: 8px 12px;
-        font-size: 12px;
+    .settings-sidebar-aside {
+        padding: 8px 12px !important;
     }
 
-    .settings-main-panel,
-    .settings-content-panel {
-        padding: 16px 12px;
+    .settings-sidebar-nav {
+        gap: 6px !important;
+    }
+
+    .settings-nav-item {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+    }
+
+    .settings-content-wrapper {
+        padding: 16px 12px !important;
     }
 }
 
 @media (max-width: 320px) {
-    .settings-sidebar-nav,
-    .settings-left-sidebar {
-        padding: 4px !important;
+    .settings-sidebar-nav {
+        padding: 2px 0 !important;
     }
 
-    .settings-main-panel,
-    .settings-content-panel {
-        padding: 10px 6px !important;
-    }
-
-    .settings-container,
-    .settings-layout-wrapper {
-        flex-direction: column !important;
-        gap: 12px !important;
+    .settings-content-wrapper {
+        padding: 12px 8px !important;
     }
 }
