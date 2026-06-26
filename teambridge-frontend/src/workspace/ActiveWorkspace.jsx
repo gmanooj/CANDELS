@@ -281,7 +281,12 @@ export default function ActiveWorkspace() {
             return (
                 <div 
                     key={filePath}
-                    onClick={() => setActiveFile(filePath)}
+                    onClick={() => {
+                        setActiveFile(filePath);
+                        if (window.innerWidth < 768) {
+                            setIsDrawerOpen(false);
+                        }
+                    }}
                     className={`file-explorer-item vscode-mono-font file-row-indent ${isActive ? 'active' : ''}`}
                     style={{ '--depth': depth }}
                 >
@@ -1188,21 +1193,11 @@ export default function ActiveWorkspace() {
                         })()}
                     </nav>
                 </div>
-
-                <nav className="apple-menu-list is-bottom">
-                    <span className="menu-section-title">Workspace Mode</span>
-                    <button 
-                        className={`apple-menu-item split-toggle-btn ${isSplitView ? 'is-active' : ''}`} 
-                        onClick={() => { setIsSplitView(!isSplitView); setSidebarOpen(false); }}
-                    >
-                        <span>{isSplitView ? '◫' : '◻'}</span> Split Screen Mode
-                    </button>
-                </nav>
             </aside>
 
             <div className="apple-main-layout-container">
-                {(activeTab === 'Files' || isSplitView) && (
-                    <div className={`apple-workspace-main-panel ${isSplitView ? 'split-active' : ''}`}>
+                {activeTab === 'Files' && (
+                    <div className="apple-workspace-main-panel">
                     <div className={`apple-card-modern file-drawer-card ${isDrawerOpen ? 'is-open' : 'is-closed'}`}>
                         <div className={`file-drawer-inner ${isDrawerOpen ? 'is-open' : 'is-closed'}`}>
                             <div className="file-drawer-header">
@@ -1246,14 +1241,6 @@ export default function ActiveWorkspace() {
                                     title={isDrawerOpen ? "Collapse Panel" : "Expand Panel"}
                                 >
                                     <span>{isDrawerOpen ? '◀' : '▶'}</span> File Explorer
-                                </button>
-
-                                <button
-                                    onClick={() => setIsSplitView(!isSplitView)}
-                                    className={isSplitView ? "apple-btn-primary is-small-active" : "apple-btn-secondary is-small"}
-                                    title={isSplitView ? "Disable Split Screen Mode" : "Enable Split Screen Mode"}
-                                >
-                                    <span>{isSplitView ? '◫' : '◻'}</span> Split Screen
                                 </button>
                             </div>
                             
@@ -1483,7 +1470,7 @@ export default function ActiveWorkspace() {
                 )}
 
                 {activeTab !== 'Files' && (
-                    <div className={`apple-card-modern workspace-form-card ${isSplitView ? 'split-active' : ''} ${activeTab === 'Documents' ? 'docs-tab' : ''}`}>
+                    <div className={`apple-card-modern workspace-form-card ${activeTab === 'Documents' ? 'docs-tab' : ''}`}>
                     <ErrorBoundary>
                     {activeTab === 'Tasks' && (
                         <Tasks
