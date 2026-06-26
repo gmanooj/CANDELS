@@ -1412,20 +1412,6 @@ body.dark .apple-workspace-wrapper.is-main-view .apple-inner-sidebar .sidebar-sc
     border-radius: 0px !important;
 }
 
-.apple-workspace-wrapper.is-main-view .apple-inner-sidebar .apple-menu-item.split-toggle-btn {
-    border-radius: 0px !important;
-    transition: all 0.2s ease;
-    outline: none;
-    width: 100%;
-}
-
-.apple-workspace-wrapper.is-main-view .apple-inner-sidebar .apple-menu-item.split-toggle-btn.is-active {
-    background: #000000 !important;
-    color: #ffffff !important;
-    font-weight: 700;
-    border-radius: 0px !important;
-}
-
 /* 4. File Drawer Explorer Panel */
 .apple-workspace-wrapper.is-main-view .apple-main-layout-container {
     flex: 1;
@@ -2564,10 +2550,6 @@ body.dark .workspace-form-card {
     background: #18181b;
     border-color: #27272a;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
-.workspace-form-card.split-active {
-    flex: 0.8;
-    padding: 24px;
 }
 .workspace-form-card.docs-tab {
     overflow-y: hidden;

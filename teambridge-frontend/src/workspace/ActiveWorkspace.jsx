@@ -36,7 +36,6 @@ export default function ActiveWorkspace() {
     const [activeFile, setActiveFile] = useState('README.md');
     const [activeTab, setActiveTab] = useState('Files'); // Files, Tasks, Chat, Monitor, Git, Reports
     const [isDrawerOpen, setIsDrawerOpen] = useState(true);
-    const [isSplitView, setIsSplitView] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     // Dynamic Database-backed Workspace States
