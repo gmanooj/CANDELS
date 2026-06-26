@@ -90,13 +90,14 @@
     border-radius: 8px;
 }
 
-/* Message Box */
+/* Message Box & WhatsApp UI Styles */
 .workspace-chat-container .message-box {
     align-self: flex-start;
     max-width: 70%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-bottom: 6px;
 }
 
 .workspace-chat-container.is-compact .message-box {
@@ -115,24 +116,143 @@
 }
 
 .workspace-chat-container .message-box .message-bubble {
-    background: #f5f5f7;
-    color: #1d1d1f;
-    border: 1px solid #e5e5e5;
-    padding: 12px 18px;
-    font-size: 12px;
-    line-height: 1.4;
-    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.45;
+    border-radius: 8px;
+    border-top-left-radius: 0px; /* Tail bubble effect on left */
     word-break: break-word;
+    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+    transition: all 0.2s ease;
 }
 
 .workspace-chat-container.is-compact .message-box .message-bubble {
     padding: 8px 12px;
+    font-size: 12px;
 }
 
-.workspace-chat-container .message-box.is-me .message-bubble {
-    background: #000000;
+/* Light Theme (WhatsApp classic look) */
+.workspace-chat-container.chat-light-mode .chats-viewport {
+    background: #efeae2 !important; /* WhatsApp light background */
+    background-image: radial-gradient(rgba(0,0,0,0.06) 1px, transparent 0), radial-gradient(rgba(0,0,0,0.06) 1px, transparent 0);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+}
+
+.workspace-chat-container.chat-light-mode .message-box .message-bubble {
+    background: #ffffff;
+    color: #111b21;
+    border: none;
+}
+
+.workspace-chat-container.chat-light-mode .message-box.is-me .message-bubble {
+    background: #d9fdd3; /* WhatsApp light green */
+    color: #111b21;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 0px; /* Tail bubble effect on right */
+    border: none;
+}
+
+/* Dark Theme (WhatsApp dark mode look) */
+.workspace-chat-container.chat-dark-mode .chats-viewport {
+    background: #0b141a !important; /* WhatsApp dark mode background */
+    background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 0), radial-gradient(rgba(255,255,255,0.04) 1px, transparent 0);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+}
+
+.workspace-chat-container.chat-dark-mode .message-box .message-bubble {
+    background: #202c33; /* WhatsApp dark grey received */
+    color: #e9edef;
+    border: none;
+}
+
+.workspace-chat-container.chat-dark-mode .message-box.is-me .message-bubble {
+    background: #005c4b; /* WhatsApp dark mode green sent */
+    color: #e9edef;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 0px; /* Tail bubble effect on right */
+    border: none;
+}
+
+/* Toggle Buttons & Compact Headers */
+.chat-theme-toggle-btn {
+    background: transparent;
+    border: 1px solid #d2d2d7;
+    color: #1d1d1f;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.chat-theme-toggle-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.workspace-chat-container.chat-dark-mode .chat-theme-toggle-btn {
+    border-color: #3a3a3c;
     color: #ffffff;
-    border: 1px solid #000000;
+}
+
+.workspace-chat-container.chat-dark-mode .chat-theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.chat-compact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+}
+
+.workspace-chat-container.chat-dark-mode .chat-compact-header {
+    border-bottom-color: #27272a;
+}
+
+.chat-compact-header .compact-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #000000;
+}
+
+.workspace-chat-container.chat-dark-mode .chat-compact-header .compact-title {
+    color: #ffffff;
+}
+
+.chat-theme-toggle-btn.is-compact {
+    padding: 2px 6px;
+    min-height: 28px;
+    font-size: 12px;
+}
+
+.workspace-chat-container.chat-dark-mode .chat-header h1 {
+    color: #ffffff;
+}
+
+.workspace-chat-container.chat-dark-mode .chat-header p {
+    color: #a1a1a6;
+}
+
+.workspace-chat-container.chat-dark-mode .warning-banner {
+    background: #2c1a04;
+    border-color: #4a2b00;
+}
+
+.workspace-chat-container.chat-dark-mode .warning-text {
+    color: #ffb04f;
+    font-weight: 500;
+}
+
+.workspace-chat-container.chat-dark-mode .input-action-controls .chat-text-input {
+    background: #202c33;
+    border-color: #3a3a3c;
+    color: #ffffff;
 }
 
 /* Input Action Controls */

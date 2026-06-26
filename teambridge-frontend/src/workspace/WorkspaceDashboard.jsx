@@ -254,8 +254,7 @@ export default function WorkspaceDashboard() {
                                     </div>
 
                                     {/* Turned this into a semantic UI element that matches the parent click seamlessly */}
-                                    <div className="apple-workspace-card" onClick={() => navigate(`/workspace/editor/${project.team_code}`)}>
-                                        {/* ... */}
+                                    <div className="apple-ide-trigger-container">
                                         <div className="apple-ide-trigger">LAUNCH WORKSPACE →</div>
                                     </div>
                                 </div>

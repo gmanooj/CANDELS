@@ -946,8 +946,17 @@ export default function ActiveWorkspace() {
         return (
             <div className="workspace-loader-screen">
                 <div className="loader-content">
-                    <div className="spinner loader-spinner">⚙️</div>
-                    <p>Provisioning TeamBridge Cloud Environment Core...</p>
+                    <div className="gear-spinner">⚙️</div>
+                    <h2 className="loading-status">Connecting to IDE...</h2>
+                    <div className="sliding-messages-container">
+                        <div className="sliding-messages-track">
+                            <div className="slide-msg">It will take a minute, please be patient</div>
+                            <div className="slide-msg">We are trying to fetch your IDE</div>
+                            <div className="slide-msg">Setting up secure environment bindings...</div>
+                            <div className="slide-msg">Connecting to live synchronization channels...</div>
+                            <div className="slide-msg">It will take a minute, please be patient</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -1155,7 +1164,7 @@ export default function ActiveWorkspace() {
                             IDE Clusters
                         </button>
                         <button className="apple-menu-item font-semibold text-blue-600 dark:text-blue-400" onClick={() => { navigate('/settings'); setSidebarOpen(false); }}>
-                            ⚙️ Settings
+                            Settings
                         </button>
                     </nav>
 

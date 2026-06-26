@@ -106,7 +106,7 @@ export default function Documents({
         const pages = isTextDoc ? splitContentIntoA4Pages(activeDoc.content_buffer) : [];
 
         return (
-            <div className="workspace-documents-container">
+            <div className="workspace-documents-container is-preview">
                 
                 {/* MS Word Ribbon Header */}
                 <div className="word-ribbon-header">
@@ -206,7 +206,7 @@ export default function Documents({
 
     // Standard Grid & Selection Table View
     return (
-        <div className="workspace-documents-container">
+        <div className="workspace-documents-container is-dashboard">
             <div className="dashboard-header">
                 <div>
                     <h1>Documents</h1>

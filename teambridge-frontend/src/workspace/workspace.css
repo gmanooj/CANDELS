@@ -57,23 +57,15 @@
 
 
 .sidebar-logo {
-
-    width: 52px;
-    height: 52px;
-
+    width: auto;
+    height: 36px;
+    object-fit: contain;
     border-radius: 0px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    color: white;
-    background: #000000;
-
-    font-size: 22px;
-
+    background: transparent;
     box-shadow: none;
-
 }
 
 
@@ -542,11 +534,9 @@ RESPONSIVE
 }
 
 .sidebar-logo {
-    border-radius: 50% !important;
-    /* Circle logo format */
-    background: #000000;
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0% !important;
+    background: transparent;
+    box-shadow: none;
 }
 .apple-menu-item {
     border-radius: 0px !important;
@@ -1021,18 +1011,69 @@ RESPONSIVE
     height: 100vh;
     justify-content: center;
     align-items: center;
-    background: #0a0a0a;
-    color: #86868b;
-    font-family: sans-serif;
+    background: radial-gradient(circle at center, #1c1c1e 0%, #0a0a0c 100%);
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow: hidden;
 }
 
 .workspace-loader-screen .loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     text-align: center;
 }
 
-.workspace-loader-screen .loader-spinner {
-    margin-bottom: 15px;
-    font-size: 24px;
+.workspace-loader-screen .gear-spinner {
+    font-size: 64px;
+    animation: spinGear 3s linear infinite;
+    display: inline-block;
+    filter: drop-shadow(0 0 15px rgba(0, 82, 255, 0.4));
+}
+
+@keyframes spinGear {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.workspace-loader-screen .loading-status {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin: 0;
+    color: #e5e5e7;
+}
+
+.workspace-loader-screen .sliding-messages-container {
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+    width: 320px;
+}
+
+.workspace-loader-screen .sliding-messages-track {
+    display: flex;
+    flex-direction: column;
+    animation: slideUpInfinite 10s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.workspace-loader-screen .slide-msg {
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+    color: #8e8e93;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+@keyframes slideUpInfinite {
+    0%, 20% { transform: translateY(0); }
+    25%, 45% { transform: translateY(-30px); }
+    50%, 70% { transform: translateY(-60px); }
+    75%, 95% { transform: translateY(-90px); }
+    100% { transform: translateY(-120px); }
 }
 
 .workspace-error-screen {
@@ -1329,16 +1370,14 @@ body.dark .apple-workspace-wrapper.is-main-view .apple-inner-sidebar .sidebar-sc
 }
 
 .apple-workspace-wrapper.is-main-view .apple-inner-sidebar .sidebar-logo {
-    background: #000000;
-    color: #ffffff;
-    font-weight: bold;
-    width: 40px;
-    height: 40px;
+    background: transparent;
+    width: auto;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    border-radius: 50% !important;
+    border-radius: 0% !important;
+    object-fit: contain;
 }
 
 .apple-workspace-wrapper.is-main-view .apple-inner-sidebar .apple-menu-list {
@@ -2493,7 +2532,7 @@ body.dark .form-textarea-small {
 }
 .sidebar-logo {
     height: 36px;
-    width: 36px;
+    width: auto;
     object-fit: contain;
 }
 .sidebar-brand-title {
@@ -2861,7 +2900,6 @@ body.dark .watchdog-core-flex-group input {
     /* Force columns stack in IDE view */
     .apple-main-layout-container,
     .apple-workspace-main-panel,
-    .editor-viewport-card,
     .file-drawer-card,
     .editor-controls-bar {
         flex-direction: column !important;
@@ -2869,6 +2907,15 @@ body.dark .watchdog-core-flex-group input {
         min-height: 0 !important;
         width: 100% !important;
         max-width: 100% !important;
+    }
+
+    .editor-viewport-card {
+        flex-direction: column !important;
+        height: 70vh !important;
+        min-height: 400px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        display: flex !important;
     }
 
     /* Ensure controls bar items stack or wrap cleanly */
@@ -2900,6 +2947,28 @@ body.dark .watchdog-core-flex-group input {
     /* Ensure tree list row indents do not overflow the card */
     .file-row-indent {
         padding-left: calc(var(--depth, 0) * 6px + 4px) !important;
+    }
+
+    /* Console Hub Overrides */
+    .console-hub-container .console-title {
+        font-size: 20px !important;
+    }
+    .console-hub-container .console-subtitle {
+        font-size: 10px !important;
+    }
+    .console-hub-container .console-description {
+        font-size: 12px !important;
+    }
+    .console-hub-container .console-card {
+        padding: 16px !important;
+    }
+    .console-hub-container .console-terminal-box {
+        font-size: 11px !important;
+        padding: 8px 12px !important;
+    }
+    .console-hub-container .console-tab-btn {
+        padding: 6px 12px !important;
+        font-size: 11px !important;
     }
 }
 

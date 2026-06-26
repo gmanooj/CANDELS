@@ -844,7 +844,7 @@
     .timeline-step {
         align-items: flex-start;
         text-align: left;
-        padding-left: 20px;
+        padding-left: 45px;
         border-left: 2px solid #d2d2d7;
         position: relative;
         padding-bottom: 24px;
@@ -1269,6 +1269,201 @@
         font-size: 11px !important;
     }
 
+}
+
+/* ── PHONE (≤ 480px) ── */
+@media (max-width: 480px) {
+    .landing-page-full {
+        padding: 16px;
+        gap: 24px;
+    }
+
+    .hero-intro-text-block h2 {
+        font-size: 26px;
+    }
+
+    .hero-intro-text-block p {
+        font-size: 15px;
+    }
+
+    .login-card {
+        padding: 28px 16px;
+    }
+
+    .section-header-centered h3 {
+        font-size: 22px;
+    }
+
+    .input-group input {
+        font-size: 16px;
+    }
+
+    /* Steps flow — vertical stacked on phone */
+    .steps-flow-timeline {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+/* ============================================================
+   🎨 CLEAN STYLING EXTENSIONS — INLINE STYLE REMOVAL
+   ============================================================ */
+.logo-header-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: opacity 0.3s ease;
+}
+
+.logo-img-main {
+    height: 45px;
+    object-fit: cover;
+}
+
+.logo-text-title {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #1d1d1f;
+}
+
+.hero-btn-group {
+    display: flex;
+    gap: 15px;
+}
+
+.chat-hue {
+    filter: hue-rotate(60deg) brightness(0.95);
+}
+
+.mockup-body.gray-bg {
+    background: #fafafa !important;
+}
+
+.landing-footer {
+    border-top: 1px solid #d2d2d7;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #86868b;
+    font-size: 13px;
+}
+
+.landing-footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.login-brand-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.login-brand-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-brand-logo-img {
+    height: 36px;
+    object-fit: contain;
+}
+
+.login-brand-logo-text {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    color: #1d1d1f;
+}
+
+.login-error-message {
+    color: #ef4444;
+    background: #fee2e2;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-remember-me-lbl {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.google-signin-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+}
+
+@media (max-width: 768px) {
+    .hero-btn-group {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 24px 12px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .input-group input {
+        padding: 10px 12px !important;
+        min-height: 40px !important;
+        font-size: 13px !important;
+    }
+
+    .login-btn {
+        padding: 10px 12px !important;
+        min-height: 40px !important;
+        font-size: 13px !important;
+    }
+
+    .logo-text-title, .login-brand-logo-text {
+        font-size: 16px !important;
+        max-width: 110px !important;
+    }
+
+    .landing-tabs-row {
+        gap: 4px !important;
+    }
+
+    .landing-tab-btn {
+        padding: 6px 10px !important;
+        font-size: 12px !important;
+    }
+}
+
+@media (max-width: 320px) {
+    .login-card {
+        padding: 16px 8px !important;
+    }
+
+    .input-group input {
+        padding: 8px 10px !important;
+        min-height: 36px !important;
+        font-size: 11px !important;
+    }
+
+    .login-btn {
+        padding: 8px 10px !important;
+        min-height: 36px !important;
+        font-size: 11px !important;
+    }
+
     .logo-text-title, .login-brand-logo-text {
         font-size: 13px !important;
         max-width: 80px !important;
@@ -1278,4 +1473,109 @@
         padding: 4px 6px !important;
         font-size: 11px !important;
     }
+}
+
+/* Mobile Features Dropdown */
+.landing-tabs-dropdown {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.features-dropdown-trigger {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    padding: 12px 16px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d1d1f;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    outline: none;
+    transition: all 0.2s;
+}
+
+.features-dropdown-trigger:hover {
+    background: #fafafa;
+    border-color: #86868b;
+}
+
+.features-dropdown-trigger .gear-icon {
+    font-size: 18px;
+    animation: rotateGear 10s linear infinite;
+    display: inline-block;
+    background: #f5f5f7;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    margin-right: 10px;
+    border: 1px solid #e5e5e5;
+}
+
+@keyframes rotateGear {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.features-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    z-index: 100;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: slideDownIn 0.2s ease-out forwards;
+}
+
+@keyframes slideDownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.features-dropdown-menu .dropdown-item {
+    background: transparent;
+    border: none;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1d1d1f;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-bottom: 1px solid #f2f2f7;
+}
+
+.features-dropdown-menu .dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.features-dropdown-menu .dropdown-item:hover {
+    background: #f5f5f7;
+}
+
+.features-dropdown-menu .dropdown-item.active {
+    background: #e8f0ff;
+    color: #0052FF;
+    font-weight: 700;
 }

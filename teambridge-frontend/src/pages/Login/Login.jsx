@@ -24,6 +24,7 @@ function Login() {
   // LANDING PAGE INTERACTIVE VIEW STATES
   const [activeFeatureTab, setActiveFeatureTab] = useState("scaffold");
   const [activeUserRoleTab, setActiveUserRoleTab] = useState("students");
+  const [featureDropdownOpen, setFeatureDropdownOpen] = useState(false);
 
   // ==========================================
   // GOOGLE OAUTH IDENTITY INTEGRATION
@@ -196,7 +197,7 @@ function Login() {
             </div>
 
             {/* Interactive Feature Navigation Tabs */}
-            <div className="landing-tabs-row">
+            <div className="landing-tabs-row hide-on-mobile">
               <button
                 className={`tab-btn-pill ${activeFeatureTab === 'scaffold' ? 'active' : ''}`}
                 onClick={() => setActiveFeatureTab('scaffold')}
@@ -221,6 +222,53 @@ function Login() {
               >
                 📊 Supervisor Telemetry
               </button>
+            </div>
+
+            {/* Mobile Dropdown (Circled Gear) */}
+            <div className="landing-tabs-dropdown show-on-mobile">
+              <button 
+                className="features-dropdown-trigger" 
+                onClick={() => setFeatureDropdownOpen(!featureDropdownOpen)}
+              >
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span className="gear-icon">⚙️</span>
+                  <span>
+                    {activeFeatureTab === 'scaffold' && "💻 Web IDE & Scaffolding"}
+                    {activeFeatureTab === 'e2ee' && "🔒 Client-Side E2EE Chat"}
+                    {activeFeatureTab === 'gallery' && "🖼️ Milestone Gallery"}
+                    {activeFeatureTab === 'monitor' && "📊 Supervisor Telemetry"}
+                  </span>
+                </div>
+                <span className="arrow-icon">▾</span>
+              </button>
+              {featureDropdownOpen && (
+                <div className="features-dropdown-menu">
+                  <button 
+                    className={`dropdown-item ${activeFeatureTab === 'scaffold' ? 'active' : ''}`}
+                    onClick={() => { setActiveFeatureTab('scaffold'); setFeatureDropdownOpen(false); }}
+                  >
+                    💻 Web IDE & Scaffolding
+                  </button>
+                  <button 
+                    className={`dropdown-item ${activeFeatureTab === 'e2ee' ? 'active' : ''}`}
+                    onClick={() => { setActiveFeatureTab('e2ee'); setFeatureDropdownOpen(false); }}
+                  >
+                    🔒 Client-Side E2EE Chat
+                  </button>
+                  <button 
+                    className={`dropdown-item ${activeFeatureTab === 'gallery' ? 'active' : ''}`}
+                    onClick={() => { setActiveFeatureTab('gallery'); setFeatureDropdownOpen(false); }}
+                  >
+                    🖼️ Milestone Gallery
+                  </button>
+                  <button 
+                    className={`dropdown-item ${activeFeatureTab === 'monitor' ? 'active' : ''}`}
+                    onClick={() => { setActiveFeatureTab('monitor'); setFeatureDropdownOpen(false); }}
+                  >
+                    📊 Supervisor Telemetry
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Feature Content Showcase Panel */}

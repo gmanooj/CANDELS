@@ -5,6 +5,15 @@
     height: 100%;
 }
 
+.workspace-documents-container.is-dashboard {
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.workspace-documents-container.is-preview {
+    overflow-y: hidden;
+}
+
 /* MS Word Ribbon Header */
 .workspace-documents-container .word-ribbon-header {
     background: #1d1d1f;
@@ -448,4 +457,53 @@
     font-size: 13px;
     font-weight: 700;
     text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .workspace-documents-container .actions-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+    
+    .workspace-documents-container .dashboard-header h1 {
+        font-size: 24px !important;
+    }
+    
+    .workspace-documents-container .dashboard-header p {
+        font-size: 12px !important;
+    }
+    
+    .workspace-documents-container .actions-grid input[type="text"] {
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+    }
+    
+    .workspace-documents-container .actions-grid .link-btn,
+    .workspace-documents-container .actions-grid .upload-btn {
+        width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+    }
+    
+    .workspace-documents-container .assets-table th {
+        font-size: 10px !important;
+        padding: 8px 4px !important;
+    }
+    
+    .workspace-documents-container .assets-table td {
+        font-size: 11px !important;
+        padding: 8px 4px !important;
+    }
+    
+    .workspace-documents-container .assets-table td .doc-preview-trigger {
+        font-size: 12px !important;
+    }
+    
+    .workspace-documents-container .assets-table td .delete-link-btn {
+        font-size: 11px !important;
+    }
+    
+    .workspace-documents-container .assets-container {
+        overflow-x: auto !important; /* Isolated horizontal scroll for table on mobile */
+    }
 }

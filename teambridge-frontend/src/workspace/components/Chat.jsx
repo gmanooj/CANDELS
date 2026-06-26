@@ -65,6 +65,11 @@ export default function Chat({
     const [chatInput, setChatInput] = useState("");
     const [loading, setLoading] = useState(true);
     const messagesEndRef = useRef(null);
+    const [chatTheme, setChatTheme] = useState(() => localStorage.getItem("tb_chat_theme") || "light");
+
+    useEffect(() => {
+        localStorage.setItem("tb_chat_theme", chatTheme);
+    }, [chatTheme]);
 
     const session = JSON.parse(sessionStorage.getItem("user_session") || "{}");
     const userCode = session.user_code || "";
@@ -158,7 +163,7 @@ export default function Chat({
     }, [messages]);
 
     return (
-        <div className={`workspace-chat-container ${isCompact ? 'is-compact' : ''}`}>
+        <div className={`workspace-chat-container ${isCompact ? 'is-compact' : ''} ${chatTheme === 'dark' ? 'chat-dark-mode' : 'chat-light-mode'}`}>
             {/* Header */}
             {!isCompact && (
                 <div className="chat-header">
@@ -166,6 +171,26 @@ export default function Chat({
                         <h1>Secure Chat</h1>
                         <p>End-to-End Encrypted (E2EE) messaging console for authorized members.</p>
                     </div>
+                    <button 
+                        onClick={() => setChatTheme(prev => prev === 'light' ? 'dark' : 'light')} 
+                        className="chat-theme-toggle-btn"
+                        title="Toggle chat theme"
+                    >
+                        {chatTheme === 'light' ? '🌙 Dark Chat' : '☀️ Light Chat'}
+                    </button>
+                </div>
+            )}
+
+            {isCompact && (
+                <div className="chat-compact-header">
+                    <span className="compact-title">Secure Chat</span>
+                    <button 
+                        onClick={() => setChatTheme(prev => prev === 'light' ? 'dark' : 'light')} 
+                        className="chat-theme-toggle-btn is-compact"
+                        title="Toggle chat theme"
+                    >
+                        {chatTheme === 'light' ? '🌙' : '☀️'}
+                    </button>
                 </div>
             )}
 

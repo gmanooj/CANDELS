@@ -230,8 +230,9 @@
 /* Forms Grid */
 .workspace-tasks-container .leader-actions-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
+    width: 100%;
 }
 
 .workspace-tasks-container .leader-actions-grid .task-creator-card,
@@ -240,6 +241,7 @@
     flex-direction: column;
     gap: 14px;
     padding: 20px;
+    width: 100%;
 }
 
 .workspace-tasks-container .leader-actions-grid .cols-customizer-card {
@@ -261,7 +263,7 @@
 
 .workspace-tasks-container .leader-actions-grid .creator-row-2 {
     display: grid;
-    grid-template-columns: 1fr 1fr 100px;
+    grid-template-columns: 1fr 1fr 140px;
     gap: 10px;
     align-items: center;
 }
