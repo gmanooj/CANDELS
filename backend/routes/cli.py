@@ -172,8 +172,8 @@ def check_cli_token():
 def cli_login():
     """Handles terminal credential checks, generates unique device tokens, and saves them."""
     data = request.json or {}
-    email = data.get('email', '').strip()
-    password = data.get('password', '')
+    email = data.get('email', '').strip()        # 🛠️ Strips trailing spaces from terminal inputs
+    password = data.get('password', '').strip()  # 🛠️ Strips trailing spaces from password inputs
     device_name = data.get('device_name', 'Terminal Device')
     
     if not email or not password:
@@ -181,7 +181,17 @@ def cli_login():
 
     try:
         user = User.query.filter_by(email=email).first()
-        if not user or not check_password_hash(user.password_hash, password):
+        if not user:
+            return jsonify({"status": "error", "message": "Invalid email address or password"}), 401
+
+        # 🛠️ Safe password verification check context
+        is_valid = False
+        try:
+            is_valid = check_password_hash(user.password_hash, password)
+        except Exception:
+            is_valid = False
+
+        if not is_valid:
             return jsonify({"status": "error", "message": "Invalid email address or password"}), 401
             
         if user.status != "active":
@@ -1082,4 +1092,4 @@ def handle_cli_file_stream(data):
 
     except Exception as e:
         db.session.rollback()
-        emit('cli_stream_response', {"status": "error", "message": f"Sync processing failure: {str(e)}"})
+        emit('cli_stream_response', {"status": "error", "message": f"Sync processing failure: {str(e)}"})
