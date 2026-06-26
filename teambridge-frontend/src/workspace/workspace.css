@@ -2925,8 +2925,8 @@ body.dark .watchdog-core-flex-group input {
 
     .editor-viewport-card {
         flex-direction: column !important;
-        height: 70vh !important;
-        min-height: 400px !important;
+        height: 65vh !important;
+        min-height: 500px !important;
         width: 100% !important;
         max-width: 100% !important;
         display: flex !important;
@@ -2985,17 +2985,7 @@ body.dark .watchdog-core-flex-group input {
         font-size: 11px !important;
     }
 
-    .editor-workspace-area {
-        height: 65vh !important;
-        min-height: 450px !important;
-        display: flex !important;
-        flex-direction: column !important;
-    }
-    .editor-monaco-canvas {
-        height: 100% !important;
-        min-height: 420px !important;
-        display: block !important;
-    }
+
     .console-hub-container .console-panels-grid {
         display: flex !important;
         flex-direction: column !important;

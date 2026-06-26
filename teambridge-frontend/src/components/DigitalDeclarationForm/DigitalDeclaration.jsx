@@ -17,10 +17,15 @@ const DigitalDeclaration = ({ teamCode, currentUser }) => {
 
   // 1. Fetch initial status & setup real-time socket listeners
   useEffect(() => {
+    const token = sessionStorage.getItem("auth_token");
     // 🛠️ FIXED: Dual parallel fetch pipeline gathers baseline row configurations AND roster contexts simultaneously
     Promise.all([
-      fetch(`${__BACKEND_URL__}/api/declaration/${teamCode}`).then(res => res.json()),
-      fetch(`${__BACKEND_URL__}/api/team/digital-form-context?team_code=${teamCode}`).then(res => res.json())
+      fetch(`${__BACKEND_URL__}/api/declaration/${teamCode}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      }).then(res => res.json()),
+      fetch(`${__BACKEND_URL__}/api/team/digital-form-context?team_code=${teamCode}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      }).then(res => res.json())
     ])
     .then(([declarationData, formContextData]) => {
       if (declarationData.document) {
@@ -78,7 +83,10 @@ const DigitalDeclaration = ({ teamCode, currentUser }) => {
 
           await fetch(__BACKEND_URL__ + '/api/declaration/save-cloud-url', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${sessionStorage.getItem("auth_token")}`
+            },
             body: JSON.stringify({ team_code: teamCode, firebase_url: downloadURL })
           });
 
@@ -166,7 +174,10 @@ const DigitalDeclaration = ({ teamCode, currentUser }) => {
     try {
       const response = await fetch(__BACKEND_URL__ + '/api/declaration/sign', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionStorage.getItem("auth_token")}`
+        },
         body: JSON.stringify({
           team_code: teamCode,
           user_name: currentUser.name, 
