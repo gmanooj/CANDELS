@@ -2579,6 +2579,10 @@ body.dark .watchdog-core-flex-group input {
     background: #18181b;
 }
 
+.workspace-mobile-topbar {
+    display: none !important;
+}
+
 /* ============================================================
    📱 RESPONSIVE OVERRIDES — WORKSPACE & ACTIVE WORKSPACE
    Tablet ≤ 768px  |  Phone ≤ 480px
@@ -2586,6 +2590,17 @@ body.dark .watchdog-core-flex-group input {
 
 /* ── TABLET (≤ 768px) ── */
 @media (max-width: 768px) {
+
+    .workspace-mobile-topbar {
+        display: flex !important;
+    }
+
+    .apple-workspace-wrapper.is-main-view {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
 
     /* Main workspace wrapper — no flex row on mobile */
     .apple-workspace-wrapper {
@@ -2784,10 +2799,19 @@ body.dark .watchdog-core-flex-group input {
         gap: 12px;
     }
 
-    /* Individual workspace/team cards — full width */
+    /* Individual workspace/team cards — full width and left aligned */
     .apple-workspace-card {
         width: 100% !important;
         min-width: 0 !important;
+        align-items: flex-start !important;
+        padding: 20px 16px !important;
+        box-sizing: border-box !important;
+    }
+
+    .workspace-dashboard-container .project-meta-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
     }
 
     /* Data tables — isolated horizontal scroll */
@@ -2836,6 +2860,13 @@ body.dark .watchdog-core-flex-group input {
     .workspace-action-btn {
         min-height: 48px;
         padding: 12px 20px;
+    }
+
+    /* Stack slides split view vertically on mobile */
+    .workspace-presentation-container .workspace-split-row {
+        grid-template-columns: 1fr !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
 }
 
@@ -2967,16 +2998,12 @@ body.dark .watchdog-core-flex-group input {
     }
     .console-hub-container .console-panels-grid {
         display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        gap: 16px !important;
-        padding-bottom: 15px !important;
-        -webkit-overflow-scrolling: touch !important;
+        flex-direction: column !important;
+        overflow-x: visible !important;
+        gap: 20px !important;
     }
     .console-hub-container .console-panels-grid > .console-btn-group {
-        flex: 0 0 88% !important;
-        min-width: 290px !important;
+        width: 100% !important;
         box-sizing: border-box !important;
     }
 }
