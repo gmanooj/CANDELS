@@ -13,7 +13,7 @@ try:
 except ImportError:
     socketio = None
 
-BACKEND_URL = "http://127.0.0.1:5000/api/cli"
+BACKEND_URL = "https://candels.onrender.com/api/cli"
 
 def is_binary_file(filepath):
     """Check if a file is binary by reading the first 1024 bytes and searching for null byte or high non-text byte ratio."""
@@ -72,7 +72,12 @@ class ProjectActivityHandler(FileSystemEventHandler):
     def start_worker(self):
         if self.sio:
             try:
-                backend_root = BACKEND_URL.rsplit('/api', 1)[0]
+                # 🛠️ SAFE FIX: Ensure it extracts the root domain properly even if trailing slashes vary
+                if '/api' in BACKEND_URL:
+                    backend_root = BACKEND_URL.rsplit('/api', 1)[0]
+                else:
+                    backend_root = BACKEND_URL.replace('/cli', '')
+                
                 self.sio.connect(backend_root)
                 print(f"[WebSocket] Connected to real-time sync engine at {backend_root}")
             except Exception as e:
@@ -259,11 +264,7 @@ def start_workspace_monitoring(team_code, auth_token):
     path_to_watch = os.getcwd()
     settings = {}
     try:
-        response = requests.get(
-            f"http://127.0.0.1:5000/api/workspace/settings?team_code={team_code}",
-            headers={"Authorization": f"Bearer {auth_token}"},
-            timeout=5
-        )
+        response = requests.get(f"https://candels.onrender.com/api/workspace/settings?team_code={team_code}", headers={"Authorization": f"Bearer {auth_token}"}, timeout=5)
         if response.status_code == 200:
             settings = response.json().get("settings", {})
     except Exception:
