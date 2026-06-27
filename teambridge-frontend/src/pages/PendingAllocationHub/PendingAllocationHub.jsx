@@ -145,7 +145,7 @@ const PendingAllocationHub = ({ teamId }) => {
               </div>
               <h2 className="text-2xl font-bold text-slate-800">Digital Declaration Form</h2>
               <p className="text-slate-500 mt-2 text-sm">
-                All team allocations verified. Please review and digitally sign the TeamBridge charter.
+                All team allocations verified. Please review and digitally sign the Candles charter.
               </p>
             </div>
 

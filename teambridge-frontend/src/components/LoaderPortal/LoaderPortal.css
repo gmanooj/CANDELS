@@ -1,100 +1,222 @@
-/* Full-Screen Blur Overlay Background */
-.loading-overlay {
+/* Full-Screen Dark Glass Backdrop */
+.candles-portal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(227, 236, 255, 0.573); 
-    backdrop-filter: blur(8px);
+    background: rgba(9, 9, 11, 0.85); /* Premium dark frosted overlay */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
-    animation: portalFadeIn 0.3s ease forwards;
+    z-index: 99999;
+    animation: portalFadeIn 0.3s ease-out forwards;
 }
 
 /* Centralized Animated Container Card */
-.loader-content-box {
+.candles-loader-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 40px;
+    border-radius: 24px;
+    background: transparent;
     text-align: center;
-    background: #ffffff00;
+}
+
+/* Logo container matching size of logo */
+.candles-logo-animation-container {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    overflow: visible;
+}
+
+/* Sliding shaded border color wrapper */
+.candles-logo-border-glow {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 28px;
+    padding: 3px;
+    background: conic-gradient(from 0deg, transparent, #007aff, #30d158, transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: rotateBorderGlow 4s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes rotateBorderGlow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Logo Background Silhouette (Grayscale, low opacity) */
+.candles-logo-bg-silhouette {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    filter: grayscale(1) brightness(0.4) opacity(0.3);
+    position: absolute;
+}
+
+/* Logo Color Fill (Starts at bottom, fills to top) */
+.candles-logo-color-fill {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    position: absolute;
+    clip-path: inset(100% 0 0 0);
+    animation: logoFillUp 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes logoFillUp {
+    0% { clip-path: inset(100% 0 0 0); }
+    100% { clip-path: inset(0 0 0 0); }
+}
+
+/* When filled, keep normal state */
+.candles-logo-color-fill.is-filled {
+    clip-path: inset(0 0 0 0);
+}
+
+/* Vanish phase - consumes/vanishes the logo colors starting from top in circular direction, like a train */
+.candles-logo-color-fill.is-vanishing {
+    animation: logoSweepVanish 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes logoSweepVanish {
+    0% {
+        clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%);
+    }
+    25% {
+        clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 0% 100%, 0% 0%, 50% 0%);
+    }
+    50% {
+        clip-path: polygon(50% 50%, 50% 100%, 0% 100%, 0% 0%, 50% 0%);
+    }
+    75% {
+        clip-path: polygon(50% 50%, 0% 50%, 0% 0%, 50% 0%);
+    }
+    100% {
+        clip-path: polygon(50% 50%, 50% 0%, 50% 0%);
+        opacity: 0;
+    }
+}
+
+/* Circular Orbit Track */
+.candles-orbiting-track {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    animation: orbitSpin 2s linear infinite;
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes orbitSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Orbiting Star/Circle (Pulls color and rotates) */
+.candles-orbiting-star {
+    width: 12px;
+    height: 12px;
+    background: #ffb300;
+    color: #ffb300;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 0 12px #ffb300, 0 0 20px #ffb300;
+    position: absolute;
+    top: -6px;
+}
+
+/* Sliding Messages Ticker (Infinite vertical sliding) */
+.candles-loader-sliding-messages {
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+    width: 320px;
+}
+
+.candles-messages-track {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.candles-sliding-message-item {
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #a1a1aa;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* SUCCESS CARD VIEW */
+.candles-success-card {
+    text-align: center;
+    background: #0f0f11;
+    border: 1px solid #27272a;
     padding: 40px 50px;
     border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
-}
-
-/* Sequential Icon Cycling Frame (Royal Enfield Inspiration) */
-.enfield-icon-display {
-    font-size: 52px;
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f1f5f9;
-    border-radius: 50%;
-    color: #2563eb;
-    animation: pulseGlow 1.5s infinite ease-in-out, popScale 0.4s ease-in-out infinite alternate;
-}
-
-.loader-status-text {
-    font-size: 16px;
-    font-weight: 600;
-    color: #000000;
-    letter-spacing: 0.3px;
-    margin-top: 8px;
-}
-
-/* SUCCESS MODAL VARIANT */
-.success-pop-card {
-    transform: scale(0.8);
+    transform: scale(0.85);
     animation: popInSuccess 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-.success-checkmark-circle {
-    font-size: 64px;
-    color: #10b981;
-    background: #dcfce7;
-    width: 90px;
-    height: 90px;
+.candles-success-checkmark-circle {
+    font-size: 48px;
+    color: #30d158;
+    background: rgba(48, 209, 88, 0.12);
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(48, 209, 88, 0.3);
 }
 
-.success-title {
-    color: #000000; 
+.candles-success-title {
+    color: #f4f4f5; 
     margin: 10px 0 0 0; 
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
-.success-subtitle {
-    color: #64748b; 
+.candles-success-subtitle {
+    color: #a1a1aa; 
     font-size: 14px; 
     margin: 4px 0 0 0;
 }
 
-/* KEYFRAMES */
 @keyframes portalFadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-}
-
-@keyframes pulseGlow {
-    0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
-    70% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
-}
-
-@keyframes popScale {
-    0% { transform: scale(0.95); }
-    100% { transform: scale(1.05); }
 }
 
 @keyframes popInSuccess {

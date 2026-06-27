@@ -42,7 +42,7 @@ const Logo = ({ size = 36, showText = true }) => {
             letterSpacing: '-0.5px'
           }}
         >
-          TB
+          C
         </text>
       </svg>
 
@@ -55,7 +55,7 @@ const Logo = ({ size = 36, showText = true }) => {
           letterSpacing: '-0.5px',
           fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
         }}>
-          TeamBridge
+          Candles
         </span>
       )}
     </div>

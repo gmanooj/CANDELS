@@ -158,7 +158,7 @@ export default function Documents({
                                     
                                     {/* Virtual Page Footer */}
                                     <div className="page-footer">
-                                        <span>TeamBridge Live Doc</span>
+                                        <span>Candles Live Doc</span>
                                         <span>Page {pageIdx + 1} of {pages.length}</span>
                                     </div>
                                 </div>
@@ -184,7 +184,7 @@ export default function Documents({
                                         D:\TeamBridge_Workspaces\team_{teamCode}\{activeDoc.file_path || activeDoc.name}
                                     </code>
                                     <span className="box-disclaimer">
-                                        💡 <strong>Dynamic Synchronization:</strong> Open and edit this file locally on your system using Microsoft Word or any editor. The TeamBridge file watcher daemon will automatically capture edits and stream changes in real-time.
+                                        💡 <strong>Dynamic Synchronization:</strong> Open and edit this file locally on your system using Microsoft Word or any editor. The Candles file watcher daemon will automatically capture edits and stream changes in real-time.
                                     </span>
                                 </div>
 

@@ -82,7 +82,6 @@ def register_or_update_document_record(team_code, rel_path, content_b64, email):
                 {"buffer": content_str, "id": doc[0]}
             )
             
-            # Update physical server-side preview cache file if it exists
             stored_url = doc[1]
             if stored_url and "filename=" in stored_url:
                 from urllib.parse import urlparse, parse_qs
@@ -138,7 +137,6 @@ def check_cli_token():
         
     try:
         if token.startswith("tb_live_"):
-            # Check Developer API Key
             token_hash = hashlib.sha256(token.encode('utf-8')).hexdigest()
             query = text("""
                 SELECT user_id FROM user_api_keys 
@@ -147,33 +145,35 @@ def check_cli_token():
             """)
             row = db.session.execute(query, {"key_hash": token_hash}).fetchone()
             if row:
-                # Update last_used_at telemetry
                 db.session.execute(
                     text("UPDATE user_api_keys SET last_used_at = NOW() WHERE key_hash = :key_hash"),
                     {"key_hash": token_hash}
                 )
                 db.session.commit()
-                return row[0] # Returns user's email
+                return row[0]
         else:
-            # Check normal device token
             query = text("""
                 SELECT user_id FROM cli_auth_tokens 
                 WHERE auth_token = :token AND (expires_at IS NULL OR expires_at > NOW())
             """)
             row = db.session.execute(query, {"token": token}).fetchone()
             if row:
-                return row[0] # Returns user's email
+                return row[0]
     except Exception as e:
         print("CLI token database lookup failed:", e)
         
     return None
 
+# =====================================================================
+# 🔐 AUTHENTICATION ENDPOINTS
+# =====================================================================
+
 @cli_bp.route('/login', methods=['POST'])
 def cli_login():
     """Handles terminal credential checks, generates unique device tokens, and saves them."""
     data = request.json or {}
-    email = data.get('email', '').strip()        # 🛠️ Strips trailing spaces from terminal inputs
-    password = data.get('password', '').strip()  # 🛠️ Strips trailing spaces from password inputs
+    email = data.get('email', '').strip()        
+    password = data.get('password', '').strip()  
     device_name = data.get('device_name', 'Terminal Device')
     
     if not email or not password:
@@ -184,7 +184,6 @@ def cli_login():
         if not user:
             return jsonify({"status": "error", "message": "Invalid email address or password"}), 401
 
-        # 🛠️ Safe password verification check context
         is_valid = False
         try:
             is_valid = check_password_hash(user.password_hash, password)
@@ -197,10 +196,8 @@ def cli_login():
         if user.status != "active":
             return jsonify({"status": "error", "message": f"Your account status is currently: {user.status}"}), 403
 
-        # Generate custom secure long-lived token for terminal sync
         generated_token = f"tb_cli_{secrets.token_hex(24)}"
         
-        # Save token linked to user in cli_auth_tokens table
         db.session.execute(
             text("""
                 INSERT INTO cli_auth_tokens (user_id, auth_token, device_name, created_at, expires_at)
@@ -224,10 +221,36 @@ def cli_login():
         db.session.rollback()
         return jsonify({"status": "error", "message": str(e)}), 500
 
+@cli_bp.route('/profile', methods=['GET'])
+def cli_get_profile():
+    """Returns profile context for the `cn auth whoami` group pipeline."""
+    user_email = check_cli_token()
+    if not user_email:
+        return jsonify({"status": "error", "message": "Unauthorized token."}), 401
+        
+    try:
+        user = User.query.filter_by(email=user_email).first()
+        if not user:
+            return jsonify({"status": "error", "message": "User not found."}), 404
+            
+        return jsonify({
+            "status": "success",
+            "user": {
+                "name": getattr(user, 'name', 'Manoj'), # Fallback tracking name
+                "email": user_email,
+                "status": user.status
+            }
+        }), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+# =====================================================================
+# 📂 WORKSPACE MANAGEMENT ENDPOINTS
+# =====================================================================
 
 @cli_bp.route('/projects', methods=['GET'])
 def cli_get_projects():
-    """Fetches all active projects the user has access to."""
+    """Fetches all active projects the user has access to (Supports `cn workspace list/select`)."""
     user_email = check_cli_token()
     if not user_email:
         return jsonify({"status": "error", "message": "Unauthorized: Invalid or expired CLI token."}), 401
@@ -273,6 +296,43 @@ def cli_get_projects():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
+@cli_bp.route('/workspace/info', methods=['GET'])
+def cli_get_workspace_info():
+    """Provides file count and layout diagnostic analytics metadata metrics for `cn workspace info` checks."""
+    user_email = check_cli_token()
+    if not user_email:
+        return jsonify({"status": "error", "message": "Unauthorized"}), 401
+        
+    team_code = request.args.get('team_code')
+    if not team_code:
+        return jsonify({"status": "error", "message": "Missing team_code parameter."}), 400
+        
+    project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
+    file_count = 0
+    total_size = 0
+    
+    if os.path.exists(project_dir):
+        for root, _, files in os.walk(project_dir):
+            for f in files:
+                file_count += 1
+                try:
+                    total_size += os.path.getsize(os.path.join(root, f))
+                except OSError:
+                    pass
+
+    return jsonify({
+        "status": "success",
+        "workspace": {
+            "team_code": team_code,
+            "total_files": file_count,
+            "storage_bytes": total_size,
+            "storage_mb": round(total_size / (1024 * 1024), 2)
+        }
+    }), 200
+
+# =====================================================================
+# ⚡ SYNCHRONIZATION PIPELINE ROUTINES
+# =====================================================================
 
 @cli_bp.route('/files', methods=['GET'])
 def cli_get_files():
@@ -332,7 +392,6 @@ def cli_upload_file():
     if not team_code or not file_path or content_b64 is None:
         return jsonify({"status": "error", "message": "Missing parameters."}), 400
 
-    # Check if this is a registered document path first
     is_registered_doc = False
     doc_check = None
     try:
@@ -379,7 +438,6 @@ def cli_upload_file():
             )
             db.session.commit()
 
-            # Write content to server-side physical file if it exists
             stored_url = doc_check[1]
             if stored_url and "filename=" in stored_url:
                 from urllib.parse import urlparse, parse_qs
@@ -394,7 +452,6 @@ def cli_upload_file():
                 except Exception as fe:
                     print("Failed to sync file content to server physical file:", fe)
 
-            # Broadcast Socket.IO update
             socketio.emit('document_update', {
                 "team_code": team_code,
                 "document_name": os.path.basename(file_path),
@@ -408,12 +465,10 @@ def cli_upload_file():
             db.session.rollback()
             return jsonify({"status": "error", "message": str(e)}), 500
 
-    # Safety checks to prevent directory traversal
     clean_path = os.path.normpath(file_path.replace('\\', '/'))
     if clean_path.startswith('..') or os.path.isabs(clean_path):
         return jsonify({"status": "error", "message": "Invalid file path."}), 400
 
-    # Ignore files in system folders
     ignored_folders = {'.git', 'node_modules', '__pycache__', '.teambridge', 'venv', 'env'}
     path_parts = clean_path.split(os.sep)
     if any(ignored in path_parts for ignored in ignored_folders):
@@ -422,7 +477,6 @@ def cli_upload_file():
     project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
     full_path = os.path.join(project_dir, clean_path)
 
-    # Enforce canonical path checks via commonpath
     canonical_proj = os.path.realpath(project_dir)
     canonical_dest = os.path.realpath(full_path)
     try:
@@ -436,7 +490,6 @@ def cli_upload_file():
         with open(full_path, 'wb') as f:
             f.write(base64.b64decode(content_b64))
 
-        # Log workspace activity in database
         db.session.execute(
             text("""
                 INSERT INTO activity_heartbeats (team_code, user_id, focused_file, keystrokes_count, active_seconds)
@@ -450,7 +503,6 @@ def cli_upload_file():
         )
         db.session.commit()
 
-        # Notify active Web IDE clients about the file update in real time
         try:
             socketio.emit('file_updated', {
                 "team_code": team_code,
@@ -486,7 +538,6 @@ def cli_drop_file():
     if not team_code or not file_path:
         return jsonify({"status": "error", "message": "Missing parameters."}), 400
 
-    # Prevent traversal
     clean_path = os.path.normpath(file_path.replace('\\', '/'))
     if clean_path.startswith('..') or os.path.isabs(clean_path):
         return jsonify({"status": "error", "message": "Invalid file path."}), 400
@@ -494,7 +545,6 @@ def cli_drop_file():
     project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
     full_path = os.path.join(project_dir, clean_path)
 
-    # Enforce canonical path checks via commonpath
     canonical_proj = os.path.realpath(project_dir)
     canonical_dest = os.path.realpath(full_path)
     try:
@@ -513,7 +563,6 @@ def cli_drop_file():
         else:
             os.remove(full_path)
 
-        # Log workspace activity in database
         db.session.execute(
             text("""
                 INSERT INTO activity_heartbeats (team_code, user_id, focused_file, keystrokes_count, active_seconds)
@@ -527,7 +576,6 @@ def cli_drop_file():
         )
         db.session.commit()
 
-        # Emit file delete socket event to web IDEs
         try:
             socketio.emit('file_updated', {
                 "team_code": team_code,
@@ -547,7 +595,7 @@ def cli_drop_file():
 
 @cli_bp.route('/sync', methods=['POST'])
 def sync_activity_logs():
-    """Receives batched structural activity logs from the CLI client and pushes them to the engine."""
+    """Receives batched structural activity logs from the CLI client."""
     data = request.json or {}
     heartbeats = data.get('heartbeats', [])
     
@@ -587,6 +635,10 @@ def sync_activity_logs():
     except Exception as e:
         db.session.rollback()
         return jsonify({"status": "error", "message": str(e)}), 500
+
+# =====================================================================
+# ⚙️ DEVELOPER API CONNECTIONS ACCESS KEYS
+# =====================================================================
 
 @cli_bp.route('/keys/generate', methods=['POST'])
 def generate_api_key():
@@ -675,6 +727,10 @@ def revoke_api_key():
         db.session.rollback()
         return jsonify({"status": "error", "message": str(e)}), 500
 
+# =====================================================================
+# 📦 BATCH TRANSACTIONS AND BULK STREAM CHANNELS
+# =====================================================================
+
 @cli_bp.route('/upload-batch', methods=['POST'])
 def cli_upload_batch():
     """Receives a list of files to sync/save inside the team's server directory in a single batch."""
@@ -731,7 +787,6 @@ def cli_upload_batch():
 
             full_path = os.path.join(project_dir, clean_path)
             
-            # Enforce canonical path checks via commonpath
             canonical_proj = os.path.realpath(project_dir)
             canonical_dest = os.path.realpath(full_path)
             try:
@@ -830,9 +885,7 @@ def cli_upload_batch():
 
 @socketio.on('cli_file_stream')
 def handle_cli_file_stream(data):
-    """
-    WebSocket-driven sync engine to process file updates and drops in a single persistent channel.
-    """
+    """WebSocket-driven sync engine to process real-time streams."""
     token = data.get('auth_token')
     team_code = data.get('team_code')
     files = data.get('files', [])
@@ -841,7 +894,6 @@ def handle_cli_file_stream(data):
         emit('cli_stream_response', {"status": "error", "message": "Missing authorization or team code."})
         return
 
-    # Authenticate key / token
     user_email = None
     try:
         if token.startswith("tb_live_"):
@@ -879,7 +931,6 @@ def handle_cli_file_stream(data):
     deleted_files = []
     error_files = []
 
-    # Query settings for file validation
     max_file_size_bytes = 2 * 1024 * 1024
     ignored_folders = {'.git', 'node_modules', '__pycache__', '.teambridge', 'venv', 'env'}
     allowed_exts = None
@@ -907,7 +958,6 @@ def handle_cli_file_stream(data):
 
             clean_path = os.path.normpath(file_path.replace('\\', '/'))
             
-            # Check if this is a registered document path first
             is_registered_doc = False
             doc_check = None
             try:
@@ -955,7 +1005,6 @@ def handle_cli_file_stream(data):
                             {"buffer": content_str, "team": team_code, "path": file_path}
                         )
 
-                        # Write content to server-side physical file if it exists
                         stored_url = doc_check[1]
                         if stored_url and "filename=" in stored_url:
                             from urllib.parse import urlparse, parse_qs
@@ -970,7 +1019,6 @@ def handle_cli_file_stream(data):
                             except Exception as fe:
                                 print("Failed to sync file content to server physical file:", fe)
 
-                        # Broadcast Socket.IO update
                         socketio.emit('document_update', {
                             "team_code": team_code,
                             "document_name": os.path.basename(file_path),
@@ -995,7 +1043,6 @@ def handle_cli_file_stream(data):
             full_path = os.path.join(project_dir, clean_path)
             canonical_dest = os.path.realpath(full_path)
             
-            # Absolute canonical realpath validation to block symlink escapes
             try:
                 if os.path.commonpath([canonical_proj, canonical_dest]) != canonical_proj:
                     error_files.append({"path": file_path, "error": "Symlink escape attempt blocked."})
@@ -1037,7 +1084,6 @@ def handle_cli_file_stream(data):
                     error_files.append({"path": file_path, "error": f"Extension {ext} is not allowed."})
                     continue
 
-                # Size constraint
                 estimated_size = len(content_b64) * 3 // 4
                 if estimated_size > max_file_size_bytes:
                     error_files.append({"path": file_path, "error": f"File exceeds size limit."})
@@ -1069,7 +1115,6 @@ def handle_cli_file_stream(data):
 
         db.session.commit()
 
-        # Emit update notify trigger to active Web IDE interfaces
         if success_files or deleted_files:
             try:
                 socketio.emit('file_updated', {

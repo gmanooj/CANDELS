@@ -9,6 +9,12 @@
   --text-main: #1d1d1f;
   --text-muted: #86868b;
   --accent-blue: #007aff;
+  --bg-hover: rgba(0, 0, 0, 0.05);
+  --bg-active: rgba(0, 0, 0, 0.08);
+  --bg-secondary: rgba(0, 0, 0, 0.02);
+  --bg-secondary-light: rgba(0, 0, 0, 0.01);
+  --bg-secondary-hover: rgba(0, 0, 0, 0.04);
+  --bg-secondary-active: rgba(0, 0, 0, 0.06);
 }
 
 /* Dark Mode Variables */
@@ -20,6 +26,12 @@ body.dark,
   --border-color: #27272a;
   --text-main: #f4f4f5;
   --text-muted: #a1a1aa;
+  --bg-hover: rgba(255, 255, 255, 0.08);
+  --bg-active: rgba(255, 255, 255, 0.12);
+  --bg-secondary: rgba(255, 255, 255, 0.04);
+  --bg-secondary-light: rgba(255, 255, 255, 0.02);
+  --bg-secondary-hover: rgba(255, 255, 255, 0.06);
+  --bg-secondary-active: rgba(255, 255, 255, 0.1);
 }
 
 /* Frosted Glass / Glassmorphism Mode */
@@ -125,7 +137,7 @@ body.frosted,
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--bg-hover);
   color: var(--text-main);
   border-radius: 8px;
   font-size: 12px;
@@ -136,7 +148,7 @@ body.frosted,
 }
 
 .settings-back-btn:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-secondary-active);
 }
 
 /* Two-Column Stage */
@@ -203,11 +215,11 @@ body.frosted,
 }
 
 .settings-nav-item:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--bg-hover);
 }
 
 .settings-nav-item.active {
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: var(--bg-active);
   font-weight: 600;
 }
 
@@ -300,7 +312,7 @@ body.frosted,
 .settings-textarea {
   width: 100%;
   padding: 10px 14px;
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 10px;
   color: var(--text-main);
@@ -325,7 +337,7 @@ body.frosted,
 .settings-card-meta-list {
   border-top: 1px solid var(--border-color);
   padding: 16px 24px;
-  background-color: rgba(0, 0, 0, 0.01);
+  background-color: var(--bg-secondary-light);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -357,7 +369,7 @@ body.frosted,
 .settings-meta-item-value.badge {
   text-transform: capitalize;
   font-size: 11px;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--bg-hover);
   padding: 3px 8px;
   border-radius: 6px;
   color: var(--text-main);
@@ -366,7 +378,7 @@ body.frosted,
 /* Card Footer */
 .settings-card-footer {
   padding: 16px 24px;
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;

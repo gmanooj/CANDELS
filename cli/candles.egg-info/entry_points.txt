@@ -1,5 +1,0 @@
-[console_scripts]
-candles = candles.main:cli
-cn = candles.main:cli
-cn-live = candles.main:live_script
-cn-login = candles.main:login_script

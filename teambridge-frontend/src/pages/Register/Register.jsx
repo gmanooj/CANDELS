@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import LoaderPortal from "../../components/LoaderPortal/LoaderPortal";
 import "./Register.css";
 
 function Register() {
@@ -220,26 +221,16 @@ function Register() {
           🔮 DYNAMIC HIGH-END STATUS INTERFACE OVERLAYS
           ========================================================= */}
       
-      {statusAnimation === "loading" && (
-        <div className="custom-motion-overlay">
-          <div className="motion-wrapper-card">
-            <div className="spinning-sync-icon">⚡</div>
-            <p className="motion-label-text">Synchronizing security protocols...</p>
-          </div>
-        </div>
-      )}
-
-      {statusAnimation === "success_popup" && (
-        <div className="custom-motion-overlay green-pass">
-          <div className="motion-wrapper-card success-burst">
-            <div className="pie-timer-loader">
-              <div className="checkmark-burst-icon">✓</div>
-            </div>
-            <h2 className="motion-title">Profile Compiled</h2>
-            <p className="motion-desc">Verification successful. Your secure Candels workspace account is now live!</p>
-          </div>
-        </div>
-      )}
+      <LoaderPortal 
+        statusState={
+          statusAnimation === "loading" 
+            ? "loading" 
+            : statusAnimation === "success_popup" 
+              ? "success" 
+              : "idle"
+        } 
+        customText="Synchronizing security protocols..."
+      />
 
       {statusAnimation === "error_popup" && (
         <div className="custom-motion-overlay red-block">

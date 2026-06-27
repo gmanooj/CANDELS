@@ -208,7 +208,20 @@ export default function WorkspaceDashboard() {
                     </div>
                 </header>
 
-                {loading && activeTab === 'clusters' && <div className="loading-clusters-text">Querying configuration channels...</div>}
+                {loading && activeTab === 'clusters' && (
+                    <div className="data-fetching-overlay">
+                        <div className="fetching-loader-box">
+                            <div className="fetching-spinner"></div>
+                            <div className="fetching-message-container">
+                                <div className="fetching-message-track">
+                                    <div className="fetching-message-item">Querying configuration channels...</div>
+                                    <div className="fetching-message-item">Fetching allocated project environments...</div>
+                                    <div className="fetching-message-item">Securing dashboard connection...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 {errorMessage && activeTab === 'clusters' && <div className="alert-box error has-margin-bottom">❌ {errorMessage}</div>}
 
                 {/* Tab Content Rendering */}

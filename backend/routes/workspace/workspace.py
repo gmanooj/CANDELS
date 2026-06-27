@@ -880,6 +880,57 @@ def get_workspace_activities():
         return jsonify({"error": str(e)}), 500
 
 
+@workspace_bp.route('/logs', methods=['GET'])
+def get_workspace_logs():
+    """Fetches workspace audit logs from the last 24 hours, pruning older records."""
+    team_code = request.args.get('team_code')
+    if not team_code:
+        return jsonify({"error": "Missing team_code parameter."}), 400
+    try:
+        # First, purge old heartbeats (> 24 hours) from the database
+        db.session.execute(
+            text("DELETE FROM activity_heartbeats WHERE sync_timestamp < NOW() - INTERVAL 1 DAY")
+        )
+        db.session.commit()
+        
+        # Now query remaining heartbeats in the last 24 hours joined with users
+        query = text("""
+            SELECT h.focused_file, h.sync_timestamp, u.first_name, u.last_name, u.email, u.profile_image
+            FROM activity_heartbeats h
+            JOIN users u ON h.user_id = u.email
+            WHERE h.team_code = :code
+            ORDER BY h.sync_timestamp DESC
+        """)
+        rows = db.session.execute(query, {"code": team_code}).fetchall()
+        
+        logs = []
+        for r in rows:
+            focused_file = r[0]
+            # Standardize saved file actions nicely
+            action = focused_file
+            if '/' in focused_file or '.' in focused_file:
+                prefixes = [
+                    "Task Created:", "Task Deleted:", "Task Updated:", 
+                    "Linked Doc:", "Removed Doc:", "Uploaded Doc:", 
+                    "Git Commit:", "Uploaded Implementation Showcase:"
+                ]
+                if not any(focused_file.startswith(p) for p in prefixes):
+                    action = f"Saved file: {focused_file}"
+            
+            logs.append({
+                "action": action,
+                "timestamp": r[1].strftime("%Y-%m-%d %H:%M:%S") if r[1] else "",
+                "user_name": f"{r[2]} {r[3]}".strip(),
+                "email": r[4],
+                "profile_image": r[5] or ""
+            })
+            
+        return jsonify({"status": "success", "logs": logs}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
 def extract_docx_text(filepath):
     import zipfile
     import xml.etree.ElementTree as ET

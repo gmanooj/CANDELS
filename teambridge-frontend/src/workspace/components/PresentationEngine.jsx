@@ -42,7 +42,7 @@ export default function PresentationEngine({
 }) {
     const [presentations, setPresentations] = useState([]);
     const [selectedPresName, setSelectedPresName] = useState("");
-    const [markdownContent, setMarkdownContent] = useState("# Welcome to TeamBridge Slides\n---\n## Slides-as-Code\n- Write markdown text on the left panel\n- See interactive previews render on the right panel\n---\n## Features\n- Use `---` on a new line to separate slides\n- Zero third-party dependencies\n- Full database sync support");
+    const [markdownContent, setMarkdownContent] = useState("# Welcome to Candles Slides\n---\n## Slides-as-Code\n- Write markdown text on the left panel\n- See interactive previews render on the right panel\n---\n## Features\n- Use `---` on a new line to separate slides\n- Zero third-party dependencies\n- Full database sync support");
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const [newPresName, setNewPresName] = useState("");
     const [saveStatus, setSaveStatus] = useState("");

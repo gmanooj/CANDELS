@@ -159,10 +159,16 @@ export default function Settings() {
 
   if (loading) {
     return (
-      <div className="settings-window-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-          <div className="settings-spinner" />
-          <span style={{ fontSize: '13px', fontWeight: 500 }}>Synchronizing System Preferences...</span>
+      <div className="data-fetching-overlay">
+        <div className="fetching-loader-box">
+          <div className="fetching-spinner"></div>
+          <div className="fetching-message-container">
+            <div className="fetching-message-track">
+              <div className="fetching-message-item">Synchronizing Candles preferences...</div>
+              <div className="fetching-message-item">Connecting to user datastore...</div>
+              <div className="fetching-message-item">Assembling settings portal...</div>
+            </div>
+          </div>
         </div>
       </div>
     );

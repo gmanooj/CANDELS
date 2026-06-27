@@ -37,6 +37,9 @@ export default function ActiveWorkspace() {
     const [activeTab, setActiveTab] = useState('Files'); // Files, Tasks, Chat, Monitor, Git, Reports
     const [isDrawerOpen, setIsDrawerOpen] = useState(true);
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [autoSave, setAutoSave] = useState(() => localStorage.getItem('auto_save') === 'true');
+    const [isBestFit, setIsBestFit] = useState(false);
+    const autoSaveTimeoutRef = React.useRef(null);
 
     // Dynamic Database-backed Workspace States
     // Dynamic Database-backed Workspace States
@@ -53,6 +56,8 @@ export default function ActiveWorkspace() {
     const [permissions, setPermissions] = useState({ read: true, write: true, mode: "editor" });
     const [authError, setAuthError] = useState(null);
     const [documents, setDocuments] = useState([]);
+    const [logs, setLogs] = useState([]);
+    const [logsLoading, setLogsLoading] = useState(false);
     const [newDocName, setNewDocName] = useState("");
     const [newDocUrl, setNewDocUrl] = useState("");
     const [activities, setActivities] = useState([]);
@@ -394,6 +399,23 @@ export default function ActiveWorkspace() {
             .catch(err => console.error("Failed to fetch activities.", err));
     };
 
+    const fetchLogs = () => {
+        if (!teamCode) return;
+        setLogsLoading(true);
+        fetch(`${__BACKEND_URL__}/api/workspace/logs?team_code=${teamCode}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.logs) {
+                    setLogs(data.logs);
+                }
+                setLogsLoading(false);
+            })
+            .catch(err => {
+                console.error("Failed to fetch audit logs.", err);
+                setLogsLoading(false);
+            });
+    };
+
     const fetchFileComments = () => {
         if (!teamCode || !activeFile) return;
         fetch(`${__BACKEND_URL__}/api/workspace/comments?team_code=${teamCode}&file_path=${activeFile}`)
@@ -516,6 +538,7 @@ export default function ActiveWorkspace() {
             fetchActivities();
             fetchFileComments();
             fetchFilesList();
+            fetchLogs();
         }
     }, [teamCode, isInitialized]);
 
@@ -660,11 +683,31 @@ export default function ActiveWorkspace() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [activeFile, currentContent]);
 
+    useEffect(() => {
+        return () => {
+            if (autoSaveTimeoutRef.current) {
+                clearTimeout(autoSaveTimeoutRef.current);
+            }
+        };
+    }, [activeFile]);
+
     const handleEditorChange = (val) => {
         setEditorContents(prev => ({
             ...prev,
             [activeFile]: val
         }));
+
+        if (autoSave) {
+            if (autoSaveTimeoutRef.current) {
+                clearTimeout(autoSaveTimeoutRef.current);
+            }
+            autoSaveTimeoutRef.current = setTimeout(() => {
+                const isSensitive = activeFile.endsWith('.env') || activeFile.endsWith('.key') || activeFile.toLowerCase().includes('secret') || activeFile.toLowerCase().includes('password') || activeFile.toLowerCase().includes('credential');
+                if (!isSensitive) {
+                    saveFileContent(activeFile, val);
+                }
+            }, 1000);
+        }
     };
 
     // Kanban Task Handlers
@@ -1122,6 +1165,9 @@ export default function ActiveWorkspace() {
     const handleTabClick = (tab) => {
         setActiveTab(tab);
         setSidebarOpen(false);
+        if (tab === 'Logs') {
+            fetchLogs();
+        }
     };
 
     return (
@@ -1175,7 +1221,7 @@ export default function ActiveWorkspace() {
                     <nav className="apple-menu-list">
                         <span className="menu-section-title">IDE Views</span>
                         {(() => {
-                            const tabsToShow = ['Files', 'Tasks', 'Chat', 'Git', 'Documents', 'Slides', 'Implementations', 'Access & API'];
+                            const tabsToShow = ['Files', 'Tasks', 'Chat', 'Git', 'Documents', 'Slides', 'Implementations', 'Access & API', 'Logs'];
                             if (userRole === 'Faculty') {
                                 tabsToShow.splice(3, 0, 'Monitor'); // Insert 'Monitor' at index 3
                                 tabsToShow.push('Reports');
@@ -1197,12 +1243,22 @@ export default function ActiveWorkspace() {
             <div className="apple-main-layout-container">
                 {activeTab === 'Files' && (
                     <div className="apple-workspace-main-panel">
-                    <div className={`apple-card-modern file-drawer-card ${isDrawerOpen ? 'is-open' : 'is-closed'}`}>
+                    <div className={`apple-card-modern file-drawer-card ${isDrawerOpen ? 'is-open' : 'is-closed'} ${isBestFit ? 'is-best-fit' : ''}`}>
                         <div className={`file-drawer-inner ${isDrawerOpen ? 'is-open' : 'is-closed'}`}>
                             <div className="file-drawer-header">
-                                <span className="file-drawer-title">
-                                    Files
-                                </span>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <span className="file-drawer-title">Files</span>
+                                    {isDrawerOpen && (
+                                        <button 
+                                            onClick={() => setIsBestFit(!isBestFit)}
+                                            className={`apple-btn-secondary is-small ${isBestFit ? 'active' : ''}`}
+                                            style={{ fontSize: '9px', padding: '2px 5px', borderRadius: '4px', cursor: 'pointer', border: '1px solid #cbd5e1' }}
+                                            title="Fit explorer width to content"
+                                        >
+                                            ↔ Best Fit
+                                        </button>
+                                    )}
+                                </div>
                                 <span className="file-count-badge">
                                     {teamCode}
                                 </span>
@@ -1255,13 +1311,31 @@ export default function ActiveWorkspace() {
                                     if (isSensitive) return null;
                                     const btnClass = `editor-save-btn ${saveSuccess ? 'save-success' : ''} ${isSaving ? 'saving' : ''}`;
                                     return (
-                                        <button
-                                            onClick={() => saveFileContent(activeFile, currentContent)}
-                                            disabled={isSaving}
-                                            className={btnClass}
-                                        >
-                                            {isSaving ? '⏳ Saving...' : saveSuccess ? '✓ Saved' : '💾 Save File'}
-                                        </button>
+                                        <>
+                                            <div className="autosave-toggle-container">
+                                                <span className="autosave-label">Auto Save</span>
+                                                <label className="autosave-switch">
+                                                    <input 
+                                                        type="checkbox" 
+                                                        checked={autoSave} 
+                                                        onChange={(e) => {
+                                                            const checked = e.target.checked;
+                                                            setAutoSave(checked);
+                                                            localStorage.setItem('auto_save', checked ? 'true' : 'false');
+                                                        }} 
+                                                    />
+                                                    <span className="autosave-slider"></span>
+                                                </label>
+                                            </div>
+                                            <button
+                                                onClick={() => saveFileContent(activeFile, currentContent)}
+                                                disabled={isSaving || autoSave}
+                                                className={btnClass}
+                                                style={{ opacity: autoSave ? 0.7 : 1 }}
+                                            >
+                                                {isSaving ? '⏳ Saving...' : saveSuccess ? '✓ Saved' : '💾 Save Work'}
+                                            </button>
+                                        </>
                                     );
                                 })()}
                                 <div className="workspace-sync-indicator">
@@ -1558,6 +1632,13 @@ export default function ActiveWorkspace() {
                             userRole={userRole}
                         />
                     )}
+                    {activeTab === 'Logs' && (
+                        <AuditLogsTab
+                            logs={logs}
+                            loading={logsLoading}
+                            fetchLogs={fetchLogs}
+                        />
+                    )}
                     </ErrorBoundary>
                     </div>
                 )}
@@ -1682,11 +1763,11 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
 
     const getCommand = () => {
         switch(langTab) {
-            case "Node": return "npm install -g teambridge-cli";
-            case "Python": return "pip install teambridge-cli";
-            case "PHP": return "composer global require teambridge/cli";
-            case "Java": return "curl -sSL https://get.teambridge.io | sh";
-            default: return "npm install -g teambridge-cli";
+            case "Node": return "npm install -g @candles/cli";
+            case "Python": return "pip install candles-cli";
+            case "PHP": return "composer global require candles/cli";
+            case "Java": return "curl -sSL https://get.candles.dev | sh";
+            default: return "npm install -g @candles/cli";
         }
     };
 
@@ -1695,16 +1776,16 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
             <div className="console-header">
                 <span className="console-subtitle">Console Hub</span>
                 <h2 className="console-title">Developer Access & Integration Console</h2>
-                <p className="console-description">Manage SaaS workspace synchronization parameters, security profiles, and terminal API credentials.</p>
+                <p className="console-description">Manage Candles workspace synchronization parameters, security profiles, and terminal API credentials.</p>
             </div>
 
             <div className="console-panels-grid settings-grid-responsive">
                 {/* Column 1: CLI Connection & Developer Tokens */}
                 <div className="console-btn-group">
                     <div className="console-card">
-                        <h3 className="console-card-title">💻 TeamBridge CLI Connection</h3>
+                        <h3 className="console-card-title">💻 Candles CLI Connection</h3>
                         <p className="console-card-desc">
-                            Install the TeamBridge terminal utility to link your local code editor (VS Code, Cursor) directly to this collaborative web environment.
+                            Install the Candles terminal utility to link your local code editor (VS Code, Cursor) directly to this collaborative web environment.
                         </p>
 
                         <div className="console-btn-group">
@@ -1730,14 +1811,25 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
 
                             <div className="console-subheading">Step 2: Authenticate Terminal</div>
                             <div className="console-terminal-box">
-                                <span>tb login</span>
-                                <button onClick={() => navigator.clipboard.writeText("tb login")} className="console-terminal-btn">📋</button>
+                                <span>cn login</span>
+                                <button onClick={() => navigator.clipboard.writeText("cn login")} className="console-terminal-btn">📋</button>
                             </div>
 
                             <div className="console-subheading">Step 3: Link folder & Sync</div>
                             <div className="console-terminal-box">
-                                <span>tb init && tb link</span>
-                                <button onClick={() => navigator.clipboard.writeText("tb init && tb link")} className="console-terminal-btn">📋</button>
+                                <span>cn select && cn link</span>
+                                <button onClick={() => navigator.clipboard.writeText("cn select && cn link")} className="console-terminal-btn">📋</button>
+                            </div>
+
+                            <div className="console-subheading">Other Available Commands</div>
+                            <div className="console-terminal-commands-list" style={{ fontSize: '12px', color: '#a1a1aa', lineHeight: '1.6', marginTop: '12px', background: '#18181b', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', fontFamily: 'SF Mono, monospace' }}>
+                                <div style={{ color: '#f4f4f5', fontWeight: '600', marginBottom: '6px' }}>Available Actions:</div>
+                                <div>• <code style={{ color: '#30d158' }}>cn pull</code>: Fetch remote files to your workspace</div>
+                                <div>• <code style={{ color: '#30d158' }}>cn push</code>: Deploy local files manually</div>
+                                <div>• <code style={{ color: '#30d158' }}>cn status</code>: Verify authentication and telemetry state</div>
+                                <div>• <code style={{ color: '#30d158' }}>cn doctor</code>: Diagnostics and sync repair</div>
+                                <div>• <code style={{ color: '#30d158' }}>cn diff</code>: Check uncommitted folder changes</div>
+                                <div style={{ marginTop: '8px', color: '#ffb300', fontStyle: 'italic', fontSize: '11px' }}>* Other backend and database cloud services will be released soon.</div>
                             </div>
                         </div>
                     </div>
@@ -1745,7 +1837,7 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                     <div className="api-keys-table-card">
                         <h3>🔑 Developer API Tokens</h3>
                         <p>
-                            Generate long-lived API keys (`tb_live_...`) to easily authenticate CI pipelines or persistent dev machines without passwords.
+                            Generate long-lived API keys (`cn_live_...`) to easily authenticate CI pipelines or persistent dev machines without passwords.
                         </p>
 
                         {/* Keys List (Cryptographic Table Row View) */}
@@ -1767,7 +1859,7 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                                         {apiKeys.map(k => (
                                             <tr key={k.id} className="api-keys-tr">
                                                 <td className="api-keys-td is-device">{k.device_name}</td>
-                                                <td className="api-keys-td is-token">tb_live_••••</td>
+                                                <td className="api-keys-td is-token">cn_live_••••</td>
                                                 <td className="api-keys-td is-date">{k.created_at ? k.created_at.split(' ')[0] : 'N/A'}</td>
                                                 <td className="api-keys-td is-date">{k.last_used_at ? k.last_used_at.split(' ')[0] : 'Never'}</td>
                                                 <td className="api-keys-td">
@@ -1853,7 +1945,7 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                 {/* Column 2: Workspace Sync Controls */}
                 <div className="console-btn-group">
                     <div className="console-card">
-                        <h3 className="console-card-title">🛡️ Anti-Gravity Workspace Core</h3>
+                        <h3 className="console-card-title">🛡️ Candles Workspace Sync Engine</h3>
                         <p className="console-card-desc">
                             Configure rules governing the live directory watchers and web synchronization boundaries.
                         </p>
@@ -1948,6 +2040,109 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    );
+}
+
+function AuditLogsTab({ logs, loading, fetchLogs }) {
+    const handleCopyLogs = () => {
+        if (logs.length === 0) {
+            alert("No logs to copy.");
+            return;
+        }
+        const textLogs = logs.map(l => `[${l.timestamp}] ${l.user_name} (${l.email}): ${l.action}`).join('\n');
+        navigator.clipboard.writeText(textLogs);
+        alert("Copied all logs to clipboard!");
+    };
+
+    return (
+        <div className="console-hub-container">
+            <div className="console-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', gap: '16px' }}>
+                <div>
+                    <span className="console-subtitle">Audit Trail</span>
+                    <h2 className="console-title">Workspace Activity Logs</h2>
+                    <p className="console-description">Real-time recording of collaborative events and folder watchdog heartbeats from the last 24 hours.</p>
+                </div>
+                <div style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
+                    <button onClick={fetchLogs} disabled={loading} className="apple-btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', padding: '8px 14px', borderRadius: '8px', fontSize: '13px' }}>
+                        {loading ? '⏳' : '🔄'} Refresh
+                    </button>
+                    <button onClick={handleCopyLogs} className="apple-btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', padding: '8px 14px', borderRadius: '8px', fontSize: '13px', background: '#007aff', color: '#ffffff', border: 'none' }}>
+                        📋 Copy Logs
+                    </button>
+                </div>
+            </div>
+
+            <div className="console-card" style={{ marginTop: '20px', padding: '24px' }}>
+                {loading ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '40px 0' }}>
+                        <div className="fetching-spinner"></div>
+                        <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Synchronizing Audit Records...</span>
+                    </div>
+                ) : logs.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
+                        <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>📋</span>
+                        <h3>No Recent Activity Logs</h3>
+                        <p style={{ fontSize: '13px', marginTop: '6px' }}>Watchdog heartbeats and team actions will appear here once users modify files or documents.</p>
+                    </div>
+                ) : (
+                    <div className="audit-logs-list" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        {logs.map((log, idx) => {
+                            const initial = log.user_name ? log.user_name.charAt(0).toUpperCase() : 'U';
+                            return (
+                                <div key={idx} className="audit-log-item" style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '16px',
+                                    padding: '12px 16px',
+                                    borderRadius: '10px',
+                                    background: 'var(--bg-secondary-light)',
+                                    border: '1px solid var(--border-color)',
+                                    transition: 'all 0.15s'
+                                }}>
+                                    {/* User Avatar Circle */}
+                                    <div className="audit-log-avatar-container" style={{
+                                        width: '36px',
+                                        height: '36px',
+                                        borderRadius: '50%',
+                                        overflow: 'hidden',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justify-content: 'center',
+                                        background: '#2563EB',
+                                        color: '#FFFFFF',
+                                        fontWeight: '700',
+                                        fontSize: '14px',
+                                        flexShrink: 0
+                                    }}>
+                                        {log.profile_image ? (
+                                            <img src={log.profile_image} alt={log.user_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        ) : (
+                                            <span>{initial}</span>
+                                        )}
+                                    </div>
+
+                                    {/* Log Description */}
+                                    <div style={{ flex: 1, minWidth: 0 }}>
+                                        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
+                                            <span style={{ fontWeight: '600', color: 'var(--text-main)', fontSize: '13px' }}>{log.user_name}</span>
+                                            <span style={{ color: 'var(--text-muted)', fontSize: '11px' }}>({log.email})</span>
+                                        </div>
+                                        <div style={{ color: 'var(--text-main)', fontSize: '13px', marginTop: '4px', wordBreak: 'break-word' }}>
+                                            {log.action}
+                                        </div>
+                                    </div>
+
+                                    {/* Timestamp */}
+                                    <div style={{ color: 'var(--text-muted)', fontSize: '11.5px', whiteSpace: 'nowrap' }}>
+                                        {log.timestamp}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </div>
     );
