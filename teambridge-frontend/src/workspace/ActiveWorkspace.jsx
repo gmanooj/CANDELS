@@ -2109,7 +2109,7 @@ function AuditLogsTab({ logs, loading, fetchLogs }) {
                                         overflow: 'hidden',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        justify-content: 'center',
+                                        justifyContent: 'center',
                                         background: '#2563EB',
                                         color: '#FFFFFF',
                                         fontWeight: '700',
