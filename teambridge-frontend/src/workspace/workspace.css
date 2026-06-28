@@ -3100,3 +3100,195 @@ body.dark .watchdog-core-flex-group input {
         padding: 4px 6px !important;
     }
 }
+
+/* --- Floating Editor Settings styles --- */
+.editor-settings-floating-trigger {
+    position: absolute;
+    top: 8px;
+    right: 32px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e5e5e7;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1d1d1f;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.dark .editor-settings-floating-trigger {
+    background: rgba(30, 30, 30, 0.95);
+    border-color: #2c2c2e;
+    color: #f5f5f7;
+}
+
+.editor-settings-floating-trigger:hover {
+    background: #f5f5f7;
+    border-color: #d1d1d6;
+}
+
+.dark .editor-settings-floating-trigger:hover {
+    background: #2c2c2e;
+}
+
+.editor-settings-floating-panel {
+    position: absolute;
+    top: 40px;
+    right: 32px;
+    z-index: 100;
+    width: 200px;
+    background: #ffffff;
+    border: 1px solid #e5e5e7;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: editorPanelFadeIn 0.2s ease;
+}
+
+.dark .editor-settings-floating-panel {
+    background: #1c1c1e;
+    border-color: #2c2c2e;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes editorPanelFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.editor-settings-floating-panel .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f2f2f7;
+    padding-bottom: 6px;
+    margin-bottom: 4px;
+}
+
+.dark .editor-settings-floating-panel .panel-header {
+    border-color: #2c2c2e;
+}
+
+.editor-settings-floating-panel .panel-header h4 {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #86868b;
+}
+
+.editor-settings-floating-panel .panel-close-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #86868b;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.editor-settings-floating-panel .panel-close-btn:hover {
+    color: #1d1d1f;
+}
+
+.dark .editor-settings-floating-panel .panel-close-btn:hover {
+    color: #f5f5f7;
+}
+
+.editor-settings-floating-panel .settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+}
+
+.editor-settings-floating-panel .settings-field label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #666666;
+}
+
+.dark .editor-settings-floating-panel .settings-field label {
+    color: #86868b;
+}
+
+.editor-settings-floating-panel .settings-field select {
+    padding: 4px 6px;
+    font-size: 11px;
+    border-radius: 4px;
+    border: 1px solid #e5e5e7;
+    background: #ffffff;
+    color: #1d1d1f;
+}
+
+.dark .editor-settings-floating-panel .settings-field select {
+    border-color: #2c2c2e;
+    background: #2c2c2e;
+    color: #f5f5f7;
+}
+
+.editor-settings-floating-panel .font-size-adjusters {
+    display: flex;
+    gap: 6px;
+}
+
+.editor-settings-floating-panel .font-size-adjusters button {
+    flex: 1;
+    padding: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid #e5e5e7;
+    border-radius: 4px;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    cursor: pointer;
+}
+
+.dark .editor-settings-floating-panel .font-size-adjusters button {
+    border-color: #2c2c2e;
+    background: #2c2c2e;
+    color: #f5f5f7;
+}
+
+.editor-settings-floating-panel .font-size-adjusters button:hover {
+    background: #e5e5e7;
+}
+
+.dark .editor-settings-floating-panel .font-size-adjusters button:hover {
+    background: #3a3a3c;
+}
+
+.editor-settings-floating-panel .settings-field.check-field {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.editor-settings-floating-panel .settings-field.check-field input {
+    margin: 0;
+    cursor: pointer;
+}
+
+.editor-settings-floating-panel .settings-field.check-field label {
+    cursor: pointer;
+    user-select: none;
+}
+

@@ -9,6 +9,21 @@ export default function Reports({
     const taskProgress = tasks.length > 0 ? Math.round((doneTasksCount / tasks.length) * 100) : 0;
     const members = reportsData?.members || [];
 
+    // Calculate Task Distribution by Status
+    const totalTasks = tasks.length;
+    const statusCounts = tasks.reduce((acc, task) => {
+        const status = task.status || 'To Do';
+        acc[status] = (acc[status] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Calculate Task Distribution by Priority
+    const priorityCounts = tasks.reduce((acc, task) => {
+        const priority = task.priority || 'Medium';
+        acc[priority] = (acc[priority] || 0) + 1;
+        return acc;
+    }, {});
+
     // Construct data points for Commit Trend Chart (strictly black line/area graph)
     const chartData = [
         { day: 'Mon', value: reportsData.total_commits > 0 ? Math.round(reportsData.total_commits * 0.1) : 4 },
@@ -163,45 +178,144 @@ export default function Reports({
                 </div>
             </div>
 
-            {/* Commit Trend SVG Chart - Upgraded to Black Line/Area Graph (Enlarged to 240px) */}
-            <div className="apple-card-modern chart-card">
-                <span className="chart-title">
-                    Commit Trend Activity (Last 7 Days)
-                </span>
-                
-                <svg viewBox="0 0 500 240">
-                    <defs>
-                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#000000" stopOpacity="0.12" />
-                            <stop offset="100%" stopColor="#000000" stopOpacity="0.00" />
-                        </linearGradient>
-                    </defs>
-                    <line x1="30" y1="50" x2="480" y2="50" stroke="#e5e5e7" strokeWidth="1" />
-                    <line x1="30" y1="125" x2="480" y2="125" stroke="#e5e5e7" strokeWidth="1" />
-                    <line x1="30" y1="200" x2="480" y2="200" stroke="#86868b" strokeWidth="1.5" />
+            {/* Visual Analytics Panels row */}
+            <div className="reports-charts-row">
+                {/* Commit Trend SVG Chart - Upgraded to Black Line/Area Graph (Enlarged to 240px) */}
+                <div className="apple-card-modern chart-card">
+                    <span className="chart-title">
+                        Commit Trend Activity (Last 7 Days)
+                    </span>
                     
-                    {/* Area under line */}
-                    <path d={areaPath} fill="url(#chartGrad)" />
+                    <svg viewBox="0 0 500 240">
+                        <defs>
+                            <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stopColor="#000000" stopOpacity="0.12" />
+                                <stop offset="100%" stopColor="#000000" stopOpacity="0.00" />
+                            </linearGradient>
+                        </defs>
+                        <line x1="30" y1="50" x2="480" y2="50" stroke="#e5e5e7" strokeWidth="1" />
+                        <line x1="30" y1="125" x2="480" y2="125" stroke="#e5e5e7" strokeWidth="1" />
+                        <line x1="30" y1="200" x2="480" y2="200" stroke="#86868b" strokeWidth="1.5" />
+                        
+                        {/* Area under line */}
+                        <path d={areaPath} fill="url(#chartGrad)" />
+                        
+                        {/* Continuous Line Chart spline */}
+                        <path d={linePath} fill="none" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                        
+                        {/* Circles at data point coordinates */}
+                        {points.map((p, i) => (
+                            <g key={i}>
+                                <circle 
+                                    cx={p.x} 
+                                    cy={p.y} 
+                                    r="4" 
+                                    fill="#ffffff" 
+                                    stroke="#000000" 
+                                    strokeWidth="2.5" 
+                                />
+                                <text x={p.x} y={p.y - 10} fontSize="10" fontWeight="bold" fill="#1d1d1f" textAnchor="middle">{chartData[i].value}</text>
+                                <text x={p.x} y="218" fontSize="10" fontWeight="800" fill="#86868b" textAnchor="middle">{chartData[i].day}</text>
+                            </g>
+                        ))}
+                    </svg>
+                </div>
+
+                {/* Task Distribution Analysis Card */}
+                <div className="apple-card-modern chart-card task-distribution-card">
+                    <span className="chart-title">
+                        Task Status & Priority Breakdown
+                    </span>
                     
-                    {/* Continuous Line Chart spline */}
-                    <path d={linePath} fill="none" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    
-                    {/* Circles at data point coordinates */}
-                    {points.map((p, i) => (
-                        <g key={i}>
-                            <circle 
-                                cx={p.x} 
-                                cy={p.y} 
-                                r="4" 
-                                fill="#ffffff" 
-                                stroke="#000000" 
-                                strokeWidth="2.5" 
-                            />
-                            <text x={p.x} y={p.y - 10} fontSize="10" fontWeight="bold" fill="#1d1d1f" textAnchor="middle">{chartData[i].value}</text>
-                            <text x={p.x} y="218" fontSize="10" fontWeight="800" fill="#86868b" textAnchor="middle">{chartData[i].day}</text>
-                        </g>
-                    ))}
-                </svg>
+                    <div className="task-analytics-content">
+                        {/* Status progress distribution */}
+                        <div className="task-status-pane">
+                            <span className="task-section-subtitle">Status Breakdown</span>
+                            {totalTasks === 0 ? (
+                                <div className="empty-text">No tasks available in this workspace.</div>
+                            ) : (
+                                <>
+                                    <div className="stacked-progress-bar">
+                                        {Object.entries(statusCounts).map(([status, count]) => {
+                                            const percentage = Math.max(5, Math.round((count / totalTasks) * 100)); // Minimum width for visibility
+                                            let barColor = "#86868b"; // default
+                                            if (status === 'Done') barColor = "#0052FF";
+                                            else if (status === 'In Progress') barColor = "#1d1d1f";
+                                            else if (status === 'To Do') barColor = "#e5e5e7";
+
+                                            return (
+                                                <div 
+                                                    key={status}
+                                                    className="bar-segment"
+                                                    style={{ 
+                                                        width: `${percentage}%`,
+                                                        backgroundColor: barColor
+                                                    }}
+                                                    title={`${status}: ${count} (${Math.round((count / totalTasks) * 100)}%)`}
+                                                />
+                                            );
+                                        })}
+                                    </div>
+                                    <div className="legend-grid">
+                                        {Object.entries(statusCounts).map(([status, count]) => {
+                                            const percentage = Math.round((count / totalTasks) * 100);
+                                            let badgeColor = "#86868b";
+                                            if (status === 'Done') badgeColor = "#0052FF";
+                                            else if (status === 'In Progress') badgeColor = "#1d1d1f";
+                                            else if (status === 'To Do') badgeColor = "#d1d1d6";
+
+                                            return (
+                                                <div key={status} className="legend-item">
+                                                    <span className="legend-dot" style={{ backgroundColor: badgeColor }} />
+                                                    <span className="legend-name">{status}</span>
+                                                    <span className="legend-count">{count} ({percentage}%)</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+
+                        {/* Priority breakdown */}
+                        <div className="task-priority-pane">
+                            <span className="task-section-subtitle">Priority Breakdown</span>
+                            {totalTasks === 0 ? (
+                                <div className="empty-text">No tasks available.</div>
+                            ) : (
+                                <div className="priority-bars-list">
+                                    {['High', 'Medium', 'Low'].map(prio => {
+                                        const count = priorityCounts[prio] || 0;
+                                        const percentage = Math.round((count / totalTasks) * 100);
+                                        let prioColor = "#86868b";
+                                        if (prio === 'High') prioColor = "#ff3b30";
+                                        else if (prio === 'Medium') prioColor = "#ff9500";
+                                        else if (prio === 'Low') prioColor = "#34c759";
+
+                                        return (
+                                            <div key={prio} className="priority-row">
+                                                <div className="priority-label-box">
+                                                    <span className="priority-badge-label" style={{ borderLeft: `3px solid ${prioColor}`, paddingLeft: '6px' }}>{prio}</span>
+                                                    <span className="priority-count-text">{count} tasks</span>
+                                                </div>
+                                                <div className="priority-progress-track">
+                                                    <div 
+                                                        className="priority-progress-fill"
+                                                        style={{ 
+                                                            width: `${percentage}%`,
+                                                            backgroundColor: prioColor
+                                                        }}
+                                                    />
+                                                </div>
+                                                <span className="priority-percent">{percentage}%</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
