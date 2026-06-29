@@ -145,8 +145,10 @@ export default function ActiveWorkspace() {
     };
 
     // API helper: Fetch list of files recursively from backend workspace folder
-    const fetchFilesList = () => {
-        setFilesLoading(true);
+    const fetchFilesList = (showSkeleton = false) => {
+        if (showSkeleton) {
+            setFilesLoading(true);
+        }
         fetch(`${__BACKEND_URL__}/api/workspace/files?team_code=${teamCode}`, {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem("auth_token")
@@ -547,7 +549,7 @@ export default function ActiveWorkspace() {
             fetchDocuments();
             fetchActivities();
             fetchFileComments();
-            fetchFilesList();
+            fetchFilesList(true);
             fetchLogs();
         }
     }, [teamCode, isInitialized]);
@@ -657,22 +659,24 @@ export default function ActiveWorkspace() {
 
     // File Content Generator
     const getInitialFileContent = (file) => {
-        if (file === 'src/App.jsx') {
+        if (!file) return '';
+        const lower = file.toLowerCase();
+        if (file === 'src/App.jsx' || lower.endsWith('src/app.jsx') || lower.endsWith('/app.jsx') || file === 'App.jsx') {
             return `import React from 'react';\nimport './App.css';\n\nfunction App() {\n  return (\n    <div className="App" style={{ padding: '40px', textAlign: 'center' }}>\n      <header className="App-header">\n        <h1>Welcome to ${projectName}</h1>\n        <p>Active Workspace Stack: React (Vite) + Flask + MySQL</p>\n        <span className="badge">Node Key: ${teamCode}</span>\n      </header>\n    </div>\n  );\n}\n\nexport default App;`;
         }
-        if (file === 'src/main.jsx') {
+        if (file === 'src/main.jsx' || lower.endsWith('src/main.jsx') || lower.endsWith('/main.jsx') || lower.endsWith('src/main.js') || lower.endsWith('src/index.js') || file === 'main.jsx') {
             return `import React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport App from './App';\nimport './index.css';\n\nReactDOM.createRoot(document.getElementById('root')).render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);`;
         }
-        if (file === 'app.py') {
+        if (file === 'app.py' || lower.endsWith('app.py')) {
             return `from flask import Flask, jsonify, request\nfrom flask_cors import CORS\n\napp = Flask(__name__)\nCORS(app)\n\n@app.route('/api/status')\ndef get_status():\n    return jsonify({\n        "status": "online",\n        "team_code": "${teamCode}",\n        "project": "${projectName}"\n    })\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=5000, debug=True)`;
         }
-        if (file === 'requirements.txt') {
+        if (file === 'requirements.txt' || lower.endsWith('requirements.txt')) {
             return `flask==3.0.2\nflask-cors==4.0.0\nPyMySQL==1.1.0\nsqlalchemy==2.0.27`;
         }
-        if (file === 'schema.sql') {
+        if (file === 'schema.sql' || lower.endsWith('schema.sql')) {
             return `-- TeamBridge Auto-scaffolded DB Layout\nCREATE DATABASE IF NOT EXISTS db_${teamCode.toLowerCase().replace(/-/g, '_')};\nUSE db_${teamCode.toLowerCase().replace(/-/g, '_')};\n\nCREATE TABLE IF NOT EXISTS users (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    username VARCHAR(100) NOT NULL UNIQUE,\n    email VARCHAR(150) NOT NULL UNIQUE,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);`;
         }
-        if (file === 'teambridge.config') {
+        if (file === 'teambridge.config' || lower.endsWith('teambridge.config')) {
             return `{\n  "workspace_version": "2.4.0-macOS",\n  "team_code": "${teamCode}",\n  "project": "${projectName}",\n  "stack": {\n    "frontend": "${frontendStack}",\n    "backend": "${backendStack}",\n    "database": "${dbType}",\n    "languages": ${JSON.stringify(selectedLanguages)}\n  }\n}`;
         }
         // README.md
