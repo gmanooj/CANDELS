@@ -1,5 +1,5 @@
 // 📄 Location: frontend/src/workspace/ActiveWorkspace.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useTransition, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import './workspace.css';
@@ -18,6 +18,7 @@ import ErrorBoundary from '../components/ErrorBoundary';
 export default function ActiveWorkspace() {
     const { teamCode } = useParams();
     const navigate = useNavigate();
+    const [isPending, startTransition] = useTransition();
 
     // App Component States
     const [isInitialized, setIsInitialized] = useState(false);
@@ -39,7 +40,8 @@ export default function ActiveWorkspace() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [autoSave, setAutoSave] = useState(() => localStorage.getItem('auto_save') === 'true');
     const [isBestFit, setIsBestFit] = useState(false);
-    const autoSaveTimeoutRef = React.useRef(null);
+    const latestContentRef = useRef('');
+    const debounceTimeoutRef = useRef(null);
 
     // Dynamic Database-backed Workspace States
     // Dynamic Database-backed Workspace States
@@ -698,43 +700,54 @@ export default function ActiveWorkspace() {
 
     const currentContent = editorContents[activeFile] !== undefined ? editorContents[activeFile] : getInitialFileContent(activeFile);
 
+    useEffect(() => {
+        latestContentRef.current = currentContent;
+    }, [activeFile, currentContent]);
+
     // Keyboard Ctrl+S listener
     useEffect(() => {
         const handleKeyDown = (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 's') {
                 e.preventDefault();
-                saveFileContent(activeFile, currentContent);
+                saveFileContent(activeFile, latestContentRef.current);
             }
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [activeFile, currentContent]);
+    }, [activeFile]);
 
     useEffect(() => {
         return () => {
-            if (autoSaveTimeoutRef.current) {
-                clearTimeout(autoSaveTimeoutRef.current);
+            if (debounceTimeoutRef.current) {
+                const lastVal = latestContentRef.current;
+                clearTimeout(debounceTimeoutRef.current);
+                setEditorContents(prev => ({
+                    ...prev,
+                    [activeFile]: lastVal
+                }));
             }
         };
     }, [activeFile]);
 
     const handleEditorChange = (val) => {
-        setEditorContents(prev => ({
-            ...prev,
-            [activeFile]: val
-        }));
+        latestContentRef.current = val;
 
-        if (autoSave) {
-            if (autoSaveTimeoutRef.current) {
-                clearTimeout(autoSaveTimeoutRef.current);
-            }
-            autoSaveTimeoutRef.current = setTimeout(() => {
+        if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current);
+        }
+        debounceTimeoutRef.current = setTimeout(() => {
+            setEditorContents(prev => ({
+                ...prev,
+                [activeFile]: val
+            }));
+
+            if (autoSave) {
                 const isSensitive = activeFile.endsWith('.env') || activeFile.endsWith('.key') || activeFile.toLowerCase().includes('secret') || activeFile.toLowerCase().includes('password') || activeFile.toLowerCase().includes('credential');
                 if (!isSensitive) {
                     saveFileContent(activeFile, val);
                 }
-            }, 1000);
-        }
+            }
+        }, 300);
     };
 
     // Kanban Task Handlers
@@ -1190,7 +1203,9 @@ export default function ActiveWorkspace() {
     }
 
     const handleTabClick = (tab) => {
-        setActiveTab(tab);
+        startTransition(() => {
+            setActiveTab(tab);
+        });
         setSidebarOpen(false);
         if (tab === 'Logs') {
             fetchLogs();
