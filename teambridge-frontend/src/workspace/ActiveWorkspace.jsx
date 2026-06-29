@@ -75,6 +75,7 @@ export default function ActiveWorkspace() {
 
     // Dynamic file tree synchronization states
     const [filesList, setFilesList] = useState([]);
+    const [filesLoading, setFilesLoading] = useState(true);
     const [saveSuccess, setSaveSuccess] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [fileLastModified, setFileLastModified] = useState({});
@@ -145,6 +146,7 @@ export default function ActiveWorkspace() {
 
     // API helper: Fetch list of files recursively from backend workspace folder
     const fetchFilesList = () => {
+        setFilesLoading(true);
         fetch(`${__BACKEND_URL__}/api/workspace/files?team_code=${teamCode}`, {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem("auth_token")
@@ -179,9 +181,11 @@ export default function ActiveWorkspace() {
                 mockFiles.push('teambridge.config');
                 setFilesList(mockFiles);
             }
+            setFilesLoading(false);
         })
         .catch(err => {
             console.error("Failed to fetch files list:", err);
+            setFilesLoading(false);
         });
     };
 
@@ -1271,6 +1275,36 @@ export default function ActiveWorkspace() {
                             </div>
                             <div className="file-list-container">
                                 {(() => {
+                                    if (filesLoading) {
+                                        return (
+                                            <div className="file-tree-skeleton">
+                                                <div className="skeleton-item folder">
+                                                    <span className="skeleton-icon">📁</span>
+                                                    <span className="skeleton-line-long"></span>
+                                                </div>
+                                                <div className="skeleton-item file">
+                                                    <span className="skeleton-icon">📄</span>
+                                                    <span className="skeleton-line-medium"></span>
+                                                </div>
+                                                <div className="skeleton-item file">
+                                                    <span className="skeleton-icon">📄</span>
+                                                    <span className="skeleton-line-short"></span>
+                                                </div>
+                                                <div className="skeleton-item folder" style={{ marginTop: '8px' }}>
+                                                    <span className="skeleton-icon">📁</span>
+                                                    <span className="skeleton-line-long"></span>
+                                                </div>
+                                                <div className="skeleton-item file">
+                                                    <span className="skeleton-icon">📄</span>
+                                                    <span className="skeleton-line-medium"></span>
+                                                </div>
+                                                <div className="skeleton-item file">
+                                                    <span className="skeleton-icon">📄</span>
+                                                    <span className="skeleton-line-short"></span>
+                                                </div>
+                                            </div>
+                                        );
+                                    }
                                     if (filesList.length === 0) {
                                         return (
                                             <div className="empty-workspace-text">
@@ -1298,7 +1332,7 @@ export default function ActiveWorkspace() {
                                 
                                 <button
                                     onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-                                    className="apple-btn-secondary is-small"
+                                    className={`apple-btn-secondary is-small file-explorer-toggle-btn ${isDrawerOpen ? 'is-active' : ''}`}
                                     title={isDrawerOpen ? "Collapse Panel" : "Expand Panel"}
                                 >
                                     <span>{isDrawerOpen ? '◀' : '▶'}</span> File Explorer
@@ -1352,22 +1386,29 @@ export default function ActiveWorkspace() {
                         </div>
 
                         <div className="editor-tabs-row">
-                            {filesList.map((file) => {
-                                const isActive = activeFile === file;
-                                const baseName = file.split('/').pop();
-                                const meta = getFileIconAndColor(baseName);
+                            {filesLoading ? (
+                                <div className="editor-tab-item skeleton-tab vscode-mono-font">
+                                    <span className="tab-file-icon">⏳</span>
+                                    <span className="skeleton-tab-line"></span>
+                                </div>
+                            ) : (
+                                filesList.map((file) => {
+                                    const isActive = activeFile === file;
+                                    const baseName = file.split('/').pop();
+                                    const meta = getFileIconAndColor(baseName);
 
-                                return (
-                                    <div
-                                        key={file}
-                                        onClick={() => setActiveFile(file)}
-                                        className={`editor-tab-item vscode-mono-font ${isActive ? 'active' : ''}`}
-                                    >
-                                        <span className="tab-file-icon" style={{ color: meta.color }}>{meta.icon}</span>
-                                        <span>{baseName}</span>
-                                    </div>
-                                );
-                            })}
+                                    return (
+                                        <div
+                                            key={file}
+                                            onClick={() => setActiveFile(file)}
+                                            className={`editor-tab-item vscode-mono-font ${isActive ? 'active' : ''}`}
+                                        >
+                                            <span className="tab-file-icon" style={{ color: meta.color }}>{meta.icon}</span>
+                                            <span>{baseName}</span>
+                                        </div>
+                                    );
+                                })
+                            )}
                         </div>
 
                         {(() => {
@@ -1451,6 +1492,12 @@ export default function ActiveWorkspace() {
                                             theme={editorTheme}
                                             language={getFileLanguage(activeFile)}
                                             value={currentContent}
+                                            loading={
+                                                <div className="editor-loading-placeholder">
+                                                    <div className="spinner"></div>
+                                                    <span>Loading Editor Engine...</span>
+                                                </div>
+                                            }
                                             options={{
                                                 readOnly: permissions.mode === "viewer",
                                                 fontSize: editorFontSize,

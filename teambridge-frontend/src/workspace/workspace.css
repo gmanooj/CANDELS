@@ -1428,6 +1428,7 @@ body.dark .apple-workspace-wrapper.is-main-view .apple-inner-sidebar .sidebar-sc
 }
 
 .apple-workspace-wrapper.is-main-view .apple-workspace-main-panel {
+    flex: 1;
     display: flex;
     gap: 20px;
     height: 100%;
@@ -3290,5 +3291,189 @@ body.dark .watchdog-core-flex-group input {
 .editor-settings-floating-panel .settings-field.check-field label {
     cursor: pointer;
     user-select: none;
+}
+
+/* ========================================================
+   ✨ FILE EXPLORER PREMIUM UI & SKELETON LOADING STATES
+   ======================================================== */
+
+.apple-workspace-wrapper.is-main-view .file-explorer-toggle-btn {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    border-radius: 6px !important;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+}
+
+.apple-workspace-wrapper.is-main-view .file-explorer-toggle-btn:hover {
+    border-color: #0052FF !important;
+    color: #0052FF !important;
+    background: rgba(0, 82, 255, 0.04) !important;
+}
+
+.apple-workspace-wrapper.is-main-view .file-explorer-toggle-btn.is-active {
+    border-color: #0052FF !important;
+    color: #ffffff !important;
+    background: #0052FF !important;
+    box-shadow: 0 2px 8px rgba(0, 82, 255, 0.25);
+}
+
+.apple-workspace-wrapper.is-main-view .file-explorer-toggle-btn.is-active:hover {
+    background: #0040d6 !important;
+    border-color: #0040d6 !important;
+    color: #ffffff !important;
+}
+
+/* Dark mode overrides for the toggle button */
+body.dark .apple-workspace-wrapper.is-main-view .file-explorer-toggle-btn {
+    border-color: #27272a;
+    background: #18181b;
+    color: #e4e4e7;
+}
+
+body.dark .apple-workspace-wrapper.is-main-view .file-explorer-toggle-btn:hover {
+    background: rgba(0, 82, 255, 0.1) !important;
+}
+
+body.dark .apple-workspace-wrapper.is-main-view .file-explorer-toggle-btn.is-active {
+    background: #0052FF !important;
+    border-color: #0052FF !important;
+    color: #ffffff !important;
+}
+
+/* File list loading skeletons */
+.file-tree-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px 5px;
+}
+
+.skeleton-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.6;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-item.folder {
+    margin-left: 0;
+}
+
+.skeleton-item.file {
+    margin-left: 16px;
+}
+
+.skeleton-icon {
+    font-size: 14px;
+    opacity: 0.6;
+    user-select: none;
+}
+
+.skeleton-line-long,
+.skeleton-line-medium,
+.skeleton-line-short,
+.skeleton-tab-line {
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.skeleton-line-long {
+    width: 110px;
+}
+
+.skeleton-line-medium {
+    width: 75px;
+}
+
+.skeleton-line-short {
+    width: 45px;
+}
+
+/* Tab loader placeholders */
+.editor-tab-item.skeleton-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 16px;
+    background: #fafafa;
+    border-right: 1px solid #e5e5e5;
+    cursor: default;
+}
+
+.skeleton-tab-line {
+    width: 60px;
+    height: 10px;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* Monaco Editor loading fallback screen */
+.editor-loading-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 12px;
+    gap: 12px;
+    font-weight: 500;
+}
+
+.editor-loading-placeholder .spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #e2e8f0;
+    border-top-color: #0052FF;
+    border-radius: 50%;
+    animation: spinGear 1s linear infinite;
+}
+
+/* Dark mode variations for skeletons */
+body.dark .skeleton-line-long,
+body.dark .skeleton-line-medium,
+body.dark .skeleton-line-short,
+body.dark .skeleton-tab-line {
+    background: #27272a !important;
+}
+
+body.dark .editor-tab-item.skeleton-tab {
+    background: #18181b !important;
+    border-right-color: #27272a !important;
+}
+
+body.dark .editor-loading-placeholder {
+    background: #1e1e24;
+    color: #94a3b8;
+}
+
+body.dark .editor-loading-placeholder .spinner {
+    border-color: #27272a;
+    border-top-color: #0052FF;
+}
+
+@keyframes skeleton-pulse {
+    0% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.85;
+    }
+    100% {
+        opacity: 0.4;
+    }
 }
 
