@@ -1428,64 +1428,6 @@ export default function ActiveWorkspace() {
                             return (
                                 <div className="editor-workspace-area">
                                     <div className="editor-monaco-canvas" style={{ position: 'relative' }}>
-                                        {/* Floating Settings Trigger Button */}
-                                        <button 
-                                            className="editor-settings-floating-trigger"
-                                            onClick={() => setShowEditorSettings(!showEditorSettings)}
-                                            title="Quick Code Editor Settings"
-                                        >
-                                            ⚙️ Settings
-                                        </button>
-
-                                        {/* Floating Settings Dialog Panel */}
-                                        {showEditorSettings && (
-                                            <div className="editor-settings-floating-panel">
-                                                <div className="panel-header">
-                                                    <h4>Editor Preferences</h4>
-                                                    <button className="panel-close-btn" onClick={() => setShowEditorSettings(false)}>×</button>
-                                                </div>
-                                                
-                                                <div className="settings-field">
-                                                    <label>Theme</label>
-                                                    <select 
-                                                        value={editorTheme} 
-                                                        onChange={(e) => {
-                                                            const newTheme = e.target.value;
-                                                            setEditorTheme(newTheme);
-                                                            // Write to localStorage
-                                                            localStorage.setItem('theme', newTheme === 'vs-dark' ? 'dark' : 'light');
-                                                            // Dispatch global style theme updates
-                                                            document.body.classList.remove('dark', 'frosted');
-                                                            if (newTheme === 'vs-dark') {
-                                                                document.body.classList.add('dark');
-                                                            }
-                                                        }}
-                                                    >
-                                                        <option value="vs-light">Light Mode</option>
-                                                        <option value="vs-dark">Dark Mode</option>
-                                                    </select>
-                                                </div>
-
-                                                <div className="settings-field">
-                                                    <label>Font Size ({editorFontSize}px)</label>
-                                                    <div className="font-size-adjusters">
-                                                        <button type="button" onClick={() => setEditorFontSize(prev => Math.max(9, prev - 1))}>A-</button>
-                                                        <button type="button" onClick={() => setEditorFontSize(prev => Math.min(24, prev + 1))}>A+</button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="settings-field check-field">
-                                                    <input 
-                                                        type="checkbox" 
-                                                        id="toggleMinimap" 
-                                                        checked={editorMinimap} 
-                                                        onChange={(e) => setEditorMinimap(e.target.checked)} 
-                                                    />
-                                                    <label htmlFor="toggleMinimap">Show Minimap</label>
-                                                </div>
-                                            </div>
-                                        )}
-
                                         <Editor
                                             height="100%"
                                             width="100%"
