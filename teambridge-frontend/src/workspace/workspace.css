@@ -3477,8 +3477,4 @@ body.dark .editor-loading-placeholder .spinner {
     }
 }
 
-.file-row-indent {
-    padding-left: calc(12px + var(--depth, 0) * 16px) !important;
-}
-
 

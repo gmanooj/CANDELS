@@ -313,7 +313,7 @@ export default function ActiveWorkspace() {
                         }
                     }}
                     className={`file-explorer-item vscode-mono-font file-row-indent ${isActive ? 'active' : ''}`}
-                    style={{ '--depth': depth }}
+                    style={{ paddingLeft: `${12 + depth * 16}px` }}
                 >
                     <span className="file-icon-span" style={{ color: meta.color }}>{meta.icon}</span>
                     <span>{baseName}</span>
@@ -326,7 +326,7 @@ export default function ActiveWorkspace() {
                     <div 
                         onClick={() => toggleFolder(currentPath)}
                         className="file-explorer-folder vscode-mono-font file-row-indent"
-                        style={{ '--depth': depth, cursor: 'pointer' }}
+                        style={{ paddingLeft: `${12 + depth * 16}px`, cursor: 'pointer' }}
                     >
                         <span className="folder-icon-span">{isCollapsed ? '📁' : '📂'}</span>
                         <span>{name}</span>
