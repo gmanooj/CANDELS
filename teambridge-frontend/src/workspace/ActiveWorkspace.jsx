@@ -79,6 +79,14 @@ export default function ActiveWorkspace() {
     const [saveSuccess, setSaveSuccess] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [fileLastModified, setFileLastModified] = useState({});
+    const [collapsedFolders, setCollapsedFolders] = useState({});
+
+    const toggleFolder = (folderPath) => {
+        setCollapsedFolders(prev => ({
+            ...prev,
+            [folderPath]: !prev[folderPath]
+        }));
+    };
 
     // Dynamic IDE Quick Settings States
     const [editorTheme, setEditorTheme] = useState(() => localStorage.getItem('theme') === 'dark' ? 'vs-dark' : 'vs-light');
@@ -287,7 +295,8 @@ export default function ActiveWorkspace() {
     };
 
 
-    const renderTree = (node, name, depth = 0) => {
+    const renderTree = (node, name, depth = 0, parentPath = '') => {
+        const currentPath = parentPath ? `${parentPath}/${name}` : name;
         if (node._type === 'file') {
             const filePath = node.path;
             const isActive = activeFile === filePath;
@@ -311,20 +320,24 @@ export default function ActiveWorkspace() {
                 </div>
             );
         } else {
+            const isCollapsed = !!collapsedFolders[currentPath];
             return (
-                <div key={name} className="folder-wrapper">
+                <div key={currentPath} className="folder-wrapper">
                     <div 
+                        onClick={() => toggleFolder(currentPath)}
                         className="file-explorer-folder vscode-mono-font file-row-indent"
-                        style={{ '--depth': depth }}
+                        style={{ '--depth': depth, cursor: 'pointer' }}
                     >
-                        <span className="folder-icon-span">📁</span>
+                        <span className="folder-icon-span">{isCollapsed ? '📁' : '📂'}</span>
                         <span>{name}</span>
                     </div>
-                    <div className="folder-children">
-                        {Object.keys(node.children).map(childName => 
-                            renderTree(node.children[childName], childName, depth + 1)
-                        )}
-                    </div>
+                    {!isCollapsed && (
+                        <div className="folder-children">
+                            {Object.keys(node.children).map(childName => 
+                                renderTree(node.children[childName], childName, depth + 1, currentPath)
+                            )}
+                        </div>
+                    )}
                 </div>
             );
         }
