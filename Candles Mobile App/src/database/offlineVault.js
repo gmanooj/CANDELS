@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 
 const VAULT_FILE_NAME = 'workspace_vault.enc';
@@ -6,11 +7,17 @@ const cacheDir = FileSystem.cacheDirectory || '';
 const vaultPath = `${cacheDir}${VAULT_FILE_NAME}`;
 
 /**
- * Saves the encrypted snapshot string to the transient App Cache folder.
- * @param {string} encryptedDataString - The encrypted payload containing ciphertext, salt, and iv
- * @returns {Promise<void>}
+ * Saves the encrypted snapshot string to the transient App Cache folder or localStorage on Web.
  */
 export const saveEncryptedSnapshot = async (encryptedDataString) => {
+    if (Platform.OS === 'web') {
+        try {
+            window.localStorage.setItem(VAULT_FILE_NAME, encryptedDataString);
+        } catch (error) {
+            console.error("localStorage write failed:", error);
+        }
+        return;
+    }
     try {
         await FileSystem.writeAsStringAsync(vaultPath, encryptedDataString, {
             encoding: FileSystem.EncodingType.UTF8
@@ -22,10 +29,17 @@ export const saveEncryptedSnapshot = async (encryptedDataString) => {
 };
 
 /**
- * Loads the encrypted snapshot string from the transient App Cache folder.
- * @returns {Promise<string|null>} The encrypted payload, or null if it doesn't exist
+ * Loads the encrypted snapshot string from the transient App Cache folder or localStorage on Web.
  */
 export const loadEncryptedSnapshot = async () => {
+    if (Platform.OS === 'web') {
+        try {
+            return window.localStorage.getItem(VAULT_FILE_NAME);
+        } catch (error) {
+            console.error("localStorage read failed:", error);
+            return null;
+        }
+    }
     try {
         const fileInfo = await FileSystem.getInfoAsync(vaultPath);
         if (!fileInfo.exists) {
@@ -41,10 +55,17 @@ export const loadEncryptedSnapshot = async () => {
 };
 
 /**
- * Deletes the encrypted snapshot file.
- * @returns {Promise<void>}
+ * Deletes the encrypted snapshot file or localStorage item on Web.
  */
 export const deleteOfflineVault = async () => {
+    if (Platform.OS === 'web') {
+        try {
+            window.localStorage.removeItem(VAULT_FILE_NAME);
+        } catch (error) {
+            console.error("localStorage delete failed:", error);
+        }
+        return;
+    }
     try {
         const fileInfo = await FileSystem.getInfoAsync(vaultPath);
         if (fileInfo.exists) {
@@ -56,11 +77,17 @@ export const deleteOfflineVault = async () => {
 };
 
 /**
- * Wipes the entire transient app cache directory.
- * Erases all files, folders, and cryptographic keys stored therein.
- * @returns {Promise<void>}
+ * Wipes the entire transient app cache directory or clear vault on Web.
  */
 export const wipeAllCache = async () => {
+    if (Platform.OS === 'web') {
+        try {
+            window.localStorage.removeItem(VAULT_FILE_NAME);
+        } catch (error) {
+            console.error("localStorage wipe failed:", error);
+        }
+        return;
+    }
     try {
         const cacheDir = FileSystem.cacheDirectory || '';
         if (!cacheDir) return;
