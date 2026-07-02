@@ -1263,7 +1263,7 @@ export default function ActiveWorkspace() {
                     <nav className="apple-menu-list">
                         <span className="menu-section-title">IDE Views</span>
                         {(() => {
-                            const tabsToShow = ['Files', 'Tasks', 'Chat', 'Git', 'Documents', 'Slides', 'Implementations', 'Access & API', 'Logs'];
+                            const tabsToShow = ['Files', 'Tasks', 'Chat', 'Git', 'Documents', 'Slides', 'Implementations', 'Access & API', 'CLI Support', 'Logs'];
                             if (userRole === 'Faculty') {
                                 tabsToShow.splice(3, 0, 'Monitor'); // Insert 'Monitor' at index 3
                                 tabsToShow.push('Reports');
@@ -1715,6 +1715,12 @@ export default function ActiveWorkspace() {
                             dbType={dbType}
                             selectedLanguages={selectedLanguages}
                             userRole={userRole}
+                            setActiveTab={setActiveTab}
+                        />
+                    )}
+                    {activeTab === 'CLI Support' && (
+                        <CliSupportTab 
+                            setActiveTab={setActiveTab}
                         />
                     )}
                     {activeTab === 'Logs' && (
@@ -1732,7 +1738,7 @@ export default function ActiveWorkspace() {
     );
 }
 
-function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbType, selectedLanguages, userRole }) {
+function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbType, selectedLanguages, userRole, setActiveTab }) {
     const [apiKeys, setApiKeys] = React.useState([]);
     const [newDeviceName, setNewDeviceName] = React.useState("");
     const [newlyGeneratedKey, setNewlyGeneratedKey] = React.useState("");
@@ -1904,6 +1910,33 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                             <div className="console-terminal-box">
                                 <span>cn select && cn link</span>
                                 <button onClick={() => navigator.clipboard.writeText("cn select && cn link")} className="console-terminal-btn">📋</button>
+                            </div>
+
+                            <div style={{ marginTop: '16px', marginBottom: '8px' }}>
+                                <button 
+                                    onClick={() => setActiveTab('CLI Support')} 
+                                    className="console-tab-btn"
+                                    style={{ 
+                                        width: '100%', 
+                                        display: 'flex', 
+                                        justifyContent: 'center', 
+                                        alignItems: 'center', 
+                                        gap: '8px', 
+                                        padding: '12px', 
+                                        borderRadius: '8px', 
+                                        background: '#2563eb', 
+                                        color: '#ffffff', 
+                                        fontWeight: '700',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        fontSize: '13px',
+                                        transition: 'background 0.2s, transform 0.1s'
+                                    }}
+                                    onMouseOver={(e) => e.target.style.background = '#1d4ed8'}
+                                    onMouseOut={(e) => e.target.style.background = '#2563eb'}
+                                >
+                                    📖 More: View Detailed CLI Usage & Support Guide ➔
+                                </button>
                             </div>
 
                             <div className="console-subheading">Comprehensive CLI Commands Guide</div>
@@ -2269,6 +2302,430 @@ function AuditLogsTab({ logs, loading, fetchLogs }) {
                             );
                         })}
                     </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+function CliSupportTab({ setActiveTab }) {
+    const [searchQuery, setSearchQuery] = React.useState("");
+    const [selectedCategory, setSelectedCategory] = React.useState("All");
+    const [expandedCommand, setExpandedCommand] = React.useState(null);
+
+    const categories = ["All", "Authentication", "Workspaces", "Sync Engine", "Files & Cache", "Team", "Settings & Health"];
+
+    const commandsData = [
+        {
+            name: "cn login",
+            category: "Authentication",
+            desc: "Authenticate your terminal with your TeamBridge account credentials.",
+            syntax: "cn login",
+            when: "Run this command first when starting a new developer session or setting up Candles on a new machine. It establishes the secure handshake required for synchronization.",
+            how: "Prompts you to enter your registered email and password. Once authenticated, a secure JSON Web Token (JWT) is generated and stored locally in your session profile. All subsequent commands read this token to authorize requests with the cloud API.",
+            arguments: []
+        },
+        {
+            name: "cn logout",
+            category: "Authentication",
+            desc: "Safely clears the local authentication session and active tokens.",
+            syntax: "cn logout",
+            when: "Use this command when you are finishing work on a shared or public computer to ensure no unauthorized access to your cloud workspaces remains active.",
+            how: "Instantly purges the session token file from your local disk profile memory, preventing any further authenticated API requests from this terminal. Files already synchronized to the disk are untouched.",
+            arguments: []
+        },
+        {
+            name: "cn whoami",
+            category: "Authentication",
+            desc: "Displays active user name, email, role, and current session validity status.",
+            syntax: "cn whoami",
+            when: "Run this to verify which account is currently active in the CLI context, especially useful if you manage multiple student or developer credentials.",
+            how: "Queries the `/profile` cloud endpoint using the stored JWT token to load the user profile name and roles, confirming the active connection status.",
+            arguments: []
+        },
+        {
+            name: "cn create",
+            category: "Workspaces",
+            desc: "Launches the web browser project deployment console to create a new workspace.",
+            syntax: "cn create",
+            when: "Use this command when you want to provision a new collaborative project. It acts as a shortcut to bypass manual browser URL entry.",
+            how: "Triggers a browser command execution to open the TeamBridge project setup URL (https://candels1921.vercel.app/create-project), where you can specify stack parameters (React, Flask, Express, etc.).",
+            arguments: []
+        },
+        {
+            name: "cn select",
+            category: "Workspaces",
+            desc: "Links a local folder to a cloud workspace interactively.",
+            syntax: "cn select",
+            when: "Run this inside your project root directory to hook it directly to one of your active TeamBridge cloud workspaces.",
+            how: "Fetches all workspaces associated with your profile, prompts you to select one, and configures it in your current directory by saving workspace metadata inside `.candles/config.json`.",
+            arguments: []
+        },
+        {
+            name: "cn switch",
+            category: "Workspaces",
+            desc: "Switches the active workspace context to another linked project by name.",
+            syntax: "cn switch <workspace_name>",
+            when: "Use this command when you want to quickly swap local folders or change the tracking destination to another team project.",
+            how: "Checks your linked projects registry, updates the local `.candles/config.json` context settings instantly to match the target workspace identifier, and aligns folder synchronization.",
+            arguments: [
+                { name: "workspace_name", desc: "The name of the project workspace to switch to." }
+            ]
+        },
+        {
+            name: "cn list",
+            category: "Workspaces",
+            desc: "Displays all workspaces linked to your developer profile.",
+            syntax: "cn list",
+            when: "Run this to get a quick summary of all projects and corresponding team codes you are currently linked to.",
+            how: "Retrieves list of active projects from the server database and formats them as a clean, readable table output in your shell environment.",
+            arguments: []
+        },
+        {
+            name: "cn delete",
+            category: "Workspaces",
+            desc: "Permanently deletes a cloud workspace, its version logs, and all historical snapshots.",
+            syntax: "cn delete <workspace_name>",
+            when: "Run this only when you want to completely discard a workspace and clear all backend data. Proceed with extreme caution.",
+            how: "Sends a request to drop all associated cloud files, history logs, and settings parameters from the server database. Requires explicit confirmation typing in terminal.",
+            arguments: [
+                { name: "workspace_name", desc: "The name of the project workspace to permanently delete." }
+            ]
+        },
+        {
+            name: "cn info",
+            category: "Workspaces",
+            desc: "Displays storage size, total file count, and last sync timestamp.",
+            syntax: "cn info",
+            when: "Use this to check sync progress, storage footprint details, or verify if the workspace is fully synchronized.",
+            how: "Queries the server's telemetry endpoints to summarize workspace total file count, occupied size in megabytes (MB), and last active sync events.",
+            arguments: []
+        },
+        {
+            name: "cn link",
+            category: "Sync Engine",
+            desc: "Starts the file watcher and initiates real-time WebSocket changes sync.",
+            syntax: "cn link",
+            when: "Run this at the start of your development work. It connects your local workspace directly to the cloud editor for real-time collaboration.",
+            how: "Initializes a watchdog directory observer and establishes a secure WebSocket connection. It instantly synchronizes all existing local files and begins listening for real-time file updates, uploads, and deletions.",
+            arguments: []
+        },
+        {
+            name: "cn unlink",
+            category: "Sync Engine",
+            desc: "Stops the file watcher observer thread and suspends sync.",
+            syntax: "cn unlink",
+            when: "Run this when you want to pause real-time changes mirroring without logging out of your session.",
+            how: "Terminates the watchdog file observer threads and suspends socket connections. Local and cloud files remain safe, but edits will not sync until `cn link` is run again.",
+            arguments: []
+        },
+        {
+            name: "cn push",
+            category: "Sync Engine",
+            desc: "Manually pushes all local folder changes to the cloud repository index.",
+            syntax: "cn push",
+            when: "Use this to force-upload your local workspace files if you were previously working offline or disabled real-time sync.",
+            how: "Recursively scans your project directory, filters out ignored directories (such as `.git` and `node_modules`), checks for changes, and uploads all modified and new files to the server in a batch request.",
+            arguments: []
+        },
+        {
+            name: "cn pull",
+            category: "Sync Engine",
+            desc: "Downloads the latest server workspace snapshot down into the local directory.",
+            syntax: "cn pull",
+            when: "Run this to align your local project files with edits made by team members in the browser editor or when changing machines.",
+            how: "Requests a base64 file snapshot stream of the current workspace directory from the server. Downloads and writes all files down into the local folder structure safely.",
+            arguments: []
+        },
+        {
+            name: "cn get",
+            category: "Sync Engine",
+            desc: "Downloads the files currently in the website workspace down to your local directory.",
+            syntax: "cn get",
+            when: "Use this as a clean command to retrieve and download the current code files from the cloud workspace editor down to your workspace folder.",
+            how: "Connects to the cloud snapshot stream endpoint, queries all files in the current team workspace directory, decodes base64 buffers, and creates the folders and files locally.",
+            arguments: []
+        },
+        {
+            name: "cn diff",
+            category: "Sync Engine",
+            desc: "Audits and lists uncommitted/unsynced files and changes.",
+            syntax: "cn diff",
+            when: "Run this to preview modifications in your local folder compared to the cloud index before committing or starting real-time sync.",
+            how: "Compares local file metadata (paths, sizes, mtime) against the remote directory layout and renders a list of differences (added, modified, deleted files) in your shell.",
+            arguments: []
+        },
+        {
+            name: "cn drop",
+            category: "Files & Cache",
+            desc: "Deletes a file locally and removes it from the cloud workspace registry.",
+            syntax: "cn drop <file_path>",
+            when: "Use this when you want to delete a file permanently from both your local computer and your team's cloud workspace.",
+            how: "Deletes the physical file locally and submits a deletion request to the server API, which removes it from the cloud workspace directory and emits updates to other team members.",
+            arguments: [
+                { name: "file_path", desc: "The relative path of the file to delete (e.g. frontend/src/App.jsx)." }
+            ]
+        },
+        {
+            name: "cn restore",
+            category: "Files & Cache",
+            desc: "Recovers a deleted file or path from version history.",
+            syntax: "cn restore <file_path>",
+            when: "Use this to recover a file that was deleted accidentally by yourself or a teammate.",
+            how: "Sends a request to recover the specified path from the cloud workspace version history repository, downloading and recreating the file locally.",
+            arguments: [
+                { name: "file_path", desc: "The relative path of the file to recover." }
+            ]
+        },
+        {
+            name: "cn history",
+            category: "Files & Cache",
+            desc: "Shows version history logs, author details, and change timestamps.",
+            syntax: "cn history <file_path>",
+            when: "Use this to track who edited a file, view previous revisions, or trace code modifications.",
+            how: "Fetches modification logs and version snapshots (v1, v2, v3) associated with the file from the database, displaying a chronologically ordered list of edits.",
+            arguments: [
+                { name: "file_path", desc: "The path of the file to inspect history for." }
+            ]
+        },
+        {
+            name: "cn members",
+            category: "Team",
+            desc: "Lists all active project collaborators and their roles.",
+            syntax: "cn members",
+            when: "Use this to view the active team members associated with your workspace, helping coordinate collaboration.",
+            how: "Queries the team membership database, returning active names, email addresses, and roles (Owner, Developer, Viewer) in a formatted list.",
+            arguments: []
+        },
+        {
+            name: "cn invite",
+            category: "Team",
+            desc: "Dispatches a secure email invitation token for a developer to join the workspace.",
+            syntax: "cn invite <email>",
+            when: "Run this to add a new teammate or collaborator to your active project workspace pipeline.",
+            how: "Submits a request to the server which registers a pending membership invitation and sends a secure registration token to the developer's email.",
+            arguments: [
+                { name: "email", desc: "The email address of the developer to invite." }
+            ]
+        },
+        {
+            name: "cn config-get",
+            category: "Settings & Health",
+            desc: "Displays global configuration parameters (API servers, sync debounce delay, limits).",
+            syntax: "cn config-get",
+            when: "Use this to check your local configuration values, such as the sync interval delay or the max allowed file size.",
+            how: "Reads local variables from the Candles environment configuration profile and outputs them to the console.",
+            arguments: []
+        },
+        {
+            name: "cn config-set",
+            category: "Settings & Health",
+            desc: "Updates local configuration flags and variables.",
+            syntax: "cn config-set <key> <value>",
+            when: "Run this to customize local CLI behavior (e.g. changing sync check intervals or configuring default options).",
+            how: "Modifies parameters inside the local configuration database, immediately updating how the sync engine and daemon watcher behave.",
+            arguments: [
+                { name: "key", desc: "The configuration parameter key to modify (e.g., sync)." },
+                { name: "value", desc: "The value to set for the configuration parameter." }
+            ]
+        },
+        {
+            name: "cn doctor",
+            category: "Settings & Health",
+            desc: "Runs an environmental health audit and sync integrity checks.",
+            syntax: "cn doctor",
+            when: "Use this when troubleshooting sync problems, network errors, or folder permission issues. It checks all connections and credentials.",
+            how: "Executes a diagnostics suite checking your local Python environment version, internet connection validity, API token state, project link folder mapping, and read/write file permissions.",
+            arguments: []
+        },
+        {
+            name: "cn logs",
+            category: "Settings & Health",
+            desc: "Displays real-time diagnostic runtime activity logs.",
+            syntax: "cn logs [--today] [--errors]",
+            when: "Use this to review detailed file upload events, socket connection activities, or debug sync conflict exceptions.",
+            how: "Reads backend and local watchdog event logs, outputting a list of runtime actions. Supports filtering to show only errors.",
+            arguments: []
+        }
+    ];
+
+    const filteredCommands = commandsData.filter(cmd => {
+        const matchesSearch = cmd.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                             cmd.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                             cmd.syntax.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = selectedCategory === "All" || cmd.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+    });
+
+    return (
+        <div className="console-hub-container" style={{ padding: '24px', animation: 'fadeIn 0.3s ease' }}>
+            <div className="console-header" style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+                <div>
+                    <span className="console-subtitle">🕯️ Support Center</span>
+                    <h2 className="console-title" style={{ fontSize: '24px', fontWeight: '800', letterSpacing: '-0.5px' }}>Candles CLI Usage & Support Guide</h2>
+                    <p className="console-description" style={{ color: '#a1a1aa', fontSize: '13px', marginTop: '4px' }}>
+                        Find complete explanations, code syntax, and operational contexts for every command inside the Candles terminal utility.
+                    </p>
+                </div>
+                <button 
+                    onClick={() => setActiveTab('Access & API')} 
+                    className="console-tab-btn"
+                    style={{ background: '#27272a', color: '#f4f4f5', padding: '10px 16px', borderRadius: '8px', border: '1px solid #3f3f46', cursor: 'pointer', fontWeight: '600', fontSize: '13px' }}
+                >
+                    ➔ Return to Access & API
+                </button>
+            </div>
+
+            {/* Quick Setup Walkthrough Banner */}
+            <div className="console-card" style={{ background: '#1e1b4b', border: '1px solid #312e81', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
+                <h3 style={{ color: '#818cf8', margin: '0 0 8px 0', fontSize: '15px', fontWeight: '700' }}>🚀 Candles Developer Workflow Summary</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', fontSize: '12.5px', color: '#c7d2fe', lineHeight: '1.5' }}>
+                    <div>
+                        <strong style={{ color: '#ffffff', display: 'block', marginBottom: '4px' }}>1. Package Installation</strong>
+                        Run <code style={{ background: '#312e81', padding: '2px 6px', borderRadius: '4px', color: '#a5b4fc', fontFamily: 'monospace' }}>pip install teambridge-candles</code> to install the CLI global executable on your local machine.
+                    </div>
+                    <div>
+                        <strong style={{ color: '#ffffff', display: 'block', marginBottom: '4px' }}>2. Identity Handshake</strong>
+                        Execute <code style={{ background: '#312e81', padding: '2px 6px', borderRadius: '4px', color: '#a5b4fc', fontFamily: 'monospace' }}>cn login</code> to authorize your terminal with your password or long-lived API token.
+                    </div>
+                    <div>
+                        <strong style={{ color: '#ffffff', display: 'block', marginBottom: '4px' }}>3. Project Association</strong>
+                        Run <code style={{ background: '#312e81', padding: '2px 6px', borderRadius: '4px', color: '#a5b4fc', fontFamily: 'monospace' }}>cn select</code> inside your local development directory to map it directly to a cloud project, then type <code style={{ background: '#312e81', padding: '2px 6px', borderRadius: '4px', color: '#a5b4fc', fontFamily: 'monospace' }}>cn link</code> to begin live syncing.
+                    </div>
+                </div>
+            </div>
+
+            {/* Search & Filter Bar */}
+            <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
+                <div style={{ flex: 1, minWidth: '250px', position: 'relative' }}>
+                    <input 
+                        type="text" 
+                        placeholder="Search commands, syntax or keywords..." 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid #27272a', background: '#18181b', color: '#ffffff', fontSize: '13px', boxSizing: 'border-box' }}
+                    />
+                    {searchQuery && (
+                        <button onClick={() => setSearchQuery("")} style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', border: 'none', background: 'none', color: '#a1a1aa', cursor: 'pointer', fontSize: '13px' }}>✕</button>
+                    )}
+                </div>
+
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                    {categories.map(cat => (
+                        <button 
+                            key={cat}
+                            onClick={() => setSelectedCategory(cat)}
+                            style={{ 
+                                padding: '10px 14px', 
+                                borderRadius: '8px', 
+                                border: '1px solid ' + (selectedCategory === cat ? '#2563eb' : '#27272a'), 
+                                background: selectedCategory === cat ? '#2563eb' : '#18181b', 
+                                color: '#ffffff', 
+                                cursor: 'pointer', 
+                                fontSize: '12px',
+                                fontWeight: '600',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Commands List Grid */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {filteredCommands.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '40px', background: '#18181b', borderRadius: '12px', border: '1px solid #27272a', color: '#a1a1aa', fontSize: '14px' }}>
+                        🔍 No matching commands found for query: "<strong>{searchQuery}</strong>". Try another keyword!
+                    </div>
+                ) : (
+                    filteredCommands.map(cmd => {
+                        const isExpanded = expandedCommand === cmd.name;
+                        return (
+                            <div 
+                                key={cmd.name}
+                                className="console-card"
+                                style={{ 
+                                    border: isExpanded ? '1px solid #2563eb' : '1px solid #27272a',
+                                    borderRadius: '12px', 
+                                    background: '#18181b', 
+                                    padding: '16px',
+                                    transition: 'all 0.2s ease',
+                                    boxShadow: isExpanded ? '0 4px 20px rgba(37, 99, 235, 0.15)' : 'none'
+                                }}
+                            >
+                                <div 
+                                    onClick={() => setExpandedCommand(isExpanded ? null : cmd.name)}
+                                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <code style={{ fontSize: '15px', color: '#30d158', fontWeight: '700', fontFamily: 'SF Mono, monospace' }}>{cmd.name}</code>
+                                        <span style={{ fontSize: '10px', background: '#27272a', color: '#a1a1aa', padding: '2px 8px', borderRadius: '20px', textTransform: 'uppercase', fontWeight: 'bold', border: '1px solid #3f3f46' }}>
+                                            {cmd.category}
+                                        </span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <span style={{ fontSize: '13px', color: '#a1a1aa' }}>{cmd.desc}</span>
+                                        <span style={{ fontSize: '16px', color: '#a1a1aa', transition: 'transform 0.2s', transform: isExpanded ? 'rotate(90deg)' : 'none' }}>➔</span>
+                                    </div>
+                                </div>
+
+                                {isExpanded && (
+                                    <div style={{ marginTop: '16px', borderTop: '1px solid #27272a', paddingTop: '16px' }}>
+                                        {/* Command Syntax Box */}
+                                        <div style={{ marginBottom: '14px' }}>
+                                            <div style={{ fontSize: '11px', color: '#a1a1aa', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '6px' }}>Terminal Syntax</div>
+                                            <div style={{ display: 'flex', alignItems: 'center', background: '#09090b', border: '1px solid #27272a', borderRadius: '6px', padding: '10px 14px', justifyContent: 'space-between', fontFamily: 'SF Mono, monospace' }}>
+                                                <span style={{ color: '#30d158', fontSize: '13px' }}>{cmd.syntax}</span>
+                                                <button 
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        navigator.clipboard.writeText(cmd.syntax);
+                                                    }} 
+                                                    style={{ border: 'none', background: 'none', color: '#a1a1aa', cursor: 'pointer', fontSize: '13px' }}
+                                                    title="Copy command syntax"
+                                                >
+                                                    📋 Copy
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Arguments detail if present */}
+                                        {cmd.arguments && cmd.arguments.length > 0 && (
+                                            <div style={{ marginBottom: '14px' }}>
+                                                <div style={{ fontSize: '11px', color: '#a1a1aa', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '6px' }}>Arguments Details</div>
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                                    {cmd.arguments.map(arg => (
+                                                        <div key={arg.name} style={{ display: 'flex', gap: '8px', fontSize: '12.5px', color: '#e4e4e7' }}>
+                                                            <code style={{ color: '#ffb300', fontFamily: 'monospace', fontWeight: 'bold' }}>&lt;{arg.name}&gt;</code>
+                                                            <span>— {arg.desc}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Use cases Context */}
+                                        <div style={{ marginBottom: '14px' }}>
+                                            <div style={{ fontSize: '11px', color: '#a1a1aa', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '4px' }}>When & Where to Use</div>
+                                            <p style={{ margin: '0', fontSize: '13px', color: '#e4e4e7', lineHeight: '1.5' }}>
+                                                {cmd.when}
+                                            </p>
+                                        </div>
+
+                                        {/* Behind the scenes logic */}
+                                        <div>
+                                            <div style={{ fontSize: '11px', color: '#a1a1aa', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '4px' }}>How it Works Under the Hood</div>
+                                            <p style={{ margin: '0', fontSize: '13px', color: '#e4e4e7', lineHeight: '1.5' }}>
+                                                {cmd.how}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })
                 )}
             </div>
         </div>
