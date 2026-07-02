@@ -12,7 +12,7 @@ if os.path.exists(readme_path):
 
 setup(
     name="teambridge-candles",
-    version="1.1.0",  # 🚀 Major release reflecting the full flat architecture expansion
+    version="1.1.1",  # 🚀 Major release reflecting the full flat architecture expansion
     packages=find_packages(),
     long_description=long_description,
     long_description_content_type="text/markdown",
