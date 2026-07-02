@@ -1,7 +1,13 @@
 /* eslint-disable */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
-import { saveEncryptedSnapshot, loadEncryptedSnapshot, deleteOfflineVault, wipeAllCache } from '../database/offlineVault';
+import { 
+    saveEncryptedSnapshot, 
+    loadEncryptedSnapshot, 
+    deleteOfflineVault, 
+    wipeAllCache,
+    getSavedTeamCodes 
+} from '../database/offlineVault';
 import { encryptSnapshot, decryptSnapshot } from '../security/crypto';
 import { API_CONFIG } from '../config/api';
 
@@ -15,8 +21,8 @@ export const SecureOfflineProvider = ({ children }) => {
 
     // Check if vault file exists on startup
     const checkVaultExists = async () => {
-        const vault = await loadEncryptedSnapshot();
-        setHasVault(!!vault);
+        const teamCodes = await getSavedTeamCodes();
+        setHasVault(teamCodes.length > 0);
     };
 
     useEffect(() => {
@@ -24,19 +30,19 @@ export const SecureOfflineProvider = ({ children }) => {
     }, []);
 
     /**
-     * Downloads structural snapshots from Render REST gateway,
+     * Downloads structural snapshots from local REST gateway,
      * encrypts them, hashes the chosen PIN, and writes to cache folder.
      */
-    const generateOfflineVault = async (teamCode, token, password, pin) => {
+    const generateOfflineVault = async (teamCode, token, password) => {
         try {
-            // Fetch snapshot from Render Flask server
+            // Generate a random 4-digit PIN code
+            const generatedPin = Math.floor(1000 + Math.random() * 9000).toString();
+
+            // Fetch snapshot from local Flask server
             const res = await fetch(`${API_CONFIG.BACKEND_URL}/api/workspace/file-content?team_code=${teamCode}&path=README.md`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            // If README.md fetches OK, we fetch the complete directory listing or a structured snapshot.
-            // Let's create a representative workspace snapshot block containing local files scaffold structure
-            // E.g., fetch list of files and content for README.md and App.jsx to mock offline capability
             let readmeContent = "Welcome to TeamBridge offline workspace.";
             if (res.ok) {
                 const doc = await res.json();
@@ -62,23 +68,24 @@ export const SecureOfflineProvider = ({ children }) => {
                 ]
             };
 
-            // Generate AES-256 payload string
-            const encryptedEnvelopeStr = encryptSnapshot(snapshotData, password);
-            const envelopeObj = JSON.parse(encryptedEnvelopeStr);
+            // 1. Encrypt snapshot using the generated PIN as key
+            const encryptedSnapshot = encryptSnapshot(snapshotData, generatedPin);
             
-            // Hash the 4-digit PIN securely using SHA-256
-            const pinHash = CryptoJS.SHA256(pin).toString();
+            // 2. Encrypt the PIN using the user's Login Password
+            const encryptedPin = CryptoJS.AES.encrypt(generatedPin, password).toString();
             
-            // Embed pinHash inside the envelope JSON
-            envelopeObj.pinHash = pinHash;
-            
-            const finalPayload = JSON.stringify(envelopeObj);
+            const finalPayload = JSON.stringify({
+                teamCode,
+                encryptedSnapshot,
+                encryptedPin
+            });
 
-            // Save to transient cache folder
-            await saveEncryptedSnapshot(finalPayload);
-            setHasVault(true);
+            // Save to transient cache folder with teamCode filename
+            await saveEncryptedSnapshot(finalPayload, teamCode);
+            await checkVaultExists();
             setIncorrectAttempts(0);
-            return { success: true };
+            
+            return { success: true, pin: generatedPin };
         } catch (error) {
             console.error("Failed to generate offline vault:", error);
             return { success: false, error: error.message };
@@ -86,39 +93,77 @@ export const SecureOfflineProvider = ({ children }) => {
     };
 
     /**
-     * Validates input PIN hash and decrypts cache snapshot with password.
+     * Decrypts the 4-digit PIN for a team using the user's password.
      */
-    const unlockOfflineVault = async (password, pin) => {
+    const revealPin = async (teamCode, password) => {
         try {
-            const vaultDataStr = await loadEncryptedSnapshot();
+            const vaultDataStr = await loadEncryptedSnapshot(teamCode);
             if (!vaultDataStr) {
-                throw new Error("No offline database snapshot found. Please sync online first.");
+                throw new Error("No offline snapshot found for this team.");
             }
 
             const envelope = JSON.parse(vaultDataStr);
-            const hashedInputPin = CryptoJS.SHA256(pin).toString();
+            const decryptedBytes = CryptoJS.AES.decrypt(envelope.encryptedPin, password);
+            const decryptedPin = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
-            // 1. Verify PIN hash match
-            if (envelope.pinHash !== hashedInputPin) {
-                throw new Error("Incorrect 4-Digit PIN.");
+            if (!decryptedPin || decryptedPin.length !== 4 || isNaN(decryptedPin)) {
+                throw new Error("Incorrect Password.");
             }
 
-            // 2. Decrypt workspace snapshot payload
-            const decryptedData = decryptSnapshot(JSON.stringify(envelope), password);
+            return { success: true, pin: decryptedPin };
+        } catch (error) {
+            return { success: false, error: error.message || "Decryption failed." };
+        }
+    };
 
-            // Success! Unlock offline dashboards
-            setOfflineWorkspaces(decryptedData);
-            setIsOfflineMode(true);
-            setIncorrectAttempts(0);
-            return { success: true };
+    /**
+     * Loops through stored vault files, verifies password decryption of PIN, and decrypts snapshot data.
+     */
+    const unlockOfflineVault = async (password, pin) => {
+        try {
+            const teamCodes = await getSavedTeamCodes();
+            if (teamCodes.length === 0) {
+                throw new Error("No offline database snapshot found. Please sync online first.");
+            }
+
+            for (const teamCode of teamCodes) {
+                try {
+                    const vaultDataStr = await loadEncryptedSnapshot(teamCode);
+                    if (!vaultDataStr) continue;
+
+                    const envelope = JSON.parse(vaultDataStr);
+                    
+                    // 1. Decrypt PIN using the password to verify password match
+                    const decryptedBytes = CryptoJS.AES.decrypt(envelope.encryptedPin, password);
+                    const decryptedPin = decryptedBytes.toString(CryptoJS.enc.Utf8);
+                    
+                    if (decryptedPin !== pin) {
+                        continue;
+                    }
+                    
+                    // 2. Decrypt snapshot using the verified PIN
+                    const decryptedData = decryptSnapshot(envelope.encryptedSnapshot, pin);
+                    
+                    if (decryptedData && decryptedData.team_code) {
+                        setOfflineWorkspaces(decryptedData);
+                        setIsOfflineMode(true);
+                        setIncorrectAttempts(0);
+                        return { success: true };
+                    }
+                } catch (err) {
+                    // Try next team file
+                }
+            }
+
+            throw new Error("Incorrect 4-Digit PIN or password.");
         } catch (error) {
             const nextAttempts = incorrectAttempts + 1;
             setIncorrectAttempts(nextAttempts);
 
-            // 3. Security Wipe Enforcement: Trigger directory purge on 5 consecutive failures
+            // Security Wipe Enforcement: Trigger purge on 5 consecutive failures
             if (nextAttempts >= 5) {
                 await executeLockoutWipe();
-                throw new Error("Security Alert: 5 incorrect PIN attempts reached. Local cache database and security keys have been completely wiped.");
+                throw new Error("Security Alert: 5 incorrect attempts reached. Local cache database has been completely wiped.");
             }
 
             throw new Error(`${error.message} (${5 - nextAttempts} attempts remaining)`);
@@ -129,7 +174,10 @@ export const SecureOfflineProvider = ({ children }) => {
      * Wipes files and resets context
      */
     const executeLockoutWipe = async () => {
-        await deleteOfflineVault();
+        const teamCodes = await getSavedTeamCodes();
+        for (const teamCode of teamCodes) {
+            await deleteOfflineVault(teamCode);
+        }
         await wipeAllCache();
         setOfflineWorkspaces(null);
         setIsOfflineMode(false);
@@ -149,6 +197,7 @@ export const SecureOfflineProvider = ({ children }) => {
             incorrectAttempts,
             hasVault,
             generateOfflineVault,
+            revealPin,
             unlockOfflineVault,
             executeLockoutWipe,
             lockOfflineMode,

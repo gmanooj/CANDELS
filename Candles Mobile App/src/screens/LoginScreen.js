@@ -11,7 +11,8 @@ import {
     Dimensions, 
     Image, 
     TouchableOpacity,
-    Easing
+    Easing,
+    Clipboard
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -24,7 +25,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function LoginScreen({ navigation }) {
     const { user, login, logout, loading, token, masterPassword } = useAuth();
-    const { hasVault, generateOfflineVault, checkVaultExists } = useSecureOffline();
+    const { hasVault, generateOfflineVault, revealPin, checkVaultExists } = useSecureOffline();
     const theme = useTheme();
 
     // Splash screen phases: 'animating' | 'shrinking' | 'fading' | 'hidden'
@@ -47,6 +48,13 @@ export default function LoginScreen({ navigation }) {
     const [pinCode, setPinCode] = useState("");
     const [syncSuccess, setSyncSuccess] = useState("");
     const [isSyncing, setIsSyncing] = useState(false);
+
+    // PIN Reveal inputs
+    const [revealTeamCode, setRevealTeamCode] = useState("TB-TEAM-9D657A");
+    const [revealPassword, setRevealPassword] = useState("");
+    const [revealedPin, setRevealedPin] = useState("");
+    const [revealError, setRevealError] = useState("");
+    const [showRevealSection, setShowRevealSection] = useState(false);
 
     // Animation values
     const logoPulseVal = useRef(new Animated.Value(1)).current;
@@ -226,21 +234,39 @@ export default function LoginScreen({ navigation }) {
             alert("Please enter a valid Team Code.");
             return;
         }
-        if (pinCode.length !== 4 || isNaN(pinCode)) {
-            alert("PIN must be exactly 4 digits.");
-            return;
-        }
 
         setIsSyncing(true);
-        const res = await generateOfflineVault(teamCode.trim(), token, masterPassword, pinCode);
+        const res = await generateOfflineVault(teamCode.trim(), token, masterPassword);
         setIsSyncing(false);
         
         if (res.success) {
-            setSyncSuccess("Offline database snapshot generated and encrypted successfully!");
-            setPinCode("");
+            setSyncSuccess(`Offline snapshot generated successfully!\nYour 4-Digit Offline PIN: ${res.pin}\nSave this PIN to log in offline later.`);
+            setPinCode(res.pin);
             checkVaultExists();
         } else {
             alert("Sync generation failed: " + res.error);
+        }
+    };
+
+    const handleRevealPinSubmit = async () => {
+        setRevealError("");
+        setRevealedPin("");
+        if (!revealTeamCode.trim() || !revealPassword.trim()) {
+            setRevealError("Team Code and password are required.");
+            return;
+        }
+        const res = await revealPin(revealTeamCode.trim(), revealPassword);
+        if (res.success) {
+            setRevealedPin(res.pin);
+        } else {
+            setRevealError(res.error || "PIN decryption failed. Please verify credentials.");
+        }
+    };
+
+    const handleCopyToClipboard = () => {
+        if (revealedPin) {
+            Clipboard.setString(revealedPin);
+            alert("4-Digit Offline Code copied to clipboard!");
         }
     };
 
@@ -383,37 +409,99 @@ export default function LoginScreen({ navigation }) {
 
                     <View style={{ width: '100%', paddingHorizontal: 4 }}>
                         {!user ? (
-                            <GlassCard style={styles.formCard}>
-                                <Text style={styles.cardHeader}>Account Login</Text>
-                                <Text style={[styles.cardSubtitle, { color: theme.colors.textMuted }]}>
-                                    Please enter your credentials to access the platform.
-                                </Text>
+                            <>
+                                <GlassCard style={styles.formCard}>
+                                    <Text style={styles.cardHeader}>Account Login</Text>
+                                    <Text style={[styles.cardSubtitle, { color: theme.colors.textMuted }]}>
+                                        Please enter your credentials to access the platform.
+                                    </Text>
 
-                                {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null}
+                                    {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null}
 
-                                <CustomInput
-                                    label="Email Address"
-                                    placeholder="Email Address"
-                                    value={email}
-                                    onChangeText={setEmail}
-                                    keyboardType="email-address"
-                                />
+                                    <CustomInput
+                                        label="Email Address"
+                                        placeholder="Email Address"
+                                        value={email}
+                                        onChangeText={setEmail}
+                                        keyboardType="email-address"
+                                    />
 
-                                <CustomInput
-                                    label="Password"
-                                    placeholder="Password"
-                                    value={password}
-                                    onChangeText={setPassword}
-                                    secureTextEntry={true}
-                                />
+                                    <CustomInput
+                                        label="Password"
+                                        placeholder="Password"
+                                        value={password}
+                                        onChangeText={setPassword}
+                                        secureTextEntry={true}
+                                    />
 
-                                <PremiumButton
-                                    title={loading ? "Authenticating..." : "Login"}
-                                    onPress={handleLoginSubmit}
-                                    disabled={loading}
-                                    style={{ marginTop: 15 }}
-                                />
-                            </GlassCard>
+                                    <PremiumButton
+                                        title={loading ? "Authenticating..." : "Login"}
+                                        onPress={handleLoginSubmit}
+                                        disabled={loading}
+                                        style={{ marginTop: 15 }}
+                                    />
+                                </GlassCard>
+
+                                {/* Decrypt PIN Offline Card */}
+                                {hasVault && (
+                                    <View style={{ marginTop: 15 }}>
+                                        <TouchableOpacity 
+                                            style={styles.collapsibleHeader}
+                                            onPress={() => setShowRevealSection(!showRevealSection)}
+                                        >
+                                            <Text style={styles.collapsibleHeaderText}>
+                                                {showRevealSection ? "▼ Hide Decrypt Offline Code" : "▶ Retrieve 4-Digit Offline Code"}
+                                            </Text>
+                                        </TouchableOpacity>
+
+                                        {showRevealSection && (
+                                            <GlassCard style={[styles.formCard, { marginTop: 8 }]}>
+                                                <Text style={styles.cardHeader}>Decrypt Offline File</Text>
+                                                <Text style={[styles.cardSubtitle, { color: theme.colors.textMuted }]}>
+                                                    Enter Team Code and account password to decrypt and reveal the offline code.
+                                                </Text>
+
+                                                {revealError ? <Text style={styles.errorText}>{revealError}</Text> : null}
+
+                                                <CustomInput
+                                                    label="Team Code"
+                                                    placeholder="e.g. TB-TEAM-9D657A"
+                                                    value={revealTeamCode}
+                                                    onChangeText={setRevealTeamCode}
+                                                />
+
+                                                <CustomInput
+                                                    label="Decryption Password"
+                                                    placeholder="Enter password"
+                                                    value={revealPassword}
+                                                    onChangeText={setRevealPassword}
+                                                    secureTextEntry={true}
+                                                />
+
+                                                <PremiumButton
+                                                    title="Decrypt Access PIN"
+                                                    onPress={handleRevealPinSubmit}
+                                                    style={{ marginTop: 15, backgroundColor: theme.colors.accent }}
+                                                />
+
+                                                {revealedPin ? (
+                                                    <View style={styles.revealOutputBox}>
+                                                        <Text style={styles.revealOutputLabel}>Revealed Offline PIN:</Text>
+                                                        <Text style={styles.revealPinValue}>{revealedPin}</Text>
+                                                        
+                                                        <TouchableOpacity 
+                                                            style={styles.copyBtn}
+                                                            onPress={handleCopyToClipboard}
+                                                        >
+                                                            <Text style={styles.copyBtnText}>📋 Copy PIN</Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                ) : null}
+                                            </GlassCard>
+                                        )}
+                                    </View>
+                                )}
+                            </>
                         ) : (
                             <GlassCard style={styles.formCard}>
                                 <Text style={styles.cardHeader}>Session Status</Text>
@@ -424,25 +512,21 @@ export default function LoginScreen({ navigation }) {
 
                                 <Text style={[styles.cardHeader, { marginTop: 10 }]}>Sync Offline Database</Text>
                                 <Text style={[styles.cardSubtitle, { color: theme.colors.textMuted }]}>
-                                    Configure offline credentials and sync cloud data snapshot.
+                                    Generate an encrypted offline snapshot of your workspace team directory.
                                 </Text>
 
-                                {syncSuccess ? <Text style={styles.successText}>{syncSuccess}</Text> : null}
+                                {syncSuccess ? (
+                                    <View style={styles.syncSuccessBox}>
+                                        <Text style={styles.syncSuccessTitle}>✓ Synchronization Generated</Text>
+                                        <Text style={styles.syncSuccessText}>{syncSuccess}</Text>
+                                    </View>
+                                ) : null}
 
                                 <CustomInput
                                     label="Team Code"
                                     placeholder="e.g. TB-TEAM-9D657A"
                                     value={teamCode}
                                     onChangeText={setTeamCode}
-                                />
-
-                                <CustomInput
-                                    label="4-Digit Offline PIN"
-                                    placeholder="Enter 4 digits"
-                                    value={pinCode}
-                                    onChangeText={setPinCode}
-                                    keyboardType="numeric"
-                                    secureTextEntry={true}
                                 />
 
                                 <PremiumButton
@@ -534,12 +618,19 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         marginRight: 12,
+        shadowColor: '#ff6b00',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.8,
+        shadowRadius: 15,
     },
     splashText: {
         fontSize: 24,
         fontWeight: '900',
         color: '#ff6b00', // Candles orange branding accent
         letterSpacing: 2,
+        textShadowColor: 'rgba(255, 107, 0, 0.4)',
+        textShadowOffset: { width: 0, height: 0 },
+        textShadowRadius: 10,
     },
 
     keyboardContainer: {
@@ -721,6 +812,71 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: '700',
         marginBottom: 10,
+    },
+
+    // Collapsible drawer reveal styles
+    collapsibleHeader: {
+        backgroundColor: 'rgba(15, 23, 42, 0.04)',
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    collapsibleHeaderText: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#1e293b',
+    },
+    revealOutputBox: {
+        backgroundColor: 'rgba(255, 107, 0, 0.05)',
+        borderColor: '#ff6b00',
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 12,
+        marginTop: 15,
+        alignItems: 'center',
+    },
+    revealOutputLabel: {
+        fontSize: 12,
+        color: '#475569',
+        fontWeight: '600',
+    },
+    revealPinValue: {
+        fontSize: 28,
+        fontWeight: '900',
+        color: '#ff6b00',
+        letterSpacing: 4,
+        marginVertical: 8,
+    },
+    copyBtn: {
+        backgroundColor: '#ff6b00',
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 16,
+    },
+    copyBtnText: {
+        color: '#ffffff',
+        fontSize: 11,
+        fontWeight: '700',
+    },
+    syncSuccessBox: {
+        backgroundColor: 'rgba(34, 197, 94, 0.05)',
+        borderColor: '#22c55e',
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 12,
+        marginBottom: 15,
+    },
+    syncSuccessTitle: {
+        color: '#22c55e',
+        fontWeight: '800',
+        fontSize: 13,
+        marginBottom: 4,
+    },
+    syncSuccessText: {
+        color: '#15803d',
+        fontSize: 12,
+        lineHeight: 18,
     },
 
     // Loader Portal Styles
