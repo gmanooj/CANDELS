@@ -86,6 +86,112 @@ def get_workspace_status():
 
         if stack:
             languages, frontend, backend, database = stack
+            
+            # Self-healing: if physical directory does not exist or is empty, regenerate files on the fly!
+            project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
+            if not os.path.exists(project_dir) or not os.listdir(project_dir):
+                try:
+                    os.makedirs(os.path.join(project_dir, 'frontend'), exist_ok=True)
+                    os.makedirs(os.path.join(project_dir, 'backend'), exist_ok=True)
+                    os.makedirs(os.path.join(project_dir, 'database'), exist_ok=True)
+                    os.makedirs(os.path.join(project_dir, 'documentation'), exist_ok=True)
+                    
+                    # Generate frontend files
+                    if frontend != 'None':
+                        pkg_content = {
+                            "name": f"{project_name.lower().replace(' ', '-')}-frontend",
+                            "version": "1.0.0",
+                            "dependencies": {
+                                "react": "^18.2.0" if frontend == "React" else "^3.2.0",
+                                "react-dom": "^18.2.0" if frontend == "React" else ""
+                            }
+                        }
+                        with open(os.path.join(project_dir, 'frontend', 'package.json'), 'w', encoding='utf-8') as f:
+                            json.dump(pkg_content, f, indent=4)
+                            
+                        os.makedirs(os.path.join(project_dir, 'frontend', 'src'), exist_ok=True)
+                        app_content = (
+                            "import React from 'react';\n\n"
+                            "export default function App() {\n"
+                            "    return (\n"
+                            "        <div style={{ padding: 20 }}>\n"
+                            f"            <h1>Welcome to {project_name} Frontend</h1>\n"
+                            "        </div>\n"
+                            "    );\n"
+                            "}\n"
+                        )
+                        with open(os.path.join(project_dir, 'frontend', 'src', 'App.jsx'), 'w', encoding='utf-8') as f:
+                            f.write(app_content)
+
+                    # Generate backend files
+                    if backend != 'None':
+                        langs_list = languages.split(",") if languages else []
+                        if backend == 'Flask' or 'Python' in langs_list:
+                            app_py = (
+                                "from flask import Flask, jsonify\n\n"
+                                "app = Flask(__name__)\n\n"
+                                "@app.route('/api/status')\n"
+                                "def status():\n"
+                                "    return jsonify({\"status\": \"online\"})\n\n"
+                                "if __name__ == '__main__':\n"
+                                "    app.run(port=5000)\n"
+                            )
+                            with open(os.path.join(project_dir, 'backend', 'app.py'), 'w', encoding='utf-8') as f:
+                                f.write(app_py)
+                            with open(os.path.join(project_dir, 'backend', 'requirements.txt'), 'w', encoding='utf-8') as f:
+                                f.write("Flask>=3.0.0\n")
+                        elif backend == 'Express' or 'Node' in backend:
+                            server_js = (
+                                "const express = require('express');\n"
+                                "const app = express();\n\n"
+                                "app.get('/api/status', (req, res) => res.json({ status: 'online' }));\n\n"
+                                "app.listen(5000, () => console.log('Backend active on port 5000'));\n"
+                            )
+                            with open(os.path.join(project_dir, 'backend', 'server.js'), 'w', encoding='utf-8') as f:
+                                f.write(server_js)
+                            with open(os.path.join(project_dir, 'backend', 'package.json'), 'w', encoding='utf-8') as f:
+                                json.dump({"dependencies": {"express": "^4.18.2"}}, f, indent=4)
+
+                    # Generate database files
+                    if database != 'None':
+                        schema_sql = (
+                            f"-- Database Schema for {project_name}\n"
+                            f"CREATE DATABASE IF NOT EXISTS {project_name.lower().replace(' ', '_')};\n"
+                            f"USE {project_name.lower().replace(' ', '_')};\n\n"
+                            "CREATE TABLE IF NOT EXISTS users (\n"
+                            "    id INT AUTO_INCREMENT PRIMARY KEY,\n"
+                            "    email VARCHAR(255) NOT NULL UNIQUE,\n"
+                            "    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n"
+                            ");\n"
+                        )
+                        with open(os.path.join(project_dir, 'database', 'schema.sql'), 'w', encoding='utf-8') as f:
+                            f.write(schema_sql)
+
+                    # Generate config file
+                    config_payload = {
+                        "team_code": team_code,
+                        "project_name": project_name,
+                        "stack": {
+                            "languages": languages.split(",") if languages else [],
+                            "frontend": frontend,
+                            "backend": backend,
+                            "database": database
+                        }
+                    }
+                    os.makedirs(os.path.join(project_dir, '.candles'), exist_ok=True)
+                    with open(os.path.join(project_dir, '.candles', 'config.json'), 'w', encoding='utf-8') as f:
+                        json.dump(config_payload, f, indent=4)
+                    
+                    # Generate default README.md
+                    readme_md = (
+                        f"# {project_name}\n\n"
+                        f"Collaborative workspace environment for team {team_code}.\n"
+                    )
+                    with open(os.path.join(project_dir, 'README.md'), 'w', encoding='utf-8') as f:
+                        f.write(readme_md)
+                except Exception as e:
+                    print("Auto self-healing workspace generation failed:", e)
+
             return jsonify({
                 "status": "success",
                 "is_initialized": True,
