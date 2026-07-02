@@ -1356,7 +1356,7 @@ def upload_workspace_implementation():
         file_path = os.path.join(team_upload_dir, unique_filename)
         file.save(file_path)
         
-        image_url = f"http://localhost:5000/api/workspace/uploaded-file?team_code={team_code}&filename={unique_filename}"
+        image_url = f"/api/workspace/uploaded-file?team_code={team_code}&filename={unique_filename}"
         
         # Resolve user_code
         user = db.session.execute(

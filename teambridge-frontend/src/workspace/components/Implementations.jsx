@@ -12,6 +12,17 @@ export default function Implementations({ teamCode, userRole }) {
     const [activeCategoryFilter, setActiveCategoryFilter] = useState("All");
     const [lightboxImage, setLightboxImage] = useState(null);
 
+    const getImageUrl = (url) => {
+        if (!url) return "";
+        if (url.includes("localhost:5000") && __BACKEND_URL__ !== "http://localhost:5000") {
+            return url.replace("http://localhost:5000", __BACKEND_URL__);
+        }
+        if (!url.startsWith("http")) {
+            return `${__BACKEND_URL__}${url}`;
+        }
+        return url;
+    };
+
     // Dynamic Grading States for Faculty Guide Inputs
     const [tempScores, setTempScores] = useState({});
     const [tempFeedback, setTempFeedback] = useState({});
@@ -270,12 +281,12 @@ export default function Implementations({ teamCode, userRole }) {
                                 {filteredImplementations.map((impl) => (
                                     <div 
                                         key={impl.id}
-                                        onClick={() => setLightboxImage(impl.url)}
+                                        onClick={() => setLightboxImage(getImageUrl(impl.url))}
                                         className="gallery-card-item"
                                     >
                                         <div className="card-image-box">
                                             <img 
-                                                src={impl.url} 
+                                                src={getImageUrl(impl.url)} 
                                                 alt={impl.title} 
                                             />
                                             <span className="card-tag">
