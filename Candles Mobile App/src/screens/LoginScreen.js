@@ -33,6 +33,10 @@ export default function LoginScreen({ navigation }) {
     // Sliding carousel page state: false = Landing Screen, true = Login Form Screen
     const [isFormOpen, setIsFormOpen] = useState(false);
 
+    // Loader portal state: 'idle' | 'loading' | 'success'
+    const [statusState, setStatusState] = useState("idle");
+    const [messageIndex, setMessageIndex] = useState(0);
+
     // Form inputs
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -49,12 +53,22 @@ export default function LoginScreen({ navigation }) {
     const splashOpacityVal = useRef(new Animated.Value(1)).current;
     const splashScaleVal = useRef(new Animated.Value(1.5)).current;
     const slideAnimVal = useRef(new Animated.Value(0)).current;
+    const loaderRotateVal = useRef(new Animated.Value(0)).current;
 
     // Typewriter state
     const words = ["Code.", "Coordinate.", "Deliver."];
     const [typedText, setTypedText] = useState("");
     const [wordIndex, setWordIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [cursorVisible, setCursorVisible] = useState(true);
+
+    const slidingMessages = [
+        "You will be logged in within few minutes...",
+        "Connecting to Candles platform...",
+        "Securing collaborative tunnels...",
+        "Validating secure credential tokens...",
+        "Establishing real-time file watchers..."
+    ];
 
     // 1. IntroSplash Animation Controller
     useEffect(() => {
@@ -118,7 +132,7 @@ export default function LoginScreen({ navigation }) {
         };
     }, []);
 
-    // 2. Typewriter Effect Hook
+    // 2. Typewriter Effect Hook & Blinking Cursor
     useEffect(() => {
         if (splashPhase !== "hidden") return;
 
@@ -144,6 +158,13 @@ export default function LoginScreen({ navigation }) {
         return () => clearTimeout(timer);
     }, [typedText, isDeleting, wordIndex, splashPhase]);
 
+    useEffect(() => {
+        const cursorTimer = setInterval(() => {
+            setCursorVisible(v => !v);
+        }, 500);
+        return () => clearInterval(cursorTimer);
+    }, []);
+
     // 3. Sliding Carousel animation handler
     useEffect(() => {
         Animated.timing(slideAnimVal, {
@@ -154,6 +175,21 @@ export default function LoginScreen({ navigation }) {
         }).start();
     }, [isFormOpen]);
 
+    // 4. Loader Rotation animation loop
+    useEffect(() => {
+        if (statusState === "loading") {
+            loaderRotateVal.setValue(0);
+            Animated.loop(
+                Animated.timing(loaderRotateVal, {
+                    toValue: 1,
+                    duration: 2000,
+                    easing: Easing.linear,
+                    useNativeDriver: true
+                })
+            ).start();
+        }
+    }, [statusState]);
+
     const handleLoginSubmit = async () => {
         setLoginError("");
         if (!email.trim() || !password.trim()) {
@@ -161,8 +197,25 @@ export default function LoginScreen({ navigation }) {
             return;
         }
 
+        setStatusState("loading");
+        setMessageIndex(0);
+
+        // Slide messages loop
+        const msgInterval = setInterval(() => {
+            setMessageIndex(prev => (prev + 1) % slidingMessages.length);
+        }, 2000);
+
         const res = await login(email.trim(), password);
-        if (!res.success) {
+        
+        clearInterval(msgInterval);
+
+        if (res.success) {
+            setStatusState("success");
+            setTimeout(() => {
+                setStatusState("idle");
+            }, 1500);
+        } else {
+            setStatusState("idle");
             setLoginError(res.error || "Authentication failed.");
         }
     };
@@ -210,6 +263,11 @@ export default function LoginScreen({ navigation }) {
         );
     }
 
+    const spinRotate = loaderRotateVal.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg']
+    });
+
     return (
         <KeyboardAvoidingView 
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -246,7 +304,10 @@ export default function LoginScreen({ navigation }) {
                     {/* Billboard Hero Section */}
                     <View style={styles.heroBlock}>
                         <Text style={[styles.heroHeadline, { color: theme.colors.primary }]}>
-                            <Text style={styles.heroAccent}>{typedText || "Code."}</Text>
+                            <Text style={styles.heroAccent}>
+                                {typedText || "Code."}
+                                <Text style={{ color: '#ff6b00', fontWeight: '400' }}>{cursorVisible ? "|" : " "}</Text>
+                            </Text>
                             {"\n"}All in One Canvas.
                         </Text>
                         <Text style={[styles.heroDesc, { color: theme.colors.textMuted }]}>
@@ -414,6 +475,40 @@ export default function LoginScreen({ navigation }) {
                 </ScrollView>
 
             </Animated.View>
+
+            {/* ⚙️ INTEGRATED LOADER PORTAL OVERLAY */}
+            {statusState !== "idle" && (
+                <View style={styles.portalOverlay}>
+                    {statusState === "loading" && (
+                        <GlassCard style={styles.loaderCard}>
+                            <View style={styles.loaderAnimWrapper}>
+                                <Animated.View style={[styles.spinnerBorderGlow, { transform: [{ rotate: spinRotate }] }]} />
+                                <Image 
+                                    source={require('../../assets/images/logo.png')} 
+                                    style={styles.loaderLogoImg} 
+                                />
+                            </View>
+                            
+                            <View style={styles.messageFrame}>
+                                <Text style={styles.loaderStatusText}>
+                                    {slidingMessages[messageIndex]}
+                                </Text>
+                            </View>
+                        </GlassCard>
+                    )}
+
+                    {statusState === "success" && (
+                        <GlassCard style={styles.successCard}>
+                            <View style={styles.checkmarkCircle}>
+                                <Text style={styles.checkmarkIcon}>✓</Text>
+                            </View>
+                            <Text style={styles.successTitle}>Verification Successful</Text>
+                            <Text style={styles.successSubtitle}>Welcome back to your Candles workspace.</Text>
+                        </GlassCard>
+                    )}
+                </View>
+            )}
+
         </KeyboardAvoidingView>
     );
 }
@@ -626,5 +721,98 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: '700',
         marginBottom: 10,
+    },
+
+    // Loader Portal Styles
+    portalOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(15, 23, 42, 0.7)', // apple style backdrop-filter overlay
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 24,
+        zIndex: 999999,
+    },
+    loaderCard: {
+        width: '100%',
+        maxWidth: 320,
+        alignItems: 'center',
+        paddingVertical: 30,
+        paddingHorizontal: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    },
+    loaderAnimWrapper: {
+        width: 80,
+        height: 80,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        marginBottom: 20,
+    },
+    spinnerBorderGlow: {
+        position: 'absolute',
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        borderWidth: 3,
+        borderColor: 'transparent',
+        borderTopColor: '#ff6b00', // loader spinning glow circle accent
+        borderRightColor: '#ffaa00',
+    },
+    loaderLogoImg: {
+        width: 44,
+        height: 44,
+    },
+    messageFrame: {
+        height: 36,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
+    loaderStatusText: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: '#64748b',
+        textAlign: 'center',
+    },
+    successCard: {
+        width: '100%',
+        maxWidth: 320,
+        alignItems: 'center',
+        paddingVertical: 35,
+        paddingHorizontal: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    },
+    checkmarkCircle: {
+        width: 54,
+        height: 54,
+        borderRadius: 27,
+        backgroundColor: '#22c55e',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 16,
+        shadowColor: '#22c55e',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+    },
+    checkmarkIcon: {
+        color: '#ffffff',
+        fontSize: 22,
+        fontWeight: 'bold',
+    },
+    successTitle: {
+        fontSize: 16,
+        fontWeight: '800',
+        color: '#0f172a',
+        marginBottom: 6,
+    },
+    successSubtitle: {
+        fontSize: 12,
+        color: '#64748b',
+        textAlign: 'center',
     }
 });

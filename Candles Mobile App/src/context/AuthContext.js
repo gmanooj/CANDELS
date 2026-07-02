@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         setLoading(true);
         try {
-            const res = await fetch(`${API_CONFIG.BACKEND_URL}/api/auth/login`, {
+            const res = await fetch(`${API_CONFIG.BACKEND_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -25,14 +25,13 @@ export const AuthProvider = ({ children }) => {
 
             const data = await res.json();
             
-            // Assume response body: { access_token: "...", role: "...", name: "..." } or similar
             const userSession = {
                 email,
-                role: data.role || 'Student',
-                name: data.name || 'Developer',
+                role: data.user?.role || 'Student',
+                name: `${data.user?.first_name || ''} ${data.user?.last_name || ''}`.trim() || 'Developer',
             };
             
-            setToken(data.access_token || data.token);
+            setToken(data.token);
             setUser(userSession);
             setMasterPassword(password); // Cache password securely in memory for AES key generation
             return { success: true };
