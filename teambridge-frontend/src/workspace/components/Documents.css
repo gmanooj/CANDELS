@@ -407,26 +407,36 @@
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    margin-top: 16px;
 }
 
 .workspace-documents-container .assets-table thead tr {
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #e2e8f0;
 }
 
 .workspace-documents-container .assets-table th {
-    padding: 12px 8px;
-    font-size: 12px;
-    font-weight: 800;
+    padding: 14px 12px;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
+    color: #475569;
+    letter-spacing: 0.5px;
 }
 
 .workspace-documents-container .assets-table tbody tr {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s ease;
+}
+
+.workspace-documents-container .assets-table tbody tr:hover {
+    background-color: #f8fafc;
 }
 
 .workspace-documents-container .assets-table td {
-    padding: 12px 8px;
-    font-size: 13px;
+    padding: 14px 12px;
+    font-size: 13.5px;
+    color: #1e293b;
+    vertical-align: middle;
 }
 
 .workspace-documents-container .assets-table td .doc-preview-trigger {
@@ -435,28 +445,45 @@
     text-align: left;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 700;
-    color: #0052FF;
-    text-decoration: underline;
+    font-weight: 600;
+    color: #2563eb;
+    text-decoration: none;
     padding: 0;
+    transition: color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.workspace-documents-container .assets-table td .doc-preview-trigger:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
 }
 
 .workspace-documents-container .assets-table td .doc-date {
-    color: #666666;
+    color: #64748b;
 }
 
-.workspace-documents-container .assets-table td.actions-cell {
+.workspace-documents-container .assets-table .actions-cell {
     text-align: right;
 }
 
 .workspace-documents-container .assets-table td .delete-link-btn {
-    background: transparent;
-    border: none;
-    color: #ff453a;
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+    color: #ef4444;
     cursor: pointer;
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: underline;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.workspace-documents-container .assets-table td .delete-link-btn:hover {
+    background: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
 }
 
 @media (max-width: 768px) {
@@ -487,12 +514,12 @@
     
     .workspace-documents-container .assets-table th {
         font-size: 10px !important;
-        padding: 8px 4px !important;
+        padding: 10px 6px !important;
     }
     
     .workspace-documents-container .assets-table td {
         font-size: 11px !important;
-        padding: 8px 4px !important;
+        padding: 10px 6px !important;
     }
     
     .workspace-documents-container .assets-table td .doc-preview-trigger {
@@ -500,7 +527,8 @@
     }
     
     .workspace-documents-container .assets-table td .delete-link-btn {
-        font-size: 11px !important;
+        font-size: 10px !important;
+        padding: 4px 8px !important;
     }
     
     .workspace-documents-container .assets-container {

@@ -317,7 +317,7 @@ export default function Documents({
                                             onClick={() => setActiveDoc(doc)} 
                                             className="doc-preview-trigger"
                                         >
-                                            {doc.name}
+                                            <span style={{ marginRight: '6px' }}>📄</span>{doc.name}
                                         </button>
                                     </td>
                                     <td>{doc.uploaded_by_name}</td>
