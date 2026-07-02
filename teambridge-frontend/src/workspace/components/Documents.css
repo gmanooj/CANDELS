@@ -378,8 +378,8 @@
 
 /* Assets card & list table */
 .workspace-documents-container .assets-container {
-    flex: 1;
     min-height: 300px;
+    height: auto;
 }
 
 .workspace-documents-container .assets-container .assets-header-text {
