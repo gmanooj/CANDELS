@@ -1849,7 +1849,7 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
     const getCommand = () => {
         switch(langTab) {
             case "Node": return "npm install -g @candles/cli";
-            case "Python": return "pip install candles-cli";
+            case "Python": return "pip install teambridge-candles";
             case "PHP": return "composer global require candles/cli";
             case "Java": return "curl -sSL https://get.candles.dev | sh";
             default: return "npm install -g @candles/cli";
@@ -1906,15 +1906,57 @@ function SettingsTab({ teamCode, projectName, frontendStack, backendStack, dbTyp
                                 <button onClick={() => navigator.clipboard.writeText("cn select && cn link")} className="console-terminal-btn">📋</button>
                             </div>
 
-                            <div className="console-subheading">Other Available Commands</div>
-                            <div className="console-terminal-commands-list" style={{ fontSize: '12px', color: '#a1a1aa', lineHeight: '1.6', marginTop: '12px', background: '#18181b', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', fontFamily: 'SF Mono, monospace' }}>
-                                <div style={{ color: '#f4f4f5', fontWeight: '600', marginBottom: '6px' }}>Available Actions:</div>
-                                <div>• <code style={{ color: '#30d158' }}>cn pull</code>: Fetch remote files to your workspace</div>
-                                <div>• <code style={{ color: '#30d158' }}>cn push</code>: Deploy local files manually</div>
-                                <div>• <code style={{ color: '#30d158' }}>cn status</code>: Verify authentication and telemetry state</div>
-                                <div>• <code style={{ color: '#30d158' }}>cn doctor</code>: Diagnostics and sync repair</div>
-                                <div>• <code style={{ color: '#30d158' }}>cn diff</code>: Check uncommitted folder changes</div>
-                                <div style={{ marginTop: '8px', color: '#ffb300', fontStyle: 'italic', fontSize: '11px' }}>* Other backend and database cloud services will be released soon.</div>
+                            <div className="console-subheading">Comprehensive CLI Commands Guide</div>
+                            <div className="console-terminal-commands-list" style={{ fontSize: '12px', color: '#a1a1aa', lineHeight: '1.6', marginTop: '12px', background: '#18181b', padding: '16px', borderRadius: '8px', border: '1px solid var(--border-color)', fontFamily: 'SF Mono, monospace', maxHeight: '350px', overflowY: 'auto' }}>
+                                <div style={{ color: '#f4f4f5', fontWeight: '700', marginBottom: '12px', borderBottom: '1px solid #27272a', paddingBottom: '6px' }}>🕯️ Candles Command Registry</div>
+                                
+                                <div style={{ margin: '8px 0' }}>
+                                    <div style={{ color: '#0066cc', fontWeight: 'bold', fontSize: '11px', textTransform: 'uppercase' }}>🔐 Authentication</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn login</code>: Login to your TeamBridge account</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn logout</code>: Log out and clear local session credentials</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn whoami</code>: Display current connected account profile info</div>
+                                </div>
+
+                                <div style={{ margin: '14px 0 8px 0' }}>
+                                    <div style={{ color: '#0066cc', fontWeight: 'bold', fontSize: '11px', textTransform: 'uppercase' }}>📂 Workspace Management</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn create</code>: Open the project creation dashboard</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn select</code>: Connect an existing workspace to current folder</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn switch &lt;name&gt;</code>: Switch workspace context locally</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn list</code>: Display all workspaces linked to your account</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn delete &lt;name&gt;</code>: Permanently delete a cloud workspace</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn info</code>: Display storage size, files list and telemetry</div>
+                                </div>
+
+                                <div style={{ margin: '14px 0 8px 0' }}>
+                                    <div style={{ color: '#0066cc', fontWeight: 'bold', fontSize: '11px', textTransform: 'uppercase' }}>⚡ Sync Operations</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn link</code>: Start the file watcher real-time sync daemon</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn unlink</code>: Suspend connection and stop file watcher</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn push</code>: Force-upload local changes to the cloud</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn pull</code>: Fetch cloud workspace snapshot files locally</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn get</code>: Download the current files from the website workspace</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn diff</code>: Compare differences before syncing changes</div>
+                                </div>
+
+                                <div style={{ margin: '14px 0 8px 0' }}>
+                                    <div style={{ color: '#0066cc', fontWeight: 'bold', fontSize: '11px', textTransform: 'uppercase' }}>📁 File & Cache Actions</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn drop &lt;file&gt;</code>: Delete a file locally and from cloud storage</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn restore &lt;file&gt;</code>: Recover deleted files from cache version history</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn history &lt;file&gt;</code>: Show file modification and commit version logs</div>
+                                </div>
+
+                                <div style={{ margin: '14px 0 8px 0' }}>
+                                    <div style={{ color: '#0066cc', fontWeight: 'bold', fontSize: '11px', textTransform: 'uppercase' }}>👥 Team & Collaborations</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn members</code>: List active project members and roles</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn invite &lt;email&gt;</code>: Invite collaborator by sending a workspace token</div>
+                                </div>
+
+                                <div style={{ margin: '14px 0 8px 0' }}>
+                                    <div style={{ color: '#0066cc', fontWeight: 'bold', fontSize: '11px', textTransform: 'uppercase' }}>🩺 Settings & System Diagnostics</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn config-get</code>: View local sync intervals and parameters</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn config-set &lt;k&gt; &lt;v&gt;</code>: Update local sync preferences</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn doctor</code>: Run an environmental diagnostics check</div>
+                                    <div>• <code style={{ color: '#30d158' }}>cn logs</code>: Show upload events, deletes and sync errors</div>
+                                </div>
                             </div>
                         </div>
                     </div>

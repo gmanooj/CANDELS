@@ -434,7 +434,63 @@ def logs(today, errors):
         click.echo("  [10:35] [CRITICAL EXCEPTION] - Collision anomaly checked inside config.json directory.")
     else:
         click.echo("  [10:30] [FILE MONITOR WORKER] - Stream uploaded packet: app.py")
-        click.echo("  [10:32] [WEBSOCKET CORE HUB] - Purged indices node item drop: test.js")
+    click.echo("")
+
+@cli.command(name="get")
+def sync_get():
+    """Download server snapshot files down into the native folder path."""
+    session = load_session()
+    local_ctx = load_local_context()
+    if not session or not local_ctx:
+        click.echo(click.style("\n[Error] Directory context unlinked. Please run 'cn select' first.", fg="red"))
+        return
+
+    spinner = Halo(text=' Connecting to cloud snapshot streams and downloading workspace files...', spinner='line')
+    spinner.start()
+    try:
+        res = requests.get(f"{BACKEND_URL}/files?team_code={local_ctx['team_code']}", headers=get_headers(session))
+        if res.status_code == 200:
+            spinner.stop()
+            for f_data in res.json().get("files", []):
+                full_path = os.path.join(os.getcwd(), f_data["path"])
+                os.makedirs(os.path.dirname(full_path), exist_ok=True)
+                with open(full_path, 'wb') as f:
+                    f.write(base64.b64decode(f_data["content"]))
+                click.echo(click.style(f"  ⬇️ [Downloaded Asset] {f_data['path']}", fg="green"))
+            click.echo(click.style("\n✓ Workspace files downloaded successfully.", fg="green", bold=True))
+        else:
+            spinner.fail(" Snapshot stream parsing error.")
+    except Exception:
+        spinner.fail(" Stream pipeline disrupted.")
+
+@cli.command(name="status")
+def status():
+    """Verify local folder linking and CLI authentication status."""
+    session = load_session()
+    local_ctx = load_local_context()
+    
+    click.echo(click.style("\n🕯️ Candles CLI Status Check", fg="cyan", bold=True))
+    
+    # 1. Connection status
+    if check_internet_connection():
+        click.echo("  Internet Connection : " + click.style("Online", fg="green"))
+    else:
+        click.echo("  Internet Connection : " + click.style("Offline", fg="red"))
+        
+    # 2. Authentication status
+    if session:
+        click.echo(f"  Authenticated User  : {session.get('user_email')}")
+        click.echo("  Session Status      : " + click.style("Valid Token", fg="green"))
+    else:
+        click.echo("  Authentication      : " + click.style("Not Authenticated (Run 'cn login')", fg="yellow"))
+        
+    # 3. Local Workspace linking status
+    if local_ctx:
+        click.echo(f"  Linked Workspace    : {local_ctx['project_name']}")
+        click.echo(f"  Team Code           : {local_ctx['team_code']}")
+        click.echo(f"  Local Path          : {os.getcwd()}")
+    else:
+        click.echo("  Linked Workspace    : " + click.style("None (Run 'cn select' to connect a project)", fg="yellow"))
     click.echo("")
 
 if __name__ == '__main__':

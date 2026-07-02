@@ -146,23 +146,27 @@ def initialize_workspace():
             {"code": team_code}
         ).fetchone()
 
-        if exists:
+        project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
+        folder_missing_or_empty = not os.path.exists(project_dir) or not os.listdir(project_dir)
+
+        if exists and not folder_missing_or_empty:
             return jsonify({"status": "error", "message": "Workspace already initialized."}), 400
 
-        # Insert stack info into workspace_stacks using correct database columns
-        db.session.execute(
-            text("""
-                INSERT INTO workspace_stacks (team_code, languages, frontend_framework, backend_framework, database_type)
-                VALUES (:code, :langs, :front, :back, :db_type)
-            """),
-            {
-                "code": team_code,
-                "langs": languages_str,
-                "front": frontend_tech,
-                "back": backend_tech,
-                "db_type": database_tech
-            }
-        )
+        if not exists:
+            # Insert stack info into workspace_stacks using correct database columns
+            db.session.execute(
+                text("""
+                    INSERT INTO workspace_stacks (team_code, languages, frontend_framework, backend_framework, database_type)
+                    VALUES (:code, :langs, :front, :back, :db_type)
+                """),
+                {
+                    "code": team_code,
+                    "langs": languages_str,
+                    "front": frontend_tech,
+                    "back": backend_tech,
+                    "db_type": database_tech
+                }
+            )
         
         # Scaffolding Engine: Physical File Generation Setup on Server Filesystem
         project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
