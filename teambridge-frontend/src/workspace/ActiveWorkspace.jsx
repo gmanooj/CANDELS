@@ -2558,39 +2558,40 @@ function CliSupportTab({ setActiveTab }) {
     });
 
     return (
-        <div className="console-hub-container" style={{ padding: '24px', animation: 'fadeIn 0.3s ease' }}>
+        <div className="console-hub-container" style={{ padding: '24px', background: '#f8fafc', minHeight: '100%', boxSizing: 'border-box' }}>
             <div className="console-header" style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
                 <div>
-                    <span className="console-subtitle">🕯️ Support Center</span>
-                    <h2 className="console-title" style={{ fontSize: '24px', fontWeight: '800', letterSpacing: '-0.5px' }}>Candles CLI Usage & Support Guide</h2>
-                    <p className="console-description" style={{ color: '#a1a1aa', fontSize: '13px', marginTop: '4px' }}>
+                    <span className="console-subtitle" style={{ color: '#2563eb', fontWeight: '600' }}>🕯️ Support Center</span>
+                    <h2 className="console-title" style={{ fontSize: '24px', fontWeight: '800', letterSpacing: '-0.5px', color: '#0f172a', margin: '4px 0 0 0' }}>Candles CLI Usage & Support Guide</h2>
+                    <p className="console-description" style={{ color: '#475569', fontSize: '13px', marginTop: '4px' }}>
                         Find complete explanations, code syntax, and operational contexts for every command inside the Candles terminal utility.
                     </p>
                 </div>
                 <button 
                     onClick={() => setActiveTab('Access & API')} 
-                    className="console-tab-btn"
-                    style={{ background: '#27272a', color: '#f4f4f5', padding: '10px 16px', borderRadius: '8px', border: '1px solid #3f3f46', cursor: 'pointer', fontWeight: '600', fontSize: '13px' }}
+                    style={{ background: '#ffffff', color: '#0f172a', padding: '10px 16px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', fontWeight: '600', fontSize: '13px', transition: 'background 0.2s' }}
+                    onMouseOver={(e) => e.target.style.background = '#f1f5f9'}
+                    onMouseOut={(e) => e.target.style.background = '#ffffff'}
                 >
                     ➔ Return to Access & API
                 </button>
             </div>
 
             {/* Quick Setup Walkthrough Banner */}
-            <div className="console-card" style={{ background: '#1e1b4b', border: '1px solid #312e81', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
-                <h3 style={{ color: '#818cf8', margin: '0 0 8px 0', fontSize: '15px', fontWeight: '700' }}>🚀 Candles Developer Workflow Summary</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', fontSize: '12.5px', color: '#c7d2fe', lineHeight: '1.5' }}>
+            <div className="console-card" style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '12px', padding: '20px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                <h3 style={{ color: '#1e40af', margin: '0 0 10px 0', fontSize: '15px', fontWeight: '700' }}>🚀 Candles Developer Workflow Summary</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', fontSize: '12.5px', color: '#1e3a8a', lineHeight: '1.5' }}>
                     <div>
-                        <strong style={{ color: '#ffffff', display: 'block', marginBottom: '4px' }}>1. Package Installation</strong>
-                        Run <code style={{ background: '#312e81', padding: '2px 6px', borderRadius: '4px', color: '#a5b4fc', fontFamily: 'monospace' }}>pip install teambridge-candles</code> to install the CLI global executable on your local machine.
+                        <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '4px', fontWeight: '700' }}>1. Package Installation</strong>
+                        Run <code style={{ background: '#dbeafe', padding: '2px 6px', borderRadius: '4px', color: '#1e40af', fontFamily: 'monospace', fontWeight: '600' }}>pip install teambridge-candles</code> to install the CLI global executable on your local machine.
                     </div>
                     <div>
-                        <strong style={{ color: '#ffffff', display: 'block', marginBottom: '4px' }}>2. Identity Handshake</strong>
-                        Execute <code style={{ background: '#312e81', padding: '2px 6px', borderRadius: '4px', color: '#a5b4fc', fontFamily: 'monospace' }}>cn login</code> to authorize your terminal with your password or long-lived API token.
+                        <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '4px', fontWeight: '700' }}>2. Identity Handshake</strong>
+                        Execute <code style={{ background: '#dbeafe', padding: '2px 6px', borderRadius: '4px', color: '#1e40af', fontFamily: 'monospace', fontWeight: '600' }}>cn login</code> to authorize your terminal with your password or long-lived API token.
                     </div>
                     <div>
-                        <strong style={{ color: '#ffffff', display: 'block', marginBottom: '4px' }}>3. Project Association</strong>
-                        Run <code style={{ background: '#312e81', padding: '2px 6px', borderRadius: '4px', color: '#a5b4fc', fontFamily: 'monospace' }}>cn select</code> inside your local development directory to map it directly to a cloud project, then type <code style={{ background: '#312e81', padding: '2px 6px', borderRadius: '4px', color: '#a5b4fc', fontFamily: 'monospace' }}>cn link</code> to begin live syncing.
+                        <strong style={{ color: '#1e3a8a', display: 'block', marginBottom: '4px', fontWeight: '700' }}>3. Project Association</strong>
+                        Run <code style={{ background: '#dbeafe', padding: '2px 6px', borderRadius: '4px', color: '#1e40af', fontFamily: 'monospace', fontWeight: '600' }}>cn select</code> inside your local development directory to map it directly to a cloud project, then type <code style={{ background: '#dbeafe', padding: '2px 6px', borderRadius: '4px', color: '#1e40af', fontFamily: 'monospace', fontWeight: '600' }}>cn link</code> to begin live syncing.
                     </div>
                 </div>
             </div>
@@ -2603,10 +2604,10 @@ function CliSupportTab({ setActiveTab }) {
                         placeholder="Search commands, syntax or keywords..." 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid #27272a', background: '#18181b', color: '#ffffff', fontSize: '13px', boxSizing: 'border-box' }}
+                        style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#ffffff', color: '#0f172a', fontSize: '13px', boxSizing: 'border-box' }}
                     />
                     {searchQuery && (
-                        <button onClick={() => setSearchQuery("")} style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', border: 'none', background: 'none', color: '#a1a1aa', cursor: 'pointer', fontSize: '13px' }}>✕</button>
+                        <button onClick={() => setSearchQuery("")} style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', border: 'none', background: 'none', color: '#64748b', cursor: 'pointer', fontSize: '13px' }}>✕</button>
                     )}
                 </div>
 
@@ -2618,9 +2619,9 @@ function CliSupportTab({ setActiveTab }) {
                             style={{ 
                                 padding: '10px 14px', 
                                 borderRadius: '8px', 
-                                border: '1px solid ' + (selectedCategory === cat ? '#2563eb' : '#27272a'), 
-                                background: selectedCategory === cat ? '#2563eb' : '#18181b', 
-                                color: '#ffffff', 
+                                border: '1px solid ' + (selectedCategory === cat ? '#2563eb' : '#cbd5e1'), 
+                                background: selectedCategory === cat ? '#2563eb' : '#ffffff', 
+                                color: selectedCategory === cat ? '#ffffff' : '#0f172a', 
                                 cursor: 'pointer', 
                                 fontSize: '12px',
                                 fontWeight: '600',
@@ -2636,7 +2637,7 @@ function CliSupportTab({ setActiveTab }) {
             {/* Commands List Grid */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {filteredCommands.length === 0 ? (
-                    <div style={{ textAlign: 'center', padding: '40px', background: '#18181b', borderRadius: '12px', border: '1px solid #27272a', color: '#a1a1aa', fontSize: '14px' }}>
+                    <div style={{ textAlign: 'center', padding: '40px', background: '#ffffff', borderRadius: '12px', border: '1px solid #cbd5e1', color: '#64748b', fontSize: '14px' }}>
                         🔍 No matching commands found for query: "<strong>{searchQuery}</strong>". Try another keyword!
                     </div>
                 ) : (
@@ -2645,14 +2646,13 @@ function CliSupportTab({ setActiveTab }) {
                         return (
                             <div 
                                 key={cmd.name}
-                                className="console-card"
                                 style={{ 
-                                    border: isExpanded ? '1px solid #2563eb' : '1px solid #27272a',
+                                    border: isExpanded ? '1px solid #2563eb' : '1px solid #cbd5e1',
                                     borderRadius: '12px', 
-                                    background: '#18181b', 
+                                    background: '#ffffff', 
                                     padding: '16px',
                                     transition: 'all 0.2s ease',
-                                    boxShadow: isExpanded ? '0 4px 20px rgba(37, 99, 235, 0.15)' : 'none'
+                                    boxShadow: isExpanded ? '0 4px 20px rgba(37, 99, 235, 0.08)' : '0 1px 3px rgba(0,0,0,0.02)'
                                 }}
                             >
                                 <div 
@@ -2660,30 +2660,30 @@ function CliSupportTab({ setActiveTab }) {
                                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
                                 >
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <code style={{ fontSize: '15px', color: '#30d158', fontWeight: '700', fontFamily: 'SF Mono, monospace' }}>{cmd.name}</code>
-                                        <span style={{ fontSize: '10px', background: '#27272a', color: '#a1a1aa', padding: '2px 8px', borderRadius: '20px', textTransform: 'uppercase', fontWeight: 'bold', border: '1px solid #3f3f46' }}>
+                                        <code style={{ fontSize: '15px', color: '#15803d', fontWeight: '700', fontFamily: 'SF Mono, monospace' }}>{cmd.name}</code>
+                                        <span style={{ fontSize: '10px', background: '#f1f5f9', color: '#475569', padding: '2px 8px', borderRadius: '20px', textTransform: 'uppercase', fontWeight: 'bold', border: '1px solid #cbd5e1' }}>
                                             {cmd.category}
                                         </span>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <span style={{ fontSize: '13px', color: '#a1a1aa' }}>{cmd.desc}</span>
-                                        <span style={{ fontSize: '16px', color: '#a1a1aa', transition: 'transform 0.2s', transform: isExpanded ? 'rotate(90deg)' : 'none' }}>➔</span>
+                                        <span style={{ fontSize: '13px', color: '#475569' }}>{cmd.desc}</span>
+                                        <span style={{ fontSize: '16px', color: '#64748b', transition: 'transform 0.2s', transform: isExpanded ? 'rotate(90deg)' : 'none' }}>➔</span>
                                     </div>
                                 </div>
 
                                 {isExpanded && (
-                                    <div style={{ marginTop: '16px', borderTop: '1px solid #27272a', paddingTop: '16px' }}>
+                                    <div style={{ marginTop: '16px', borderTop: '1px solid #e2e8f0', paddingTop: '16px' }}>
                                         {/* Command Syntax Box */}
                                         <div style={{ marginBottom: '14px' }}>
-                                            <div style={{ fontSize: '11px', color: '#a1a1aa', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '6px' }}>Terminal Syntax</div>
-                                            <div style={{ display: 'flex', alignItems: 'center', background: '#09090b', border: '1px solid #27272a', borderRadius: '6px', padding: '10px 14px', justifyContent: 'space-between', fontFamily: 'SF Mono, monospace' }}>
-                                                <span style={{ color: '#30d158', fontSize: '13px' }}>{cmd.syntax}</span>
+                                            <div style={{ fontSize: '11px', color: '#475569', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '6px' }}>Terminal Syntax</div>
+                                            <div style={{ display: 'flex', alignItems: 'center', background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '10px 14px', justifyContent: 'space-between', fontFamily: 'SF Mono, monospace' }}>
+                                                <span style={{ color: '#15803d', fontSize: '13px', fontWeight: '600' }}>{cmd.syntax}</span>
                                                 <button 
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         navigator.clipboard.writeText(cmd.syntax);
                                                     }} 
-                                                    style={{ border: 'none', background: 'none', color: '#a1a1aa', cursor: 'pointer', fontSize: '13px' }}
+                                                    style={{ border: 'none', background: 'none', color: '#2563eb', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}
                                                     title="Copy command syntax"
                                                 >
                                                     📋 Copy
@@ -2694,11 +2694,11 @@ function CliSupportTab({ setActiveTab }) {
                                         {/* Arguments detail if present */}
                                         {cmd.arguments && cmd.arguments.length > 0 && (
                                             <div style={{ marginBottom: '14px' }}>
-                                                <div style={{ fontSize: '11px', color: '#a1a1aa', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '6px' }}>Arguments Details</div>
+                                                <div style={{ fontSize: '11px', color: '#475569', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '6px' }}>Arguments Details</div>
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                                                     {cmd.arguments.map(arg => (
-                                                        <div key={arg.name} style={{ display: 'flex', gap: '8px', fontSize: '12.5px', color: '#e4e4e7' }}>
-                                                            <code style={{ color: '#ffb300', fontFamily: 'monospace', fontWeight: 'bold' }}>&lt;{arg.name}&gt;</code>
+                                                        <div key={arg.name} style={{ display: 'flex', gap: '8px', fontSize: '12.5px', color: '#0f172a' }}>
+                                                            <code style={{ color: '#b45309', fontFamily: 'monospace', fontWeight: 'bold', background: '#fef3c7', padding: '1px 4px', borderRadius: '4px' }}>&lt;{arg.name}&gt;</code>
                                                             <span>— {arg.desc}</span>
                                                         </div>
                                                     ))}
@@ -2708,16 +2708,16 @@ function CliSupportTab({ setActiveTab }) {
 
                                         {/* Use cases Context */}
                                         <div style={{ marginBottom: '14px' }}>
-                                            <div style={{ fontSize: '11px', color: '#a1a1aa', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '4px' }}>When & Where to Use</div>
-                                            <p style={{ margin: '0', fontSize: '13px', color: '#e4e4e7', lineHeight: '1.5' }}>
+                                            <div style={{ fontSize: '11px', color: '#475569', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '4px' }}>When & Where to Use</div>
+                                            <p style={{ margin: '0', fontSize: '13px', color: '#334155', lineHeight: '1.5' }}>
                                                 {cmd.when}
                                             </p>
                                         </div>
 
                                         {/* Behind the scenes logic */}
                                         <div>
-                                            <div style={{ fontSize: '11px', color: '#a1a1aa', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '4px' }}>How it Works Under the Hood</div>
-                                            <p style={{ margin: '0', fontSize: '13px', color: '#e4e4e7', lineHeight: '1.5' }}>
+                                            <div style={{ fontSize: '11px', color: '#475569', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '4px' }}>How it Works Under the Hood</div>
+                                            <p style={{ margin: '0', fontSize: '13px', color: '#334155', lineHeight: '1.5' }}>
                                                 {cmd.how}
                                             </p>
                                         </div>
