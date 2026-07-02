@@ -274,19 +274,19 @@ function Register() {
               <form onSubmit={handleFormSubmission} className="main-register-form-tree">
                 <div className="input-group">
                   <label>Full Name</label>
-                  <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Enter your full name" required />
+                  <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Enter your full name" required disabled={statusAnimation === "loading"} />
                 </div>
                 <div className="input-group">
                   <label>Email Address</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter your email" required />
+                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter your email" required disabled={statusAnimation === "loading"} />
                 </div>
                 <div className="input-group">
                   <label>Phone Number</label>
-                  <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Enter your phone number" />
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Enter your phone number" disabled={statusAnimation === "loading"} />
                 </div>
                 <div className="input-group">
                   <label>Select Role</label>
-                  <select name="role" value={formData.role} onChange={handleInputChange} required>
+                  <select name="role" value={formData.role} onChange={handleInputChange} required disabled={statusAnimation === "loading"}>
                     <option value="">Choose Role</option>
                     <option value="student">Student</option>
                     <option value="faculty">Faculty</option>
@@ -295,13 +295,15 @@ function Register() {
                 </div>
                 <div className="input-group">
                   <label>Password</label>
-                  <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Create password" required />
+                  <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Create password" required disabled={statusAnimation === "loading"} />
                 </div>
                 <div className="input-group">
                   <label>Confirm Password</label>
-                  <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} placeholder="Confirm password" required />
+                  <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} placeholder="Confirm password" required disabled={statusAnimation === "loading"} />
                 </div>
-                <button type="submit" className="login-btn">Create Account</button>
+                <button type="submit" className="login-btn" disabled={statusAnimation === "loading"}>
+                  {statusAnimation === "loading" ? "Creating Account..." : "Create Account"}
+                </button>
               </form>
               <p className="register-link">Already have an account? <Link to="/">Login</Link></p>
             </>

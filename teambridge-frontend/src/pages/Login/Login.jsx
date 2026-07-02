@@ -26,6 +26,83 @@ function Login() {
   const [activeUserRoleTab, setActiveUserRoleTab] = useState("students");
   const [featureDropdownOpen, setFeatureDropdownOpen] = useState(false);
 
+  // TYPEWRITER & ANIMATION ENTRANCE STATES
+  const [typedText, setTypedText] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [triggerEntrance, setTriggerEntrance] = useState(false);
+  const words = ["Code.", "Coordinate.", "Deliver."];
+
+  // Typewriter effect loop logic
+  useEffect(() => {
+    if (splashActive) return;
+
+    let timer;
+    const currentWord = words[wordIndex];
+    const typingSpeed = isDeleting ? 50 : 150;
+
+    if (!isDeleting && typedText === currentWord) {
+      // Pause at full word
+      timer = setTimeout(() => setIsDeleting(true), 1500);
+    } else if (isDeleting && typedText === "") {
+      setIsDeleting(false);
+      setWordIndex((prev) => (prev + 1) % words.length);
+    } else {
+      timer = setTimeout(() => {
+        setTypedText(
+          isDeleting
+            ? currentWord.substring(0, typedText.length - 1)
+            : currentWord.substring(0, typedText.length + 1)
+        );
+      }, typingSpeed);
+    }
+
+    return () => clearTimeout(timer);
+  }, [typedText, isDeleting, wordIndex, splashActive]);
+
+  // Entrance animations trigger after splash completes
+  useEffect(() => {
+    if (!splashActive) {
+      const timer = setTimeout(() => setTriggerEntrance(true), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [splashActive]);
+
+  // IntersectionObserver for scroll-reveal animations
+  useEffect(() => {
+    if (splashActive) return;
+
+    const timer = setTimeout(() => {
+      const scrollContainer = document.querySelector(".landing-page-full");
+      if (!scrollContainer) return;
+
+      const observerOptions = {
+        root: scrollContainer,
+        rootMargin: "0px",
+        threshold: 0.1
+      };
+
+      const revealElements = document.querySelectorAll(".reveal-on-scroll");
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      revealElements.forEach((el) => observer.observe(el));
+
+      return () => {
+        observer.disconnect();
+      };
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [splashActive]);
+
   // ==========================================
   // GOOGLE OAUTH IDENTITY INTEGRATION
   // ==========================================
@@ -139,7 +216,7 @@ function Login() {
         {/* ======================================================================
             🌐 PAGE 1: 100% FULL-SCREEN SCROLLABLE SAAS LIGHT LANDING ENVIRONMENT
             ====================================================================== */}
-        <div className="landing-page-full">
+        <div className={`landing-page-full ${triggerEntrance ? "entrance-ready" : ""}`}>
 
           {/* Top Header Navbar Row */}
           <div className="logo-box-full">
@@ -156,7 +233,12 @@ function Login() {
 
           {/* Core Typography Billboard */}
           <div className="hero-intro-text-block">
-            <h2>Code Coordinate Deliver<br /> All in One Canvas.</h2>
+            <h2>
+              <span className="typed-accent">{typedText}</span>
+              <span className="typed-cursor">|</span>
+              <br />
+              All in One Canvas.
+            </h2>
             <p>
               Connect with your project squads, link seamlessly with faculty mentors,
               track timeline components, and organize documentation files inside an
@@ -189,7 +271,7 @@ function Login() {
           </div>
 
           {/* SECTION 2: INTERACTIVE FEATURE SHIELD EXPLORER */}
-          <div className="landing-section">
+          <div className="landing-section reveal-on-scroll">
             <div className="section-header-centered">
               <span className="section-badge">Product Capabilities</span>
               <h3>Engineered Platform Architecture</h3>
@@ -357,7 +439,7 @@ function Login() {
           </div>
 
           {/* SECTION 3: ROLE-BASED VALUE PROPOSITIONS */}
-          <div className="landing-section light-accent-section">
+          <div className="landing-section light-accent-section reveal-on-scroll">
             <div className="section-header-centered">
               <span className="section-badge">Target Audiences</span>
               <h3>Designed For Academic Excellence & Professional Sprinting</h3>
@@ -421,7 +503,7 @@ function Login() {
           </div>
 
           {/* SECTION 4: HOW TO ACTIVATE TIMELINE */}
-          <div id="how-it-works" className="landing-section">
+          <div id="how-it-works" className="landing-section reveal-on-scroll">
             <div className="section-header-centered">
               <span className="section-badge">Workflow Timeline</span>
               <h3>Getting Started in 4 Simple Steps</h3>
@@ -453,7 +535,7 @@ function Login() {
           </div>
 
           {/* SECTION 5: SECURITY DEEP DIVE */}
-          <div className="landing-section dark-security-section">
+          <div className="landing-section dark-security-section reveal-on-scroll">
             <div className="security-content-box">
               <span className="security-badge-lbl"> Security & Integrity</span>
               <h3>Zero-Trust File Protection & Lockout</h3>

@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
@@ -33,7 +34,8 @@ def request_password_reset():
             }), 200
 
         token = serializer.dumps(user.email, salt="password-reset-salt")
-        reset_link = f"http://localhost:5173/forgot-password?token={token}"
+        frontend_url = request.headers.get("Origin") or os.environ.get("FRONTEND_URL", "http://localhost:5173")
+        reset_link = f"{frontend_url}/forgot-password?token={token}"
 
         print("\n" + "="*80)
         print("📧 TEAMBRIDGE OUTGOING SYSTEM RESET EMAIL")
