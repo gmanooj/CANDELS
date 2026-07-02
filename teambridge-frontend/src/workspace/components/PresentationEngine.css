@@ -243,16 +243,15 @@
 .workspace-presentation-container .preview-canvas {
     flex: 1;
     background: #ffffff;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
     padding: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0 4px 25px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     min-height: 300px;
     position: relative;
-    border-left: 4px solid #000000;
 }
 
 .workspace-presentation-container .preview-canvas-content {
@@ -265,17 +264,17 @@
 .workspace-presentation-container .preview-canvas-content h1 {
     font-size: 30px;
     font-weight: 800;
-    color: #000000;
+    color: #0f172a;
     margin-bottom: 20px;
     letter-spacing: -0.5px;
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #2563eb;
     padding-bottom: 8px;
 }
 
 .workspace-presentation-container .preview-canvas-content h2 {
     font-size: 22px;
     font-weight: 800;
-    color: #000000;
+    color: #0f172a;
     margin-bottom: 16px;
     letter-spacing: -0.5px;
 }
@@ -283,18 +282,18 @@
 .workspace-presentation-container .preview-canvas-content h3 {
     font-size: 18px;
     font-weight: 700;
-    color: #0052FF;
+    color: #2563eb;
     margin-bottom: 12px;
 }
 
 .workspace-presentation-container .preview-canvas-content strong {
-    color: #0052FF;
+    color: #2563eb;
     font-weight: 700;
 }
 
 .workspace-presentation-container .preview-canvas-content li {
     font-size: 14px;
-    color: #333333;
+    color: #334155;
     line-height: 1.6;
     margin-left: 20px;
     margin-bottom: 8px;
@@ -302,16 +301,16 @@
 }
 
 .workspace-presentation-container .preview-canvas-content blockquote {
-    border-left: 4px solid #0052FF;
+    border-left: 4px solid #2563eb;
     padding-left: 15px;
     margin: 15px 0;
     font-style: italic;
-    color: #515154;
+    color: #475569;
 }
 
 .workspace-presentation-container .preview-canvas-content p {
     font-size: 14px;
-    color: #1d1d1f;
+    color: #334155;
     line-height: 1.6;
     margin-bottom: 12px;
 }

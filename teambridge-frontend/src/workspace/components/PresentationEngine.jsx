@@ -4,6 +4,8 @@ import './PresentationEngine.css';
 // Pure JS Markdown to styled HTML formatter
 const renderMarkdownToHTML = (text) => {
     if (!text) return { __html: "" };
+    
+    // First, strictly escape HTML characters to prevent XSS tag injection
     let html = text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -17,16 +19,28 @@ const renderMarkdownToHTML = (text) => {
     // Bold
     html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     
+    // Fenced Code Blocks (```javascript ... ```)
+    html = html.replace(/```(\w*)\n([\s\S]*?)\n```/g, '<pre style="background:#f8fafc; border:1px solid #e2e8f0; padding:12px; border-radius:8px; overflow-x:auto; font-family:monospace; font-size:12.5px; color:#334155; margin:12px 0;"><code>$2</code></pre>');
+
+    // Inline Code (`code`)
+    html = html.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-family:monospace; color:#ef4444; font-size:12px;">$1</code>');
+
+    // Secure Markdown Images: ![alt](url) - strictly matching http(s)/relative paths and excluding quotes/spaces to block XSS
+    html = html.replace(/!\[([^\]]*)\]\(((?:https?:\/\/|\/)[^)""'\s]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%; max-height:280px; border-radius:8px; display:block; margin:10px 0; border:1px solid #cbd5e1; padding:4px; background:#ffffff;" />');
+
+    // Secure Markdown Links: [text](url) - strictly matching http(s)/relative/mailto schemes and excluding quotes/spaces
+    html = html.replace(/\[([^\]]+)\]\(((?:https?:\/\/|\/|mailto:)[^)""'\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#3b82f6; text-decoration:underline;">$1</a>');
+
     // Lists (nested conversion)
     html = html.replace(/^[ \t]*-[ \t]+(.*)$/gm, '<li>$1</li>');
     
     // Blockquotes
     html = html.replace(/^&gt;[ \t]+(.*)$/gm, '<blockquote>$1</blockquote>');
     
-    // Paragraph paragraphs
+    // Paragraph wrapping
     html = html.split('\n').map(line => {
         const trimmed = line.trim();
-        if (trimmed.startsWith('<h') || trimmed.startsWith('<li') || trimmed.startsWith('<blockquote') || trimmed === '') {
+        if (trimmed.startsWith('<h') || trimmed.startsWith('<li') || trimmed.startsWith('<blockquote') || trimmed.startsWith('<pre') || trimmed.startsWith('<img') || trimmed === '') {
             return line;
         }
         return `<p>${line}</p>`;
