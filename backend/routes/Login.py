@@ -107,9 +107,35 @@ def google_login_user():
         user = User.query.filter_by(email=google_email).first()
 
         if not user:
-            return jsonify({
-                "error": f"The Gmail address '{google_email}' is not registered under any TeamBridge profile."
-            }), 404
+            import random
+            import string
+            from werkzeug.security import generate_password_hash
+
+            google_name = id_info.get("name", "Student User")
+            name_parts = google_name.split(" ", 1)
+            first_name = name_parts[0]
+            last_name = name_parts[1] if len(name_parts) > 1 else "User"
+
+            temp_pass = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+            password_hash = generate_password_hash(temp_pass)
+
+            unique_code = f"TB-STU-{''.join(random.choices(string.digits, k=4))}"
+
+            user = User(
+                user_code=unique_code,
+                first_name=first_name,
+                last_name=last_name,
+                email=google_email,
+                phone=None,
+                password_hash=password_hash,
+                role="student",
+                is_verified=1,
+                status="active",
+                referral_code=f"TB-REF-{''.join(random.choices(string.digits, k=6))}",
+                referrals_count=0
+            )
+            db.session.add(user)
+            db.session.commit()
 
         if user.status != "active":
             return jsonify({"error": f"Access denied. Your profile status is currently: {user.status}"}), 403

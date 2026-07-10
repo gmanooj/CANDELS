@@ -2278,4 +2278,382 @@ def create_system_request():
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Mobile App — Additional Routes (merged from mobile_app/backend)
+# ─────────────────────────────────────────────────────────────────────────────
+import shutil
+import subprocess
+from models.workspace import WorkspaceSetting
+
+
+@workspace_bp.route('/chat', methods=['DELETE'])
+def delete_workspace_chat_message():
+    """Deletes a chat message for everyone (only if requested by the sender)."""
+    data = request.json or {}
+    message_id = data.get('message_id')
+    email = data.get('email')
+
+    if not message_id or not email:
+        return jsonify({"error": "Missing parameters."}), 400
+
+    try:
+        sender = db.session.execute(
+            text("SELECT user_code FROM users WHERE email = :email"),
+            {"email": email}
+        ).fetchone()
+
+        if not sender:
+            return jsonify({"error": "User not found."}), 404
+        user_code = sender[0]
+
+        result = db.session.execute(
+            text("DELETE FROM workspace_chat_messages WHERE id = :msg_id AND sender_code = :user_code"),
+            {"msg_id": message_id, "user_code": user_code}
+        )
+        db.session.commit()
+
+        if result.rowcount == 0:
+            return jsonify({"error": "Message not found or you don't have permission to delete it."}), 403
+
+        team_code = data.get('team_code')
+        if team_code:
+            socketio.emit('delete_chat', {"id": message_id}, to=f"chat_{team_code}")
+
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+@workspace_bp.route('/chat/read', methods=['POST'])
+def mark_chat_read():
+    """Marks all unread messages in the team channel as read by this user."""
+    data = request.json or {}
+    team_code = data.get('team_code')
+    email = data.get('email')
+
+    if not team_code or not email:
+        return jsonify({"error": "Missing parameters."}), 400
+
+    try:
+        sender = db.session.execute(
+            text("SELECT user_code, first_name, last_name FROM users WHERE email = :email"),
+            {"email": email}
+        ).fetchone()
+
+        if not sender:
+            return jsonify({"error": "User not found."}), 404
+
+        user_code = sender[0]
+        viewer_name = f"{sender[1]} {sender[2]}".strip()
+
+        messages = db.session.execute(
+            text("SELECT id FROM workspace_chat_messages WHERE team_code = :team AND sender_code != :user"),
+            {"team": team_code, "user": user_code}
+        ).fetchall()
+
+        for msg in messages:
+            db.session.execute(
+                text("""
+                    INSERT IGNORE INTO workspace_chat_views (message_id, viewer_code, viewer_name)
+                    VALUES (:msg_id, :code, :name)
+                """),
+                {"msg_id": msg[0], "code": user_code, "name": viewer_name}
+            )
+        db.session.commit()
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+@workspace_bp.route('/chat/info', methods=['GET'])
+def get_chat_message_info():
+    """Returns a list of users who have read the specific message."""
+    message_id = request.args.get('message_id')
+    if not message_id:
+        return jsonify({"error": "Missing message_id"}), 400
+
+    try:
+        rows = db.session.execute(
+            text("SELECT viewer_name FROM workspace_chat_views WHERE message_id = :msg_id ORDER BY viewed_at ASC"),
+            {"msg_id": message_id}
+        ).fetchall()
+
+        viewers = [r[0] for r in rows]
+        return jsonify({"viewers": viewers}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@workspace_bp.route('/implementation', methods=['DELETE'])
+def delete_workspace_implementation():
+    """Deletes an uploaded milestone showcase."""
+    impl_id = request.args.get('id')
+    email = request.args.get('email', 'unknown@teambridge.edu')
+    if not impl_id:
+        return jsonify({"error": "Missing implementation ID."}), 400
+    try:
+        impl_info = db.session.execute(
+            text("SELECT team_code, title FROM workspace_implementations WHERE id = :id"),
+            {"id": impl_id}
+        ).fetchone()
+
+        db.session.execute(text("DELETE FROM workspace_implementations WHERE id = :id"), {"id": impl_id})
+
+        if impl_info:
+            team_code, title = impl_info
+            log_workspace_activity(team_code, email, f"Removed Implementation Showcase: '{title}'")
+
+        db.session.commit()
+        return jsonify({"status": "success", "message": "Implementation showcase milestone deleted."}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+@workspace_bp.route('/git/external', methods=['GET'])
+@jwt_required()
+def get_external_git():
+    """Returns external Git repo status for each linked slot."""
+    team_code = request.args.get('team_code')
+    if not team_code:
+        return jsonify({"error": "Missing team_code parameter."}), 400
+
+    try:
+        setting = WorkspaceSetting.query.filter_by(team_code=team_code).first()
+        repos = []
+
+        if setting:
+            links = [setting.git_link, setting.git_link_2]
+            for idx, git_link in enumerate(links):
+                if not git_link:
+                    continue
+
+                slot = idx + 1
+                url = git_link.strip().rstrip('/')
+                if url.endswith('.git'):
+                    url = url[:-4]
+                repo_name = url.split('/')[-1]
+
+                project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
+                repo_dir = os.path.join(project_dir, repo_name)
+
+                local_commit = "Not Cloned"
+                remote_commit = "Unknown"
+                has_new_commits = False
+                error_msg = None
+
+                try:
+                    res_remote = subprocess.run(
+                        ["git", "ls-remote", git_link, "HEAD"],
+                        capture_output=True, text=True, timeout=5
+                    )
+                    if res_remote.returncode == 0 and res_remote.stdout.strip():
+                        remote_commit = res_remote.stdout.split()[0]
+                except Exception as e:
+                    error_msg = f"Failed to reach remote repository: {str(e)}"
+
+                if os.path.exists(repo_dir) and os.path.exists(os.path.join(repo_dir, ".git")):
+                    try:
+                        res_local = subprocess.run(
+                            ["git", "rev-parse", "HEAD"],
+                            cwd=repo_dir, capture_output=True, text=True, timeout=5
+                        )
+                        if res_local.returncode == 0:
+                            local_commit = res_local.stdout.strip()
+                            if remote_commit != "Unknown":
+                                has_new_commits = (local_commit != remote_commit)
+                    except Exception:
+                        local_commit = "Error reading local HEAD"
+                else:
+                    local_commit = "Not Cloned"
+
+                repos.append({
+                    "slot": slot,
+                    "git_link": git_link,
+                    "repo_name": repo_name,
+                    "local_commit": local_commit,
+                    "remote_commit": remote_commit,
+                    "has_new_commits": has_new_commits,
+                    "error": error_msg
+                })
+
+        return jsonify({"status": "success", "repos": repos}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@workspace_bp.route('/git/external', methods=['POST'])
+@jwt_required()
+def save_external_git():
+    """Links (and clones) an external Git repository into a slot (1 or 2)."""
+    data = request.json or {}
+    team_code = data.get('team_code')
+    git_link = data.get('git_link')
+    slot = data.get('slot')
+
+    if not team_code:
+        return jsonify({"error": "Missing team_code."}), 400
+    if slot not in [1, 2]:
+        return jsonify({"error": "Invalid or missing slot parameter. Must be 1 or 2."}), 400
+
+    try:
+        setting = WorkspaceSetting.query.filter_by(team_code=team_code).first()
+        if not setting:
+            setting = WorkspaceSetting(
+                team_code=team_code,
+                preset_profile='University/Capstone Mode',
+                max_file_size_mb=2.0,
+                allowed_extensions='*',
+                ignored_folders='.git,node_modules,__pycache__'
+            )
+            db.session.add(setting)
+
+        # Unlinking repo
+        if not git_link:
+            target_link = setting.git_link if slot == 1 else setting.git_link_2
+            if target_link:
+                url = target_link.strip().rstrip('/')
+                if url.endswith('.git'):
+                    url = url[:-4]
+                repo_name = url.split('/')[-1]
+                project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
+                repo_dir = os.path.join(project_dir, repo_name)
+                if os.path.exists(repo_dir):
+                    try:
+                        shutil.rmtree(repo_dir)
+                    except Exception:
+                        pass
+
+            if slot == 1:
+                setting.git_link = None
+            else:
+                setting.git_link_2 = None
+
+            db.session.commit()
+            return jsonify({"status": "success", "message": "Repository unlinked successfully."}), 200
+
+        # Check duplicate
+        other_link = setting.git_link_2 if slot == 1 else setting.git_link
+        if other_link and other_link.strip().rstrip('/') == git_link.strip().rstrip('/'):
+            return jsonify({"error": "This repository is already linked in another slot."}), 400
+
+        if slot == 1:
+            setting.git_link = git_link
+        else:
+            setting.git_link_2 = git_link
+        db.session.commit()
+
+        url = git_link.strip().rstrip('/')
+        if url.endswith('.git'):
+            url = url[:-4]
+        repo_name = url.split('/')[-1]
+
+        project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
+        os.makedirs(project_dir, exist_ok=True)
+        repo_dir = os.path.join(project_dir, repo_name)
+
+        if os.path.exists(repo_dir):
+            try:
+                shutil.rmtree(repo_dir)
+            except Exception as e:
+                return jsonify({"error": f"Failed to clean target folder for cloning: {str(e)}"}), 500
+
+        try:
+            res_clone = subprocess.run(
+                ["git", "clone", git_link, repo_name],
+                cwd=project_dir, capture_output=True, text=True, timeout=30
+            )
+            if res_clone.returncode != 0:
+                if slot == 1:
+                    setting.git_link = None
+                else:
+                    setting.git_link_2 = None
+                db.session.commit()
+                return jsonify({
+                    "error": f"Git clone failed. Make sure the repository is public and accessible.\nDetails: {res_clone.stderr}"
+                }), 400
+        except Exception as e:
+            if slot == 1:
+                setting.git_link = None
+            else:
+                setting.git_link_2 = None
+            db.session.commit()
+            return jsonify({"error": f"Cloning system exception: {str(e)}"}), 500
+
+        return jsonify({
+            "status": "success",
+            "message": "Repository successfully linked and cloned.",
+            "repo_name": repo_name
+        }), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+@workspace_bp.route('/git/external/pull', methods=['POST'])
+@jwt_required()
+def pull_external_git():
+    """Pulls the latest commits from a linked external Git repository."""
+    data = request.json or {}
+    team_code = data.get('team_code')
+    slot = data.get('slot')
+
+    if not team_code:
+        return jsonify({"error": "Missing team_code."}), 400
+    if slot not in [1, 2]:
+        return jsonify({"error": "Invalid or missing slot parameter. Must be 1 or 2."}), 400
+
+    try:
+        setting = WorkspaceSetting.query.filter_by(team_code=team_code).first()
+        git_link = setting.git_link if slot == 1 else setting.git_link_2 if setting else None
+        if not setting or not git_link:
+            return jsonify({"error": "No external Git repository is linked in this slot."}), 400
+
+        url = git_link.strip().rstrip('/')
+        if url.endswith('.git'):
+            url = url[:-4]
+        repo_name = url.split('/')[-1]
+
+        project_dir = os.path.join(STORAGE_BASE_DIR, f"team_{team_code}")
+        repo_dir = os.path.join(project_dir, repo_name)
+
+        if not os.path.exists(repo_dir) or not os.path.exists(os.path.join(repo_dir, ".git")):
+            return jsonify({"error": "Local repository directory not found. Try linking again."}), 400
+
+        try:
+            subprocess.run(["git", "fetch", "--all"], cwd=repo_dir, capture_output=True, check=True, timeout=15)
+
+            res_reset = subprocess.run(
+                ["git", "reset", "--hard", "origin/main"],
+                cwd=repo_dir, capture_output=True, text=True, timeout=10
+            )
+            if res_reset.returncode != 0:
+                res_reset_master = subprocess.run(
+                    ["git", "reset", "--hard", "origin/master"],
+                    cwd=repo_dir, capture_output=True, text=True, timeout=10
+                )
+                if res_reset_master.returncode != 0:
+                    subprocess.run(
+                        ["git", "reset", "--hard", "origin/HEAD"],
+                        cwd=repo_dir, check=True, timeout=10
+                    )
+        except Exception as e:
+            return jsonify({"error": f"Failed to pull changes from Git remote: {str(e)}"}), 500
+
+        log_workspace_activity(team_code, "git-sync", f"Synced repository: '{repo_name}' to latest remote commit")
+
+        return jsonify({
+            "status": "success",
+            "message": f"Successfully pulled and updated local workspace files from Git remote."
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 

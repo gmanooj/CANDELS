@@ -8,7 +8,7 @@ class Config:
     # 3. Assemble the structural MySQL database access configuration string
     SQLALCHEMY_DATABASE_URI = (os.environ.get(
         "DATABASE_URL",
-        "mysql+pymysql://root:@localhost/teambridge_db"
+        "mysql+pymysql://root:@localhost/defaultdb"
     ) or "").strip()
 
     # 4. Core tracking optimizations and application security keys

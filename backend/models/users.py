@@ -3,6 +3,9 @@ from extensions import db
 class User(db.Model):
     __tablename__ = 'users'  # Matches your MySQL table name
 
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     user_code = db.Column(db.String(20), nullable=False, unique=True)
     first_name = db.Column(db.String(100), nullable=False)
@@ -40,6 +43,10 @@ class User(db.Model):
     last_login = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    
+    # 🤝 REFERRAL SYSTEM
+    referral_code = db.Column(db.String(20), unique=True, nullable=True)
+    referrals_count = db.Column(db.Integer, default=0)
 
     def to_dict(self):
         """Helper method to convert user object into JSON format easily"""
@@ -61,5 +68,7 @@ class User(db.Model):
             "ide_font_family": self.ide_font_family or "SF Mono",
             "ide_font_size": self.ide_font_size or 13,
             "phone": self.phone or "",
-            "bio": self.bio or ""
+            "bio": self.bio or "",
+            "referral_code": self.referral_code or "",
+            "referrals_count": self.referrals_count or 0
         }

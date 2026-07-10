@@ -35,7 +35,13 @@ def create_app():
     
     frontend_origins = [
         os.environ.get("FRONTEND_URL", "http://localhost:5173"),
-        "https://candels1921.vercel.app"
+        "https://candels1921.vercel.app",
+        # Expo / React Native dev server origins (mobile app)
+        "http://localhost:8081",
+        "http://localhost:8082",
+        "http://localhost:8083",
+        "http://localhost:19006",
+        "*"  # Allow all origins for mobile HTTP clients (JWT auth provides the security layer)
     ]
     CORS(app, 
          resources={r"/*": {"origins": frontend_origins}},
@@ -146,6 +152,19 @@ def create_app():
             try:
                 db.create_all()
                 print("[BOOT] [OK] Database tables verified/created", flush=True)
+                # Auto-migrate: add git_link columns to workspace_settings if missing
+                for col_def in [
+                    ("git_link", "VARCHAR(500) NULL"),
+                    ("git_link_2", "VARCHAR(500) NULL")
+                ]:
+                    try:
+                        db.session.execute(text(
+                            f"ALTER TABLE workspace_settings ADD COLUMN {col_def[0]} {col_def[1]}"
+                        ))
+                        db.session.commit()
+                        print(f"[BOOT] [OK] Migrated DB: added {col_def[0]} column.", flush=True)
+                    except Exception:
+                        db.session.rollback()
             except Exception as schema_err:
                 print(f"[BOOT] [WARN] Table creation skipped: {schema_err}", flush=True)
         except Exception as db_err:
@@ -160,5 +179,5 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    print("TeamBridge Real-Time Engine active on http://127.0.0.1:5000")
-    socketio.run(app, host='127.0.0.1', port=5000, debug=True, allow_unsafe_werkzeug=True)
+    print("TeamBridge Real-Time Engine active on http://0.0.0.0:5000")
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True, allow_unsafe_werkzeug=True)

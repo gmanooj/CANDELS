@@ -189,6 +189,9 @@ class WorkspaceSetting(db.Model):
     max_file_size_mb = db.Column(db.Float, default=2.0, nullable=False)
     allowed_extensions = db.Column(db.Text, nullable=False)
     ignored_folders = db.Column(db.Text, nullable=False)
+    # External Git repository links (added for mobile + website Git controller feature)
+    git_link = db.Column(db.String(500), nullable=True)
+    git_link_2 = db.Column(db.String(500), nullable=True)
 
 class WorkspaceBoardColumn(db.Model):
     __tablename__ = 'workspace_board_columns'
