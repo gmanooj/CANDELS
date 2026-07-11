@@ -1,0 +1,3 @@
+[console_scripts]
+candles = candles.main:cli
+cn = candles.main:cli
